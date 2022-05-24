@@ -17,6 +17,9 @@ MainWindow::MainWindow(QWidget* parent)
 	connect(ui.action_testscene, &QAction::triggered, this, &MainWindow::makeTestSceneSlot);
 	connect(ui.action_pneumocyl, &QAction::triggered, this, &MainWindow::makeCylinderSceneSlot);
 	connect(ui.action_clear, &QAction::triggered, this, &MainWindow::clearSceneSlot);
+
+	connect(ui.action_save, &QAction::triggered, this, &MainWindow::saveFileSlot);
+	connect(ui.action_open, &QAction::triggered, this, &MainWindow::openFileSlot);
 }
 
 void MainWindow::drawMathScene()
@@ -48,6 +51,68 @@ void MainWindow::clearSceneSlot()
 {
 	glWidget->sceneContent()->Clear();
 	::DeleteItem(currentMathItem);
+}
+
+c3d::path_string MainWindow::getFilePath(bool save)
+{
+	QString fileName = save
+		? QFileDialog::getSaveFileName(this, tr("Save File"),
+			"D:/C3D_files/MyModel.c3d",
+			tr("CAD Models (*.c3d *.stp *.step *.STEP)"))
+		: QFileDialog::getOpenFileName(this, tr("Open File"),
+			"D:/C3D_files/MyModel.c3d",
+			tr("CAD Models (*.c3d *.stp *.step *.STEP)"));
+	fileName.replace("/", "\\");
+	fileName.replace(":", ":\\");
+	c3d::path_string path = c3d::StdToPathstring(fileName.toStdString());
+	return path;
+}
+
+void MainWindow::exportCurrentModel(c3d::path_string path)
+{
+	MbModel exportCurrentModel;
+	exportCurrentModel.AddItem(*currentMathItem);
+	c3d::ExportIntoFile(exportCurrentModel, path);
+	currentMathItem = nullptr;
+	glWidget->sceneContent()->Clear();
+}
+
+void MainWindow::importCurrentModel(c3d::path_string path)
+{
+	MbModel importCurrentModel;
+	c3d::ImportFromFile(importCurrentModel, path);
+	RPArray<MbItem> subitems;
+	SArray<MbMatrix3D> matrs;
+	importCurrentModel.GetItems(MbeSpaceType::st_Item, subitems, matrs);
+	MbAssembly* importedItem = new MbAssembly;
+	for (auto subitem : subitems) {
+		importedItem->AddItem(*subitem);
+	}
+	currentMathItem = importedItem;
+	drawMathScene();
+}
+
+void MainWindow::saveFileSlot()
+{
+	if (currentMathItem) {
+		c3d::path_string path = getFilePath();
+		if (!path.empty()) {
+			exportCurrentModel(path);
+			importCurrentModel(path);
+		}
+	}
+	else {
+		QMessageBox::information(this, "Warning", "Nothing to save");
+	}
+}
+
+void MainWindow::openFileSlot()
+{
+	c3d::path_string path = getFilePath(false);
+	if (!path.empty()) {
+		clearSceneSlot();
+		importCurrentModel(path);
+	}
 }
 
 void MainWindow::prepareSceneBackground()

@@ -11,6 +11,12 @@
 #include "BuildTestMathModel.h"
 #include "BuildMathModel.h"
 
+#include <QFileDialog>
+#include <model.h>
+#include <conv_model_exchange.h>
+
+#include <QMessageBox>
+
 VSN_USE_NAMESPACE
 
 class MainWindow : public QMainWindow
@@ -28,8 +34,15 @@ private:
 	void fitScene();
 	NodeKeyVector addMathGeoms(MbItem* item, VSN::SceneSegment* rootSceneSegment);
 	void drawMathScene();
+
+	c3d::path_string getFilePath(bool save = true);
+	void exportCurrentModel(c3d::path_string path);
+	void importCurrentModel(c3d::path_string path);
+
 private slots:
 	void makeTestSceneSlot();
 	void makeCylinderSceneSlot();
 	void clearSceneSlot();
+	void saveFileSlot();
+	void openFileSlot();
 };
