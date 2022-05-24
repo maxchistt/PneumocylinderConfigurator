@@ -19,36 +19,39 @@ PneumocylinderConfigurator::PneumocylinderConfigurator(QWidget* parent)
 
 	//запуск создания сцены
 	connect(ui.action_testscene, &QAction::triggered, this, &PneumocylinderConfigurator::makeTestSceneSlot);
-	connect(ui.action_pneumocyl, &QAction::triggered, this, &PneumocylinderConfigurator::makeSceneSlot);
+	connect(ui.action_pneumocyl, &QAction::triggered, this, &PneumocylinderConfigurator::makeCylinderSceneSlot);
 	connect(ui.action_clear, &QAction::triggered, this, &PneumocylinderConfigurator::clearSceneSlot);
+}
+
+void PneumocylinderConfigurator::drawMathScene()
+{
+	SceneSegment* rootSegment = glWidget->sceneContent()->GetRootSegment();
+	Q_ASSERT(rootSegment != nullptr);
+
+	if (currentMathItem)addMathGeoms(currentMathItem, rootSegment);
+
+	fitScene();
 }
 
 
 void PneumocylinderConfigurator::makeTestSceneSlot()
 {
-	glWidget->sceneContent()->Clear();
-	SceneSegment* rootSegment = glWidget->sceneContent()->GetRootSegment();
-	Q_ASSERT(rootSegment != nullptr);
-
-	addMathGeoms(createTestAssemblyModel(), rootSegment);
-
-	fitScene();
+	clearSceneSlot();
+	currentMathItem = createTestAssemblyModel();
+	drawMathScene();
 }
 
-void PneumocylinderConfigurator::makeSceneSlot()
+void PneumocylinderConfigurator::makeCylinderSceneSlot()
 {
-	glWidget->sceneContent()->Clear();
-	SceneSegment* rootSegment = glWidget->sceneContent()->GetRootSegment();
-	Q_ASSERT(rootSegment != nullptr);
-
-	addMathGeoms(CreatePneumocylinderAssembly(), rootSegment);
-
-	fitScene();
+	clearSceneSlot();
+	currentMathItem = CreatePneumocylinderAssembly();
+	drawMathScene();
 }
 
 void PneumocylinderConfigurator::clearSceneSlot()
 {
 	glWidget->sceneContent()->Clear();
+	::DeleteItem(currentMathItem);
 }
 
 void PneumocylinderConfigurator::prepareSceneBackground()
@@ -90,5 +93,7 @@ NodeKeyVector PneumocylinderConfigurator::addMathGeoms(MbItem* item, VSN::SceneS
 
 	return keys;
 }
+
+
 
 
