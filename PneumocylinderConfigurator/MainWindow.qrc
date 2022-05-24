@@ -1,4 +1,5 @@
 <RCC>
-    <qresource prefix="PneumocylinderConfigurator">
+    <qresource prefix="/mainwindow">
+        <file>res/c3d-labs.jpg</file>
     </qresource>
 </RCC>

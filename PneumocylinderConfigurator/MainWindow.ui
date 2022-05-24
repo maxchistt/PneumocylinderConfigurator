@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string>Конфигуратор пневмоцилиндра</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="MainWindow.qrc">
+    <normaloff>:/mainwindow/res/c3d-labs.jpg</normaloff>:/mainwindow/res/c3d-labs.jpg</iconset>
+  </property>
   <widget class="QWidget" name="centralWidget"/>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
