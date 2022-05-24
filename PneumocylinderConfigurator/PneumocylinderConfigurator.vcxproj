@@ -114,6 +114,7 @@ xcopy /y "$(SolutionDir)C3D\Kernel\$(Configuration)\c3d.dll" "$(SolutionDir)$(Pl
     <QtRcc Include="PneumocylinderConfigurator.qrc" />
     <QtUic Include="PneumocylinderConfigurator.ui" />
     <QtMoc Include="PneumocylinderConfigurator.h" />
+    <ClCompile Include="testmodelbuild.cpp" />
     <ClCompile Include="PneumocylinderConfigurator.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
@@ -121,6 +122,10 @@ xcopy /y "$(SolutionDir)C3D\Kernel\$(Configuration)\c3d.dll" "$(SolutionDir)$(Pl
     <ProjectReference Include="..\QtVision\QtVision.vcxproj">
       <Project>{24fbaf90-e7bc-4df9-892b-9882e21a1cd0}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="colorDef.h" />
+    <ClInclude Include="testmodelbuild.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
