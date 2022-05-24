@@ -5,12 +5,8 @@ PneumocylinderConfigurator::PneumocylinderConfigurator(QWidget* parent)
 {
 	ui.setupUi(this);
 
-	GraphicsSceneEnginePtr ptrEngine = std::make_shared<GraphicsSceneEngine>();
-	OpenGLContextContainer* pContextContainer = new OpenGLContextContainer;
-
 	QtVision::setSurfaceFormat();
-	glWidget = new QtVision::QtOpenGLSceneWidget(ptrEngine, pContextContainer, this);
-
+	glWidget = new QtVision::QtOpenGLSceneWidget(this);
 	setCentralWidget(glWidget);
 
 	QtVision::createProcessesCameraControls(glWidget);
