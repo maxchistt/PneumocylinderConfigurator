@@ -1,5 +1,4 @@
-#include "testmodelbuild.h"
-#include "colorDef.h"
+#include "BuildTestMathModel.h"
 
 void CreateTestSketch(RPArray<MbContour>& _arrContours)
 {

@@ -40,15 +40,21 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="testmodelbuild.cpp">
+    <ClCompile Include="BuildTestMathModel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BuildMathModel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="testmodelbuild.h">
+    <ClInclude Include="BuildTestMathModel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="colorDef.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BuildMathModel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

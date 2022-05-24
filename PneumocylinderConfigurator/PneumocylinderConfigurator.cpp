@@ -18,19 +18,37 @@ PneumocylinderConfigurator::PneumocylinderConfigurator(QWidget* parent)
 	prepareSceneBackground();
 
 	//запуск создания сцены
-	//connect(ui.draw_Action, &QAction::triggered, this, &Example::makeTestSceneSlot);
-	makeTestSceneSlot();
+	connect(ui.action_testscene, &QAction::triggered, this, &PneumocylinderConfigurator::makeTestSceneSlot);
+	connect(ui.action_pneumocyl, &QAction::triggered, this, &PneumocylinderConfigurator::makeSceneSlot);
+	connect(ui.action_clear, &QAction::triggered, this, &PneumocylinderConfigurator::clearSceneSlot);
 }
 
 
 void PneumocylinderConfigurator::makeTestSceneSlot()
 {
+	glWidget->sceneContent()->Clear();
 	SceneSegment* rootSegment = glWidget->sceneContent()->GetRootSegment();
 	Q_ASSERT(rootSegment != nullptr);
 
 	addMathGeoms(createTestAssemblyModel(), rootSegment);
 
 	fitScene();
+}
+
+void PneumocylinderConfigurator::makeSceneSlot()
+{
+	glWidget->sceneContent()->Clear();
+	SceneSegment* rootSegment = glWidget->sceneContent()->GetRootSegment();
+	Q_ASSERT(rootSegment != nullptr);
+
+	addMathGeoms(CreatePneumocylinderAssembly(), rootSegment);
+
+	fitScene();
+}
+
+void PneumocylinderConfigurator::clearSceneSlot()
+{
+	glWidget->sceneContent()->Clear();
 }
 
 void PneumocylinderConfigurator::prepareSceneBackground()
@@ -72,3 +90,5 @@ NodeKeyVector PneumocylinderConfigurator::addMathGeoms(MbItem* item, VSN::SceneS
 
 	return keys;
 }
+
+

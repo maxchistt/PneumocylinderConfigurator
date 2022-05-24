@@ -1,4 +1,5 @@
 #pragma once
+#include "colorDef.h"
 
 #include <vsn_vision.h>
 
@@ -9,7 +10,6 @@
 #include <action_solid.h>
 #include <assembly.h>
 
-VSN_USE_NAMESPACE
 
 void CreateTestSketch(RPArray<MbContour>& _arrContours);
 

@@ -7,7 +7,9 @@
 #include <vsn_segmentfeatures.h>
 #include <vsn_vision.h>
 
-#include "testmodelbuild.h"
+
+#include "BuildTestMathModel.h"
+#include "BuildMathModel.h"
 
 VSN_USE_NAMESPACE
 
@@ -26,4 +28,6 @@ private:
 	NodeKeyVector addMathGeoms(MbItem* item, VSN::SceneSegment* rootSceneSegment);
 private slots:
 	void makeTestSceneSlot();
+	void makeSceneSlot();
+	void clearSceneSlot();
 };
