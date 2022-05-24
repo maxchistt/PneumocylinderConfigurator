@@ -1,7 +1,7 @@
 #pragma once
 
 #include <QtWidgets/QMainWindow>
-#include "ui_PneumocylinderConfigurator.h"
+#include "ui_MainWindow.h"
 
 #include <qt_openglwidget.h>
 #include <vsn_segmentfeatures.h>
@@ -13,16 +13,16 @@
 
 VSN_USE_NAMESPACE
 
-class PneumocylinderConfigurator : public QMainWindow
+class MainWindow : public QMainWindow
 {
 	Q_OBJECT
 
 public:
-	PneumocylinderConfigurator(QWidget* parent = Q_NULLPTR);
+	MainWindow(QWidget* parent = Q_NULLPTR);
 
 private:
 	MbItem* currentMathItem = nullptr;
-	Ui::PneumocylinderConfiguratorClass ui;
+	Ui::MainWindowClass ui;
 	QtVision::QtOpenGLSceneWidget* glWidget = Q_NULLPTR;
 	void prepareSceneBackground();
 	void fitScene();

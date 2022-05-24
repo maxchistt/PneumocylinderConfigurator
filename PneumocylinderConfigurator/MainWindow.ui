@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>PneumocylinderConfiguratorClass</class>
- <widget class="QMainWindow" name="PneumocylinderConfiguratorClass">
+ <class>MainWindowClass</class>
+ <widget class="QMainWindow" name="MainWindowClass">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>PneumocylinderConfigurator</string>
+   <string>Конфигуратор пневмоцилиндра</string>
   </property>
   <widget class="QWidget" name="centralWidget"/>
   <widget class="QMenuBar" name="menuBar">
@@ -60,7 +60,7 @@
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources>
-  <include location="PneumocylinderConfigurator.qrc"/>
+  <include location="MainWindow.qrc"/>
  </resources>
  <connections/>
 </ui>

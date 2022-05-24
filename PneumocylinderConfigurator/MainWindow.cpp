@@ -1,6 +1,6 @@
-#include "PneumocylinderConfigurator.h"
+#include "MainWindow.h"
 
-PneumocylinderConfigurator::PneumocylinderConfigurator(QWidget* parent)
+MainWindow::MainWindow(QWidget* parent)
 	: QMainWindow(parent)
 {
 	ui.setupUi(this);
@@ -14,12 +14,12 @@ PneumocylinderConfigurator::PneumocylinderConfigurator(QWidget* parent)
 	prepareSceneBackground();
 
 	//запуск создания сцены
-	connect(ui.action_testscene, &QAction::triggered, this, &PneumocylinderConfigurator::makeTestSceneSlot);
-	connect(ui.action_pneumocyl, &QAction::triggered, this, &PneumocylinderConfigurator::makeCylinderSceneSlot);
-	connect(ui.action_clear, &QAction::triggered, this, &PneumocylinderConfigurator::clearSceneSlot);
+	connect(ui.action_testscene, &QAction::triggered, this, &MainWindow::makeTestSceneSlot);
+	connect(ui.action_pneumocyl, &QAction::triggered, this, &MainWindow::makeCylinderSceneSlot);
+	connect(ui.action_clear, &QAction::triggered, this, &MainWindow::clearSceneSlot);
 }
 
-void PneumocylinderConfigurator::drawMathScene()
+void MainWindow::drawMathScene()
 {
 	SceneSegment* rootSegment = glWidget->sceneContent()->GetRootSegment();
 	Q_ASSERT(rootSegment != nullptr);
@@ -30,33 +30,33 @@ void PneumocylinderConfigurator::drawMathScene()
 }
 
 
-void PneumocylinderConfigurator::makeTestSceneSlot()
+void MainWindow::makeTestSceneSlot()
 {
 	clearSceneSlot();
 	currentMathItem = createTestAssemblyModel();
 	drawMathScene();
 }
 
-void PneumocylinderConfigurator::makeCylinderSceneSlot()
+void MainWindow::makeCylinderSceneSlot()
 {
 	clearSceneSlot();
 	currentMathItem = CreatePneumocylinderAssembly();
 	drawMathScene();
 }
 
-void PneumocylinderConfigurator::clearSceneSlot()
+void MainWindow::clearSceneSlot()
 {
 	glWidget->sceneContent()->Clear();
 	::DeleteItem(currentMathItem);
 }
 
-void PneumocylinderConfigurator::prepareSceneBackground()
+void MainWindow::prepareSceneBackground()
 {
 	glWidget->mainLight()->SetDoubleSided(true);
 	glWidget->viewport()->SetGradientBackgroundColour(Color(0, 204, 255), Color(255, 255, 255));
 }
 
-void PneumocylinderConfigurator::fitScene()
+void MainWindow::fitScene()
 {
 	glWidget->sceneContent()->GetContainer()->SetUseVertexBufferObjects(true);
 	glWidget->viewport()->GetCamera()->SetViewOrientation(VSN::IsoXYZ);
@@ -64,7 +64,7 @@ void PneumocylinderConfigurator::fitScene()
 	glWidget->ZoomToFit();
 }
 
-NodeKeyVector PneumocylinderConfigurator::addMathGeoms(MbItem* item, VSN::SceneSegment* rootSceneSegment)
+NodeKeyVector MainWindow::addMathGeoms(MbItem* item, VSN::SceneSegment* rootSceneSegment)
 {
 	NodeKeyVector keys;
 

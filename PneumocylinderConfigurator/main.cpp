@@ -1,4 +1,4 @@
-#include "PneumocylinderConfigurator.h"
+#include "MainWindow.h"
 
 #include <QApplication>
 #include <QtWidgets/QApplication>
@@ -25,7 +25,7 @@ int main(int argc, char* argv[])
 
 	Application vapp;
 
-	PneumocylinderConfigurator mainWindow;
+	MainWindow mainWindow;
 	QtVision::setWindowPosition(mainWindow);
 	mainWindow.show();
 

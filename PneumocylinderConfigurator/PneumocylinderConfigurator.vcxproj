@@ -111,12 +111,12 @@ xcopy /y "$(SolutionDir)C3D\Kernel\$(Configuration)\c3d.dll" "$(SolutionDir)$(Pl
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <QtRcc Include="PneumocylinderConfigurator.qrc" />
-    <QtUic Include="PneumocylinderConfigurator.ui" />
-    <QtMoc Include="PneumocylinderConfigurator.h" />
+    <QtRcc Include="MainWindow.qrc" />
+    <QtUic Include="MainWindow.ui" />
+    <QtMoc Include="MainWindow.h" />
     <ClCompile Include="BuildMathModel.cpp" />
     <ClCompile Include="BuildTestMathModel.cpp" />
-    <ClCompile Include="PneumocylinderConfigurator.cpp" />
+    <ClCompile Include="MainWindow.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
