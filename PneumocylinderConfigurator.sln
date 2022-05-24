@@ -5,6 +5,8 @@ VisualStudioVersion = 16.0.31515.178
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PneumocylinderConfigurator", "PneumocylinderConfigurator\PneumocylinderConfigurator.vcxproj", "{68B9B4D3-3C50-4268-9B53-3AD5CB09E900}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "QtVision", "QtVision\QtVision.vcxproj", "{24FBAF90-E7BC-4DF9-892B-9882E21A1CD0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -15,6 +17,10 @@ Global
 		{68B9B4D3-3C50-4268-9B53-3AD5CB09E900}.Debug|x64.Build.0 = Debug|x64
 		{68B9B4D3-3C50-4268-9B53-3AD5CB09E900}.Release|x64.ActiveCfg = Release|x64
 		{68B9B4D3-3C50-4268-9B53-3AD5CB09E900}.Release|x64.Build.0 = Release|x64
+		{24FBAF90-E7BC-4DF9-892B-9882E21A1CD0}.Debug|x64.ActiveCfg = Debug|x64
+		{24FBAF90-E7BC-4DF9-892B-9882E21A1CD0}.Debug|x64.Build.0 = Debug|x64
+		{24FBAF90-E7BC-4DF9-892B-9882E21A1CD0}.Release|x64.ActiveCfg = Release|x64
+		{24FBAF90-E7BC-4DF9-892B-9882E21A1CD0}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
