@@ -14,8 +14,8 @@ MainWindow::MainWindow(QWidget* parent)
 	prepareSceneBackground();
 
 	//запуск создания сцены
-	connect(ui.action_testscene, &QAction::triggered, this, &MainWindow::makeTestSceneSlot);
-	connect(ui.action_pneumocyl, &QAction::triggered, this, &MainWindow::makeCylinderSceneSlot);
+	connect(ui.action_testscene, &QAction::triggered, this, &MainWindow::makeTestMathGeomSlot);
+	connect(ui.action_pneumocyl, &QAction::triggered, this, &MainWindow::makeCylinderMathGeomSlot);
 	connect(ui.action_clear, &QAction::triggered, this, &MainWindow::clearSceneSlot);
 
 	connect(ui.action_save, &QAction::triggered, this, &MainWindow::saveFileSlot);
@@ -33,14 +33,14 @@ void MainWindow::drawMathScene()
 }
 
 
-void MainWindow::makeTestSceneSlot()
+void MainWindow::makeTestMathGeomSlot()
 {
 	clearSceneSlot();
 	currentMathItem = createTestAssemblyModel();
 	drawMathScene();
 }
 
-void MainWindow::makeCylinderSceneSlot()
+void MainWindow::makeCylinderMathGeomSlot()
 {
 	clearSceneSlot();
 	currentMathItem = CreatePneumocylinderAssembly();

@@ -40,8 +40,8 @@ private:
 	void importCurrentModel(c3d::path_string path);
 
 private slots:
-	void makeTestSceneSlot();
-	void makeCylinderSceneSlot();
+	void makeTestMathGeomSlot();
+	void makeCylinderMathGeomSlot();
 	void clearSceneSlot();
 	void saveFileSlot();
 	void openFileSlot();
