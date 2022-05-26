@@ -33,6 +33,7 @@ private:
 	void prepareSceneBackground();
 	void fitScene();
 	NodeKeyVector addMathGeoms(MbItem* item, VSN::SceneSegment* rootSceneSegment);
+	NodeKeyVector addMathGeoms(MbModel* model, VSN::SceneSegment* rootSceneSegment);
 	void drawMathScene();
 
 	c3d::path_string getFilePath(bool save = true);

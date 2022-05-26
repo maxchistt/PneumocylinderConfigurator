@@ -169,6 +169,30 @@ NodeKeyVector MainWindow::addMathGeoms(MbItem* item, VSN::SceneSegment* rootScen
 	return keys;
 }
 
+NodeKeyVector MainWindow::addMathGeoms(MbModel* model, VSN::SceneSegment* rootSceneSegment)
+{
+	NodeKeyVector keys;
+	RPArray<MbItem> subitems;
+	SArray<MbMatrix3D> matrs;
+	model->GetItems(MbeSpaceType::st_Item, subitems, matrs);
+
+#if 1 //two ways to add model to view
+	for (auto subitem : subitems) {
+		NodeKeyVector subkeys = addMathGeoms(subitem, rootSceneSegment);
+		keys.insert(keys.cend(), subkeys.cbegin(), subkeys.cend());
+	}
+#else
+	MbAssembly* assemblyToView = new MbAssembly;
+	for (auto subitem : subitems) {
+		assemblyToView->AddItem(*subitem);
+	}
+	NodeKeyVector subkeys = addMathGeoms(assemblyToView, rootSceneSegment);
+	keys.insert(keys.cend(), subkeys.cbegin(), subkeys.cend());
+#endif
+
+	return keys;
+}
+
 
 
 
