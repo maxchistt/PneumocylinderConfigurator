@@ -73,8 +73,22 @@ void MainWindow::exportCurrentModel(c3d::path_string path)
 	MbModel exportCurrentModel;
 	exportCurrentModel.AddItem(*currentMathItem);
 	c3d::ExportIntoFile(exportCurrentModel, path);
-	currentMathItem = nullptr;
+
+	//repair currentMathItemBuf
+	RPArray<MbItem> subitems;
+	SArray<MbMatrix3D> matrs;
+	exportCurrentModel.GetItems(MbeSpaceType::st_Item, subitems, matrs);
+	MbAssembly* currentMathItemBuf = new MbAssembly;
+	for (auto subitem : subitems) {
+		currentMathItemBuf->AddItem(*subitem);
+	}
+	currentMathItem = currentMathItemBuf;
+
 	glWidget->sceneContent()->Clear();
+	drawMathScene();
+
+	//currentMathItem = nullptr;
+	//glWidget->sceneContent()->Clear();
 }
 
 void MainWindow::importCurrentModel(c3d::path_string path)
@@ -98,7 +112,7 @@ void MainWindow::saveFileSlot()
 		c3d::path_string path = getFilePath();
 		if (!path.empty()) {
 			exportCurrentModel(path);
-			importCurrentModel(path);
+			//importCurrentModel(path);
 		}
 	}
 	else {
