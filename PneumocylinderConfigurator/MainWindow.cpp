@@ -55,13 +55,11 @@ void MainWindow::clearSceneSlot()
 
 c3d::path_string MainWindow::getFilePath(bool save)
 {
+	const QString defaultPath = "D:/C3D_files/MyModel.c3d";
+	const QString fileFilter = "CAD Models (*.c3d *.stp *.step *.STEP *.IGES *.SAT *.X_T *.X_B *.STL *.VRML *.JT)";
 	QString fileName = save
-		? QFileDialog::getSaveFileName(this, tr("Save File"),
-			"D:/C3D_files/MyModel.c3d",
-			tr("CAD Models (*.c3d *.stp *.step *.STEP)"))
-		: QFileDialog::getOpenFileName(this, tr("Open File"),
-			"D:/C3D_files/MyModel.c3d",
-			tr("CAD Models (*.c3d *.stp *.step *.STEP)"));
+		? QFileDialog::getSaveFileName(this, "Save File", defaultPath, fileFilter)
+		: QFileDialog::getOpenFileName(this, "Open File", defaultPath, fileFilter);
 	fileName.replace("/", "\\");
 	fileName.replace(":", ":\\");
 	c3d::path_string path = c3d::StdToPathstring(fileName.toStdString());
