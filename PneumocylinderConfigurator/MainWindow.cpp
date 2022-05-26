@@ -27,7 +27,7 @@ void MainWindow::drawMathScene()
 	SceneSegment* rootSegment = glWidget->sceneContent()->GetRootSegment();
 	Q_ASSERT(rootSegment != nullptr);
 
-	if (currentMathItem)addMathGeoms(currentMathItem, rootSegment);
+	if (currentMathModel)addMathGeoms(currentMathModel, rootSegment);
 
 	fitScene();
 }
@@ -35,22 +35,28 @@ void MainWindow::drawMathScene()
 
 void MainWindow::makeTestMathGeomSlot()
 {
+	MbModel* newModelToShow = new MbModel();
+	newModelToShow->AddItem(*createTestAssemblyModel());
+
 	clearSceneSlot();
-	currentMathItem = createTestAssemblyModel();
+	currentMathModel = newModelToShow;
 	drawMathScene();
 }
 
 void MainWindow::makeCylinderMathGeomSlot()
 {
+	MbModel* newModelToShow = new MbModel();
+	newModelToShow->AddItem(*CreatePneumocylinderAssembly());
+
 	clearSceneSlot();
-	currentMathItem = CreatePneumocylinderAssembly();
+	currentMathModel = newModelToShow;
 	drawMathScene();
 }
 
 void MainWindow::clearSceneSlot()
 {
 	glWidget->sceneContent()->Clear();
-	::DeleteItem(currentMathItem);
+	::DeleteItem(currentMathModel);
 }
 
 c3d::path_string MainWindow::getFilePath(bool save)
@@ -68,49 +74,31 @@ c3d::path_string MainWindow::getFilePath(bool save)
 
 void MainWindow::exportCurrentModel(c3d::path_string path)
 {
-	MbModel exportCurrentModel;
-	exportCurrentModel.AddItem(*currentMathItem);
-	c3d::ExportIntoFile(exportCurrentModel, path);
-
-	//repair currentMathItemBuf
-	RPArray<MbItem> subitems;
-	SArray<MbMatrix3D> matrs;
-	exportCurrentModel.GetItems(MbeSpaceType::st_Item, subitems, matrs);
-	MbAssembly* currentMathItemBuf = new MbAssembly;
-	for (auto subitem : subitems) {
-		currentMathItemBuf->AddItem(*subitem);
-	}
-	currentMathItem = currentMathItemBuf;
+	c3d::ExportIntoFile(*currentMathModel, path);
 
 	glWidget->sceneContent()->Clear();
 	drawMathScene();
-
-	//currentMathItem = nullptr;
-	//glWidget->sceneContent()->Clear();
 }
 
 void MainWindow::importCurrentModel(c3d::path_string path)
 {
-	MbModel importCurrentModel;
-	c3d::ImportFromFile(importCurrentModel, path);
-	RPArray<MbItem> subitems;
-	SArray<MbMatrix3D> matrs;
-	importCurrentModel.GetItems(MbeSpaceType::st_Item, subitems, matrs);
-	MbAssembly* importedItem = new MbAssembly;
-	for (auto subitem : subitems) {
-		importedItem->AddItem(*subitem);
+	MbModel* importModel = new MbModel();
+	MbeConvResType importRes = c3d::ImportFromFile(*importModel, path);
+
+	if (importRes == MbeConvResType::cnv_Success) {
+		clearSceneSlot();
+		currentMathModel = importModel;
 	}
-	currentMathItem = importedItem;
+
 	drawMathScene();
 }
 
 void MainWindow::saveFileSlot()
 {
-	if (currentMathItem) {
+	if (currentMathModel) {
 		c3d::path_string path = getFilePath();
 		if (!path.empty()) {
 			exportCurrentModel(path);
-			//importCurrentModel(path);
 		}
 	}
 	else {
@@ -137,7 +125,6 @@ void MainWindow::fitScene()
 {
 	glWidget->sceneContent()->GetContainer()->SetUseVertexBufferObjects(true);
 	glWidget->viewport()->GetCamera()->SetViewOrientation(VSN::IsoXYZ);
-	//glWidget->viewport()->ZoomToFit(glWidget->sceneContent()->GetBoundingBox());
 	glWidget->ZoomToFit();
 }
 

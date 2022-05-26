@@ -27,7 +27,7 @@ public:
 	MainWindow(QWidget* parent = Q_NULLPTR);
 
 private:
-	MbItem* currentMathItem = nullptr;
+	MbModel* currentMathModel = nullptr;
 	Ui::MainWindowClass ui;
 	QtVision::QtOpenGLSceneWidget* glWidget = Q_NULLPTR;
 	void prepareSceneBackground();
