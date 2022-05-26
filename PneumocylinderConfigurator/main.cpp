@@ -3,7 +3,7 @@
 #include <QApplication>
 #include <QtWidgets/QApplication>
 #include <QStyleFactory>
-
+#include <vsn_application.h>
 #include <qlogging.h>
 #include <last.h>
 
