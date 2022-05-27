@@ -374,10 +374,10 @@ void CreateSketchSASHA2(RPArray<MbContour>& _arrContours2)
     MbPolyline* pPolyline2 = new MbPolyline(arrPnts2, true);
 
     ///// ИСПРАВИТЬ
-    /*
+    
     MbContour* pContourPolyline2 = nullptr;
     // Задание скругления с использованием функции FilletPolyContour
-    ::FilletPolyContour(pPolyline2, 10.5, false, arrPnts2[8], pContourPolyline2);
+    ::FilletPolyContour(pPolyline2, 10.5, false, arrPnts2[2], pContourPolyline2);
 
     ptrdiff_t idxSideRight1 = 0;
     ptrdiff_t idxSideRight2 = 2;
@@ -386,11 +386,13 @@ void CreateSketchSASHA2(RPArray<MbContour>& _arrContours2)
     pContourPolyline2->FilletTwoSegments(idxSideRight1, 0);
     pContourPolyline2->FilletTwoSegments(idxSideRight2, 0);
     pContourPolyline2->FilletTwoSegments(idxSideRight3, 0);
-    */
+    //*/
 
     ///// ИСПРАВИТЬ
+    /*
     MbContour* pContourPolyline2 = new MbContour();
     pContourPolyline2->AddSegment(pPolyline2);
+    */
     ///// 
 
     _arrContours2.push_back(pContourPolyline2);
