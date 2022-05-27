@@ -3,18 +3,15 @@
 #include <QtWidgets/QMainWindow>
 #include "ui_MainWindow.h"
 
-#include <qt_openglwidget.h>
-#include <vsn_segmentfeatures.h>
-#include <vsn_vision.h>
-#include <model_item.h>
+#include "Viewer.h"
+
+#include <model.h>
+#include <conv_model_exchange.h>
 
 #include "BuildTestMathModel.h"
 #include "BuildMathModel.h"
 
 #include <QFileDialog>
-#include <model.h>
-#include <conv_model_exchange.h>
-
 #include <QMessageBox>
 
 VSN_USE_NAMESPACE
@@ -29,11 +26,8 @@ public:
 private:
 	MbModel* currentMathModel = nullptr;
 	Ui::MainWindowClass ui;
-	QtVision::QtOpenGLSceneWidget* glWidget = Q_NULLPTR;
-	void prepareSceneBackground();
-	void fitScene();
-	NodeKeyVector addMathGeoms(MbItem* item, VSN::SceneSegment* rootSceneSegment);
-	NodeKeyVector addMathGeoms(MbModel* model, VSN::SceneSegment* rootSceneSegment);
+	Viewer* viewer = Q_NULLPTR;
+
 	void drawMathScene();
 
 	c3d::path_string getFilePath(bool save = true);
@@ -43,7 +37,7 @@ private:
 private slots:
 	void makeTestMathGeomSlot();
 	void makeCylinderMathGeomSlot();
-	void clearSceneSlot();
+	void clearModelAndSceneSlot();
 	void saveFileSlot();
 	void openFileSlot();
 };
