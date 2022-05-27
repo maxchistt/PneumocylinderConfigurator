@@ -29,10 +29,14 @@ private:
 	Viewer* viewer = Q_NULLPTR;
 
 	void drawMathScene();
+	void setNewMathGeoms(MbItem& item);
 
 	c3d::path_string getFilePath(bool save = true);
 	void exportCurrentModel(c3d::path_string path);
 	void importCurrentModel(c3d::path_string path);
+
+	void setCurrentModel(MbModel* model);
+	void unsetCurrentModel();
 
 private slots:
 	void makeTestMathGeomSlot();

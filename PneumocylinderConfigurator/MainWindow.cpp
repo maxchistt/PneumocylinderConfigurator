@@ -19,35 +19,33 @@ MainWindow::MainWindow(QWidget* parent)
 
 void MainWindow::drawMathScene()
 {
+	viewer->clearScene();
 	if (currentMathModel) viewer->addMathGeoms(currentMathModel);
 	viewer->fitScene();
 }
 
+void MainWindow::setNewMathGeoms(MbItem& asmItem)
+{
+	MbModel* newModelToShow = new MbModel();
+	newModelToShow->AddItem(asmItem);
+	setCurrentModel(newModelToShow);
+	drawMathScene();
+}
 
 void MainWindow::makeTestMathGeomSlot()
 {
-	MbModel* newModelToShow = new MbModel();
-	newModelToShow->AddItem(*createTestAssemblyModel());
-
-	clearModelAndSceneSlot();
-	currentMathModel = newModelToShow;
-	drawMathScene();
+	setNewMathGeoms(*createTestAssemblyModel());
 }
 
 void MainWindow::makeCylinderMathGeomSlot()
 {
-	MbModel* newModelToShow = new MbModel();
-	newModelToShow->AddItem(*CreatePneumocylinderAssembly());
-
-	clearModelAndSceneSlot();
-	currentMathModel = newModelToShow;
-	drawMathScene();
+	setNewMathGeoms(*CreatePneumocylinderAssembly());
 }
 
 void MainWindow::clearModelAndSceneSlot()
 {
 	viewer->clearScene();
-	::DeleteItem(currentMathModel);
+	unsetCurrentModel();
 }
 
 c3d::path_string MainWindow::getFilePath(bool save)
@@ -66,8 +64,6 @@ c3d::path_string MainWindow::getFilePath(bool save)
 void MainWindow::exportCurrentModel(c3d::path_string path)
 {
 	c3d::ExportIntoFile(*currentMathModel, path);
-
-	viewer->clearScene();
 	drawMathScene();
 }
 
@@ -76,21 +72,27 @@ void MainWindow::importCurrentModel(c3d::path_string path)
 	MbModel* importModel = new MbModel();
 	MbeConvResType importRes = c3d::ImportFromFile(*importModel, path);
 
-	if (importRes == MbeConvResType::cnv_Success) {
-		clearModelAndSceneSlot();
-		currentMathModel = importModel;
-	}
+	if (importRes == MbeConvResType::cnv_Success) setCurrentModel(importModel);
 
 	drawMathScene();
+}
+
+void MainWindow::setCurrentModel(MbModel* model)
+{
+	unsetCurrentModel();
+	if (model) currentMathModel = model;
+}
+
+void MainWindow::unsetCurrentModel()
+{
+	::DeleteItem(currentMathModel);
 }
 
 void MainWindow::saveFileSlot()
 {
 	if (currentMathModel) {
 		c3d::path_string path = getFilePath();
-		if (!path.empty()) {
-			exportCurrentModel(path);
-		}
+		if (!path.empty()) exportCurrentModel(path);
 	}
 	else {
 		QMessageBox::information(this, "Warning", "Nothing to save");
@@ -100,8 +102,5 @@ void MainWindow::saveFileSlot()
 void MainWindow::openFileSlot()
 {
 	c3d::path_string path = getFilePath(false);
-	if (!path.empty()) {
-		clearModelAndSceneSlot();
-		importCurrentModel(path);
-	}
+	if (!path.empty()) importCurrentModel(path);
 }
