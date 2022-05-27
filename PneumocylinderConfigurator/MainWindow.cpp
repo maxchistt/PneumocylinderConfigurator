@@ -5,7 +5,6 @@ MainWindow::MainWindow(QWidget* parent)
 {
 	ui.setupUi(this);
 
-	QtVision::setSurfaceFormat();
 	glWidget = new QtVision::QtOpenGLSceneWidget(this);
 	setCentralWidget(glWidget);
 

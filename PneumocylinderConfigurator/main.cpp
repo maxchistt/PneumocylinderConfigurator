@@ -24,6 +24,8 @@ int main(int argc, char* argv[])
 		return 0;
 
 	Application vapp;
+	Math::SetMultithreadedMode(mtm_Off);
+	QtVision::setSurfaceFormat();
 
 	MainWindow mainWindow;
 	QtVision::setWindowPosition(mainWindow);
