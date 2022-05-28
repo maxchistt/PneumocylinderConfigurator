@@ -111,6 +111,7 @@ xcopy /y "$(SolutionDir)C3D\Kernel\$(Configuration)\c3d.dll" "$(SolutionDir)$(Pl
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ParamsWidget.cpp" />
     <ClCompile Include="Viewer.cpp" />
     <QtRcc Include="MainWindow.qrc" />
     <QtUic Include="MainWindow.ui" />
@@ -118,6 +119,7 @@ xcopy /y "$(SolutionDir)C3D\Kernel\$(Configuration)\c3d.dll" "$(SolutionDir)$(Pl
     <ClCompile Include="BuildMathModel.cpp" />
     <ClCompile Include="MainWindow.cpp" />
     <ClCompile Include="main.cpp" />
+    <QtUic Include="ParamsWidget.ui" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\QtVision\QtVision.vcxproj">
@@ -127,6 +129,7 @@ xcopy /y "$(SolutionDir)C3D\Kernel\$(Configuration)\c3d.dll" "$(SolutionDir)$(Pl
   <ItemGroup>
     <ClInclude Include="BuildMathModel.h" />
     <ClInclude Include="colorDef.h" />
+    <QtMoc Include="ParamsWidget.h" />
     <ClInclude Include="resource.h" />
     <QtMoc Include="Viewer.h" />
   </ItemGroup>

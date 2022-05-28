@@ -4,6 +4,7 @@
 #include "ui_MainWindow.h"
 
 #include "Viewer.h"
+#include "ParamsWidget.h"
 #include "BuildMathModel.h"
 
 #include <model.h>
@@ -25,6 +26,7 @@ private:
 	MbModel* currentMathModel = nullptr;
 	Ui::MainWindowClass ui;
 	Viewer* viewer = Q_NULLPTR;
+	ParamsWidget* params = Q_NULLPTR;
 
 	void drawMathScene();
 	void setNewMathGeoms(MbItem& item);

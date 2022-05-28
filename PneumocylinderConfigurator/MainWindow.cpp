@@ -7,11 +7,15 @@ MainWindow::MainWindow(QWidget* parent)
 	unsetCurrentModel();
 
 	viewer = new Viewer(this);
-	setCentralWidget(viewer);
+	ui.horizontalLayout->addWidget(viewer, 1);
+
+	params = new ParamsWidget(this);
+	ui.horizontalLayout->addWidget(params, 0);
 
 	//запуск создания сцены
 	connect(ui.action_build_pneumocyl, &QAction::triggered, this, &MainWindow::makeCylinderMathGeomSlot);
 	connect(ui.action_clear, &QAction::triggered, this, &MainWindow::clearModelAndSceneSlot);
+	connect(params, &ParamsWidget::buildSignal, this, &MainWindow::makeCylinderMathGeomSlot);
 
 	connect(ui.action_save, &QAction::triggered, this, &MainWindow::saveFileSlot);
 	connect(ui.action_open, &QAction::triggered, this, &MainWindow::openFileSlot);
