@@ -14,13 +14,6 @@ Viewer::~Viewer()
 {
 }
 
-void Viewer::fitScene()
-{
-	this->sceneContent()->GetContainer()->SetUseVertexBufferObjects(true);
-	this->viewport()->GetCamera()->SetViewOrientation(VSN::IsoXYZ);
-	this->ZoomToFit();
-}
-
 NodeKeyVector Viewer::addMathGeoms(MbItem* item, VSN::SceneSegment* sceneSegment)
 {
 	if (!sceneSegment) sceneSegment = rootSceneSegment;
@@ -78,6 +71,21 @@ NodeKeyVector Viewer::addMathGeoms(MbModel* model, VSN::SceneSegment* sceneSegme
 void Viewer::clearScene()
 {
 	this->sceneContent()->Clear();
+}
+
+void Viewer::fitSceneSlot()
+{
+	this->sceneContent()->GetContainer()->SetUseVertexBufferObjects(true);
+	this->viewport()->GetCamera()->SetViewOrientation(orientation);
+	this->ZoomToFit();
+}
+
+void Viewer::nextOrientationSlot()
+{
+	int val = int(orientation) - 1;
+	if (val < 0 || val > 6) val = 6;
+	orientation = VSN::Orientation(val);
+	this->fitSceneSlot();
 }
 
 void Viewer::prepareSceneBackground()

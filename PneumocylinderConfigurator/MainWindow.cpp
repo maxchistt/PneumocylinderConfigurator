@@ -18,13 +18,16 @@ MainWindow::MainWindow(QWidget* parent)
 
 	connect(ui.action_about, &QAction::triggered, this, &MainWindow::aboutSlot);
 	connect(ui.action_aboutqt, &QAction::triggered, this, &MainWindow::aboutQtSlot);
+
+	connect(ui.action_centralyze, &QAction::triggered, viewer, &Viewer::fitSceneSlot);
+	connect(ui.action_nextOrientation, &QAction::triggered, viewer, &Viewer::nextOrientationSlot);
 }
 
 void MainWindow::drawMathScene()
 {
 	viewer->clearScene();
 	if (currentMathModel) viewer->addMathGeoms(currentMathModel);
-	viewer->fitScene();
+	viewer->fitSceneSlot();
 }
 
 void MainWindow::setNewMathGeoms(MbItem& asmItem)
