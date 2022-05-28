@@ -41,4 +41,6 @@ private slots:
 	void clearModelAndSceneSlot();
 	void saveFileSlot();
 	void openFileSlot();
+	void aboutSlot();
+	void aboutQtSlot();
 };

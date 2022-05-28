@@ -15,6 +15,9 @@ MainWindow::MainWindow(QWidget* parent)
 
 	connect(ui.action_save, &QAction::triggered, this, &MainWindow::saveFileSlot);
 	connect(ui.action_open, &QAction::triggered, this, &MainWindow::openFileSlot);
+
+	connect(ui.action_about, &QAction::triggered, this, &MainWindow::aboutSlot);
+	connect(ui.action_aboutqt, &QAction::triggered, this, &MainWindow::aboutQtSlot);
 }
 
 void MainWindow::drawMathScene()
@@ -98,4 +101,20 @@ void MainWindow::openFileSlot()
 {
 	c3d::path_string path = getFilePath(false);
 	if (!path.empty()) importCurrentModel(path);
+}
+
+void MainWindow::aboutSlot()
+{
+	QString str;
+	str += "<h3>Pneumatic cylinder parametric model configurator</h3>";
+	str += "Based on <a href=\"https://c3dlabs.com/ru/products/c3d-toolkit/\">C3D Toolkit</a> , Vision 2.6.4.6<br/>";
+	str += "Licensed under MIT license<br/>";
+	str += "For more info see GitHub <a href=\"https://github.com/maxchistt/PneumocylinderConfigurator\">page</a> (can be private)<hr/>";
+	str += "Created as part of project activities by the <a href=\"https://vk.com/mpu_cloud\">CAD Development Center of the Moscow Polytech</a>";
+	QMessageBox::about(this, "About", str);
+}
+
+void MainWindow::aboutQtSlot()
+{
+	QMessageBox::aboutQt(this);
 }
