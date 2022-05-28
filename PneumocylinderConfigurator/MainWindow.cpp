@@ -4,6 +4,7 @@ MainWindow::MainWindow(QWidget* parent)
 	: QMainWindow(parent)
 {
 	ui.setupUi(this);
+	unsetCurrentModel();
 
 	viewer = new Viewer(this);
 	setCentralWidget(viewer);
