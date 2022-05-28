@@ -127,7 +127,11 @@ xcopy /y "$(SolutionDir)C3D\Kernel\$(Configuration)\c3d.dll" "$(SolutionDir)$(Pl
   <ItemGroup>
     <ClInclude Include="BuildMathModel.h" />
     <ClInclude Include="colorDef.h" />
+    <ClInclude Include="resource.h" />
     <QtMoc Include="Viewer.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="PneumocylinderConfigurator.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
