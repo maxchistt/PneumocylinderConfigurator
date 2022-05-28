@@ -9,8 +9,7 @@ MainWindow::MainWindow(QWidget* parent)
 	setCentralWidget(viewer);
 
 	//запуск создания сцены
-	connect(ui.action_testscene, &QAction::triggered, this, &MainWindow::makeTestMathGeomSlot);
-	connect(ui.action_pneumocyl, &QAction::triggered, this, &MainWindow::makeCylinderMathGeomSlot);
+	connect(ui.action_build_pneumocyl, &QAction::triggered, this, &MainWindow::makeCylinderMathGeomSlot);
 	connect(ui.action_clear, &QAction::triggered, this, &MainWindow::clearModelAndSceneSlot);
 
 	connect(ui.action_save, &QAction::triggered, this, &MainWindow::saveFileSlot);
@@ -30,11 +29,6 @@ void MainWindow::setNewMathGeoms(MbItem& asmItem)
 	newModelToShow->AddItem(asmItem);
 	setCurrentModel(newModelToShow);
 	drawMathScene();
-}
-
-void MainWindow::makeTestMathGeomSlot()
-{
-	setNewMathGeoms(*createTestAssemblyModel());
 }
 
 void MainWindow::makeCylinderMathGeomSlot()

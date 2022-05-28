@@ -4,12 +4,10 @@
 #include "ui_MainWindow.h"
 
 #include "Viewer.h"
+#include "BuildMathModel.h"
 
 #include <model.h>
 #include <conv_model_exchange.h>
-
-#include "BuildTestMathModel.h"
-#include "BuildMathModel.h"
 
 #include <QFileDialog>
 #include <QMessageBox>
@@ -39,7 +37,6 @@ private:
 	void unsetCurrentModel();
 
 private slots:
-	void makeTestMathGeomSlot();
 	void makeCylinderMathGeomSlot();
 	void clearModelAndSceneSlot();
 	void saveFileSlot();

@@ -40,9 +40,6 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="BuildTestMathModel.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="BuildMathModel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -51,9 +48,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BuildTestMathModel.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="colorDef.h">
       <Filter>Header Files</Filter>
     </ClInclude>
