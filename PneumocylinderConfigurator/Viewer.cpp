@@ -73,11 +73,18 @@ void Viewer::clearScene()
 	this->sceneContent()->Clear();
 }
 
+void Viewer::refocus()
+{
+	this->setFocus();
+	this->clearFocus();
+}
+
 void Viewer::fitSceneSlot()
 {
 	this->sceneContent()->GetContainer()->SetUseVertexBufferObjects(true);
 	this->viewport()->GetCamera()->SetViewOrientation(orientation);
 	this->ZoomToFit();
+	refocus();
 }
 
 void Viewer::nextOrientationSlot()
