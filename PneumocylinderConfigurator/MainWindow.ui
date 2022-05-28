@@ -15,7 +15,7 @@
   </property>
   <property name="windowIcon">
    <iconset resource="MainWindow.qrc">
-    <normaloff>:/mainwindow/res/c3d-labs.jpg</normaloff>:/mainwindow/res/c3d-labs.jpg</iconset>
+    <normaloff>:/mainwindow/res/crystal.ico</normaloff>:/mainwindow/res/crystal.ico</iconset>
   </property>
   <widget class="QWidget" name="centralWidget"/>
   <widget class="QMenuBar" name="menuBar">
