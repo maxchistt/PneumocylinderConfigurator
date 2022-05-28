@@ -56,7 +56,7 @@ NodeKeyVector Viewer::addMathGeoms(MbModel* model, VSN::SceneSegment* sceneSegme
 	NodeKeyVector keys;
 	RPArray<MbItem> subitems;
 	SArray<MbMatrix3D> matrs;
-	model->GetItems(MbeSpaceType::st_Item, subitems, matrs);
+	model->GetItems(MbeSpaceType::st_SpaceItem, subitems, matrs);
 
 #if 1 //two ways to add model to view
 	for (auto subitem : subitems) {
