@@ -79,6 +79,7 @@
     </property>
     <addaction name="action_centralyze"/>
     <addaction name="action_nextOrientation"/>
+    <addaction name="action_params"/>
    </widget>
    <addaction name="menu"/>
    <addaction name="menu_2"/>
@@ -167,6 +168,14 @@
    </property>
    <property name="shortcut">
     <string>F3</string>
+   </property>
+  </action>
+  <action name="action_params">
+   <property name="text">
+    <string>Окно параметров</string>
+   </property>
+   <property name="shortcut">
+    <string>F6</string>
    </property>
   </action>
  </widget>

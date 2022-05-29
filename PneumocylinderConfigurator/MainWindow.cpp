@@ -22,6 +22,8 @@ MainWindow::MainWindow(QWidget* parent)
 
 	connect(ui.action_centralyze, &QAction::triggered, viewer, &Viewer::fitSceneSlot);
 	connect(ui.action_nextOrientation, &QAction::triggered, viewer, &Viewer::nextOrientationSlot);
+
+	connect(ui.action_params, &QAction::triggered, this, &MainWindow::showParams);
 }
 
 MainWindow::~MainWindow()
@@ -129,4 +131,9 @@ void MainWindow::aboutSlot()
 void MainWindow::aboutQtSlot()
 {
 	QMessageBox::aboutQt(this);
+}
+
+void MainWindow::showParams()
+{
+	ui.dockWidget_params->setVisible(!ui.dockWidget_params->isVisible());
 }

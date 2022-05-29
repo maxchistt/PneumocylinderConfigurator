@@ -46,4 +46,5 @@ private slots:
 	void openFileSlot();
 	void aboutSlot();
 	void aboutQtSlot();
+	void showParams();
 };
