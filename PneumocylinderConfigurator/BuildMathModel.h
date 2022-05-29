@@ -174,6 +174,6 @@
 #include <last.h>
 
 
-
-MbAssembly* CreatePneumocylinderAssembly(double param_length, double param_diam);
-
+namespace BuildMathModel {
+	MbAssembly* CreatePneumocylinderAssembly(double param_length, double param_diam);
+}

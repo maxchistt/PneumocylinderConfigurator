@@ -3,6 +3,7 @@
 
 using namespace c3d;
 using namespace std;
+using namespace BuildMathModel;
 
 MbAssembly* pAsm = nullptr;
 
@@ -2539,7 +2540,7 @@ void CreateSketchHookSection2(RPArray<MbSurface>& _arrSurfaces, RPArray<MbContou
 
 
 
-MbAssembly* CreatePneumocylinderAssembly(double param_length, double param_diam)
+MbAssembly* BuildMathModel::CreatePneumocylinderAssembly(double param_length, double param_diam)
 {
 	double lendif = param_length - 366.8;
 	double raddif = param_diam / 2.0 - 10.0;
