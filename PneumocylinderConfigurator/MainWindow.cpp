@@ -64,10 +64,10 @@ void MainWindow::clearModelAndSceneSlot()
 c3d::path_string MainWindow::getFilePath(bool save)
 {
 	const QString defaultPath = "D:/C3D_files/MyModel.c3d";
-	const QString fileFilter = "CAD Models (*.c3d *.stp *.step *.STEP *.IGES *.SAT *.X_T *.X_B *.STL *.VRML *.JT)";
+	const QString fileFilter = "Geometric models (*.c3d *.stp *.step *.STEP *.IGES *.SAT *.X_T *.X_B *.STL *.VRML *.JT)";
 	QString fileName = save
-		? QFileDialog::getSaveFileName(this, "Save File", defaultPath, fileFilter)
-		: QFileDialog::getOpenFileName(this, "Open File", defaultPath, fileFilter);
+		? QFileDialog::getSaveFileName(this, u8"Сохранить в файл", defaultPath, fileFilter)
+		: QFileDialog::getOpenFileName(this, u8"Открыть из файла", defaultPath, fileFilter);
 	fileName.replace("/", "\\");
 	fileName.replace(":", ":\\");
 	c3d::path_string path = c3d::StdToPathstring(fileName.toStdString());
@@ -108,7 +108,7 @@ void MainWindow::saveFileSlot()
 		if (!path.empty()) exportCurrentModel(path);
 	}
 	else {
-		QMessageBox::information(this, "Warning", "Nothing to save");
+		QMessageBox::information(this, u8"Предупреждение", u8"Нечего сохранять");
 	}
 }
 
@@ -123,12 +123,12 @@ void MainWindow::aboutSlot()
 	const QString GitRepo("https://github.com/maxchistt/PneumocylinderConfigurator");
 	QString str;
 	str += "<h3>" + QApplication::applicationName() + "</h3>";
-	str += "<p>Parametric model configurator for pneumatic cylinder</p>";
-	str += "Based on <a href=\"https://c3dlabs.com/ru/products/c3d-toolkit/\">C3D Toolkit</a> , Vision 2.6.4.6<br/>";
-	str += "Licensed under MIT license<br/>";
-	str += "For more info see GitHub <a href=\"" + GitRepo + "\">page</a> (can be private)<br/>";
-	str += "Version: " + QApplication::applicationVersion() + "<hr/>";
-	str += "Created as part of project activities by the <a href=\"" + QApplication::organizationDomain() + "\">" + QApplication::organizationName() + "</a>";
+	str += u8"<p>Приложение-конфигуратор параметрической модели пневматического цилиндра</p>";
+	str += u8"Используется <a href=\"https://c3dlabs.com/ru/products/c3d-toolkit/\">C3D Toolkit</a> , Vision 2.6.4.6<br/>";
+	str += u8"Под лицензией MIT license<br/>";
+	str += u8"Подробнее на GitHub <a href=\"" + GitRepo + u8"\">репозитории</a> (возможно частный)<br/>";
+	str += u8"Версия: " + QApplication::applicationVersion() + "<hr/>";
+	str += u8"Создано в рамках проектной деятельности <a href=\"" + QApplication::organizationDomain() + "\">" + u8"Центром САПР-разработки Московского Политеха" + "</a>";
 	QMessageBox::about(this, "About", str);
 }
 

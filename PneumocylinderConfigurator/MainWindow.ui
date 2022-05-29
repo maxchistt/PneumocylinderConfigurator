@@ -92,7 +92,7 @@
     <set>Qt::LeftDockWidgetArea|Qt::RightDockWidgetArea</set>
    </property>
    <property name="windowTitle">
-    <string>Parameters</string>
+    <string>Параметры</string>
    </property>
    <attribute name="dockWidgetArea">
     <number>2</number>
