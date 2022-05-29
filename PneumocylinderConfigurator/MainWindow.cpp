@@ -120,12 +120,15 @@ void MainWindow::openFileSlot()
 
 void MainWindow::aboutSlot()
 {
+	const QString GitRepo("https://github.com/maxchistt/PneumocylinderConfigurator");
 	QString str;
-	str += "<h3>Pneumatic cylinder parametric model configurator</h3>";
+	str += "<h3>" + QApplication::applicationName() + "</h3>";
+	str += "<p>Parametric model configurator for pneumatic cylinder</p>";
 	str += "Based on <a href=\"https://c3dlabs.com/ru/products/c3d-toolkit/\">C3D Toolkit</a> , Vision 2.6.4.6<br/>";
 	str += "Licensed under MIT license<br/>";
-	str += "For more info see GitHub <a href=\"https://github.com/maxchistt/PneumocylinderConfigurator\">page</a> (can be private)<hr/>";
-	str += "Created as part of project activities by the <a href=\"https://vk.com/mpu_cloud\">CAD Development Center of the Moscow Polytech</a>";
+	str += "For more info see GitHub <a href=\"" + GitRepo + "\">page</a> (can be private)<br/>";
+	str += "Version: " + QApplication::applicationVersion() + "<hr/>";
+	str += "Created as part of project activities by the <a href=\"" + QApplication::organizationDomain() + "\">" + QApplication::organizationName() + "</a>";
 	QMessageBox::about(this, "About", str);
 }
 

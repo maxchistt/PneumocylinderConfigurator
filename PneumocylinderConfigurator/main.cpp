@@ -16,9 +16,11 @@ int main(int argc, char* argv[])
 #endif
 
 	QApplication app(argc, argv);
-	QApplication::setStyle(QStyleFactory::create("Fusion"));
-	app.setApplicationName("Конфигуратор пневмоцилиндра");
-	app.setOrganizationName("Центр САПР-разработки Московского Политеха");
+	app.setStyle(QStyleFactory::create("Fusion"));
+	app.setApplicationName("Pneumocylinder configurator");
+	app.setOrganizationName("CAD Development Center of the Moscow Polytech");
+	app.setOrganizationDomain("https://vk.com/mpu_cloud");
+	app.setApplicationVersion("alpha");
 
 	if (!QtVision::activateLicense())
 		return 0;
