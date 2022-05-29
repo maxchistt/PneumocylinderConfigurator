@@ -31,16 +31,43 @@
       </widget>
      </item>
      <item row="0" column="1">
-      <widget class="QLineEdit" name="lineEdit">
-       <property name="text">
-        <string>310</string>
+      <widget class="QDoubleSpinBox" name="doubleSpinBox_length">
+       <property name="buttonSymbols">
+        <enum>QAbstractSpinBox::PlusMinus</enum>
+       </property>
+       <property name="specialValueText">
+        <string/>
+       </property>
+       <property name="decimals">
+        <number>10</number>
+       </property>
+       <property name="minimum">
+        <double>40.000000000000000</double>
+       </property>
+       <property name="maximum">
+        <double>600.000000000000000</double>
+       </property>
+       <property name="value">
+        <double>310.000000000000000</double>
        </property>
       </widget>
      </item>
      <item row="1" column="1">
-      <widget class="QLineEdit" name="lineEdit_2">
-       <property name="text">
-        <string>30</string>
+      <widget class="QDoubleSpinBox" name="doubleSpinBox_diam">
+       <property name="buttonSymbols">
+        <enum>QAbstractSpinBox::PlusMinus</enum>
+       </property>
+       <property name="decimals">
+        <number>10</number>
+       </property>
+       <property name="minimum">
+        <double>10.000000000000000</double>
+       </property>
+       <property name="maximum">
+        <double>40.000000000000000</double>
+       </property>
+       <property name="value">
+        <double>30.000000000000000</double>
        </property>
       </widget>
      </item>

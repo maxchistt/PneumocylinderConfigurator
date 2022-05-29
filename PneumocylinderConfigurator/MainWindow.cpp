@@ -49,7 +49,8 @@ void MainWindow::setNewMathGeoms(MbItem& asmItem)
 
 void MainWindow::makeCylinderMathGeomSlot()
 {
-	auto item = CreatePneumocylinderAssembly();
+	auto modelParams = params->getParams();
+	auto item = CreatePneumocylinderAssembly(modelParams.length, modelParams.diam);
 	setNewMathGeoms(*item);
 	::DeleteItem(item);
 }
