@@ -2,7 +2,7 @@
 
 Конфигуратор параметрической модели пневмоцилиндра на базе [C3D Toolkit](https://c3dlabs.com/ru/products/c3d-toolkit/)
 
-![Model](https://i.postimg.cc/k49B8ykb/IMG-20220528-004114.jpg)
+![Model](https://i.postimg.cc/vTs8YRC5/screenshot.png)
 
 ### Сборка проекта
 
