@@ -6,16 +6,16 @@ MainWindow::MainWindow(QWidget* parent)
 	ui.setupUi(this);
 	unsetCurrentModel();
 
-	viewer = new Viewer(this);
-	ui.horizontalLayout->addWidget(viewer, 1);
+	viewer = new Viewer();
+	setCentralWidget(viewer);
 
-	params = new ParamsWidget(this);
-	ui.horizontalLayout->addWidget(params, 0);
+	params = new ParamsWidget();
+	ui.dockWidget_params->setWidget(params);
 
 	//запуск создания сцены
+	connect(params, &ParamsWidget::buildSignal, this, &MainWindow::makeCylinderMathGeomSlot);
 	connect(ui.action_build_pneumocyl, &QAction::triggered, this, &MainWindow::makeCylinderMathGeomSlot);
 	connect(ui.action_clear, &QAction::triggered, this, &MainWindow::clearModelAndSceneSlot);
-	connect(params, &ParamsWidget::buildSignal, this, &MainWindow::makeCylinderMathGeomSlot);
 
 	connect(ui.action_save, &QAction::triggered, this, &MainWindow::saveFileSlot);
 	connect(ui.action_open, &QAction::triggered, this, &MainWindow::openFileSlot);
@@ -27,6 +27,11 @@ MainWindow::MainWindow(QWidget* parent)
 	connect(ui.action_nextOrientation, &QAction::triggered, viewer, &Viewer::nextOrientationSlot);
 }
 
+MainWindow::~MainWindow()
+{
+	::DeleteMatItem(currentMathModel);
+}
+
 void MainWindow::drawMathScene()
 {
 	viewer->clearScene();
@@ -36,6 +41,7 @@ void MainWindow::drawMathScene()
 
 void MainWindow::setNewMathGeoms(MbItem& asmItem)
 {
+	unsetCurrentModel();
 	MbModel* newModelToShow = new MbModel();
 	newModelToShow->AddItem(asmItem);
 	setCurrentModel(newModelToShow);
@@ -44,7 +50,9 @@ void MainWindow::setNewMathGeoms(MbItem& asmItem)
 
 void MainWindow::makeCylinderMathGeomSlot()
 {
-	setNewMathGeoms(*CreatePneumocylinderAssembly());
+	auto item = CreatePneumocylinderAssembly();
+	setNewMathGeoms(*item);
+	::DeleteItem(item);
 }
 
 void MainWindow::clearModelAndSceneSlot()
@@ -90,7 +98,7 @@ void MainWindow::setCurrentModel(MbModel* model)
 
 void MainWindow::unsetCurrentModel()
 {
-	::DeleteItem(currentMathModel);
+	::DeleteMatItem(currentMathModel);
 }
 
 void MainWindow::saveFileSlot()

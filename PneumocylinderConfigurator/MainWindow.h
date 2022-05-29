@@ -21,6 +21,7 @@ class MainWindow : public QMainWindow
 
 public:
 	MainWindow(QWidget* parent = Q_NULLPTR);
+	~MainWindow();
 
 private:
 	MbModel* currentMathModel = nullptr;
