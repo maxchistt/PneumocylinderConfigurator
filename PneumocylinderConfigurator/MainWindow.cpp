@@ -6,9 +6,7 @@ MainWindow::MainWindow(QWidget* parent)
 	ui.setupUi(this);
 	unsetCurrentModel();
 
-	viewer = new Viewer();
-	setCentralWidget(viewer);
-
+	viewer = ui.widget_viewer;
 	params = ui.widget_params;
 
 	//запуск создания сцены

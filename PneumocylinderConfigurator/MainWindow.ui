@@ -17,7 +17,32 @@
    <iconset resource="MainWindow.qrc">
     <normaloff>:/mainwindow/res/crystal.ico</normaloff>:/mainwindow/res/crystal.ico</iconset>
   </property>
-  <widget class="QWidget" name="centralWidget"/>
+  <widget class="QWidget" name="centralWidget">
+   <layout class="QHBoxLayout" name="horizontalLayout">
+    <property name="spacing">
+     <number>0</number>
+    </property>
+    <property name="leftMargin">
+     <number>0</number>
+    </property>
+    <property name="topMargin">
+     <number>0</number>
+    </property>
+    <property name="rightMargin">
+     <number>0</number>
+    </property>
+    <property name="bottomMargin">
+     <number>0</number>
+    </property>
+    <item>
+     <widget class="Viewer" name="widget_viewer" native="true">
+      <property name="autoFillBackground">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
@@ -151,6 +176,12 @@
    <class>ParamsWidget</class>
    <extends>QWidget</extends>
    <header>ParamsWidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>Viewer</class>
+   <extends>QWidget</extends>
+   <header>Viewer.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
