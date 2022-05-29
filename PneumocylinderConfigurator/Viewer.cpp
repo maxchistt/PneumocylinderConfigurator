@@ -71,6 +71,7 @@ NodeKeyVector Viewer::addMathGeoms(MbModel* model, VSN::SceneSegment* sceneSegme
 void Viewer::clearScene()
 {
 	this->sceneContent()->Clear();
+	refocus();
 }
 
 void Viewer::refocus()

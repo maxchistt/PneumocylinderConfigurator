@@ -58,6 +58,7 @@ void MainWindow::clearModelAndSceneSlot()
 {
 	viewer->clearScene();
 	unsetCurrentModel();
+
 }
 
 c3d::path_string MainWindow::getFilePath(bool save)
