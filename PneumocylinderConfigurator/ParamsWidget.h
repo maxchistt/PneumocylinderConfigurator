@@ -13,8 +13,8 @@ public:
 
 	struct BuildParams
 	{
-		double diam = 23.6;
-		double length = 316.05;
+		double diam = 20.0;
+		double length = 366.8;
 	};
 
 	BuildParams getParams();

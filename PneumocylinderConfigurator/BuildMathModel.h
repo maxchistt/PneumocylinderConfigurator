@@ -175,5 +175,5 @@
 
 
 
-MbAssembly* CreatePneumocylinderAssembly(double param_length = 316.05, double param_diam = 23.6);
+MbAssembly* CreatePneumocylinderAssembly(double param_length, double param_diam);
 

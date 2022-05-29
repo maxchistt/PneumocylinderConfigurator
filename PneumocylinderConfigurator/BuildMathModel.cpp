@@ -2541,6 +2541,9 @@ void CreateSketchHookSection2(RPArray<MbSurface>& _arrSurfaces, RPArray<MbContou
 
 MbAssembly* CreatePneumocylinderAssembly(double param_length, double param_diam)
 {
+	double lendif = param_length - 366.8;
+	double raddif = param_diam / 2.0 - 10.0;
+
 	pAsm = new MbAssembly();
 
 	//pAsm->AddItem(*pSolid);
@@ -2553,17 +2556,16 @@ MbAssembly* CreatePneumocylinderAssembly(double param_length, double param_diam)
 	double DD = 23.6;
 	double Z = 316.05;
 
-
 	//Shaft
-	CreateCyl(start = 0, length = 366.8, radius = 10);
-	CreateCyl(start = 366.8, length = 9, radius = 9.4);
-	CreateCyl(start = 375.8, length = 3.5, radius = 6.9);
-	CreateCyl(start = 379.3, length = 28, radius = 8);
+	CreateCyl(start = 0, length = lendif + 366.8, radius = 10 + raddif);
+	CreateCyl(start = lendif + 366.8, length = 9, radius = 9.4 + raddif);
+	CreateCyl(start = lendif + 375.8, length = 3.5, radius = 6.9 + raddif);
+	CreateCyl(start = lendif + 379.3, length = 28, radius = 8 + raddif);
 	// zero x , y , z 
-	CreateCyl(start = 0, length = -5, radius = 9.2);
-	CreateCyl(start = -5, length = -17.5, radius = 7);
-	CreateCyl(start = -22.5, length = -3.2, radius = 6.15);
-	CreateCyl(start = -25.7, length = -16, radius = 7);
+	CreateCyl(start = 0, length = -5, radius = 9.2 + raddif);
+	CreateCyl(start = -5, length = -17.5, radius = 7 + raddif);
+	CreateCyl(start = -22.5, length = -3.2, radius = 6.15 + raddif);
+	CreateCyl(start = -25.7, length = -16, radius = 7 + raddif);
 	//Shaft
 
 	CreateSasha(); // Base
@@ -2574,10 +2576,10 @@ MbAssembly* CreatePneumocylinderAssembly(double param_length, double param_diam)
 	CreateAlexandra(DD, -DD); // 2 болт
 	CreateAlexandra(-DD, -DD); // 3 болт
 	CreateAlexandra(-DD, DD); // 4 болт
-	CreateAlexandra(-DD, DD, Z, 1); // 5 болт
-	CreateAlexandra(DD, DD, Z, 1); // 6 болт
-	CreateAlexandra(DD, -DD, Z, 1); // 7 болт
-	CreateAlexandra(-DD, -DD, Z, 1); // 7 болт
+	CreateAlexandra(-DD, DD, lendif + Z, 1); // 5 болт
+	CreateAlexandra(DD, DD, lendif + Z, 1); // 6 болт
+	CreateAlexandra(DD, -DD, lendif + Z, 1); // 7 болт
+	CreateAlexandra(-DD, -DD, lendif + Z, 1); // 7 болт
 	CreateEgor(); // Socket Head Locking Collar Insert
 	CreateEgor2(DD, DD); // 1 пневмо
 	CreateEgor2(DD, -DD); // 2 пневмо
@@ -2585,8 +2587,8 @@ MbAssembly* CreatePneumocylinderAssembly(double param_length, double param_diam)
 	CreateEgor2(-DD, DD); // 4 пневмо
 	CreateAlexandra2(); // Top GUide
 	CreateSergey1(); // Brass Collar
-	CreateSergey2(Z = -19); // O-Ring
-	CreateSergey2(Z = -8.5); // O-Ring 2
+	CreateSergey2(-19); // O-Ring
+	CreateSergey2(-8.5); // O-Ring 2
 
 	return pAsm;
 }
