@@ -71,13 +71,7 @@ NodeKeyVector Viewer::addMathGeoms(MbModel* model, VSN::SceneSegment* sceneSegme
 void Viewer::clearScene()
 {
 	this->sceneContent()->Clear();
-	refocus();
-}
-
-void Viewer::refocus()
-{
-	this->setFocus();
-	this->clearFocus();
+	this->update();
 }
 
 void Viewer::fitSceneSlot()
@@ -85,7 +79,7 @@ void Viewer::fitSceneSlot()
 	this->sceneContent()->GetContainer()->SetUseVertexBufferObjects(true);
 	this->viewport()->GetCamera()->SetViewOrientation(orientation);
 	this->ZoomToFit();
-	refocus();
+	this->update();
 }
 
 void Viewer::nextOrientationSlot()

@@ -16,7 +16,6 @@ public:
 	NodeKeyVector addMathGeoms(MbItem* item, VSN::SceneSegment* sceneSegment = nullptr);
 	NodeKeyVector addMathGeoms(MbModel* model, VSN::SceneSegment* sceneSegment = nullptr);
 	void clearScene();
-	void refocus();
 
 public slots:
 	void fitSceneSlot();
