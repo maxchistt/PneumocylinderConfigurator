@@ -68,7 +68,17 @@
    <attribute name="dockWidgetArea">
     <number>2</number>
    </attribute>
-   <widget class="QWidget" name="dockWidgetContents_params"/>
+   <widget class="QWidget" name="dockWidgetContents_params">
+    <layout class="QVBoxLayout" name="verticalLayout">
+     <item>
+      <widget class="ParamsWidget" name="widget_params" native="true">
+       <property name="autoFillBackground">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
   </widget>
   <action name="action_build_pneumocyl">
    <property name="text">
@@ -136,6 +146,14 @@
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>ParamsWidget</class>
+   <extends>QWidget</extends>
+   <header>ParamsWidget.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="MainWindow.qrc"/>
  </resources>

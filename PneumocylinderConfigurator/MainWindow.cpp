@@ -9,8 +9,7 @@ MainWindow::MainWindow(QWidget* parent)
 	viewer = new Viewer();
 	setCentralWidget(viewer);
 
-	params = new ParamsWidget();
-	ui.dockWidget_params->setWidget(params);
+	params = ui.widget_params;
 
 	//запуск создания сцены
 	connect(params, &ParamsWidget::buildSignal, this, &MainWindow::makeCylinderMathGeomSlot);
