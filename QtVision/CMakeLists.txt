@@ -13,7 +13,7 @@
 #                                                                              #
 ################################################################################
 PROJECT(QtVision)
-cmake_minimum_required(VERSION 3.4)
+cmake_minimum_required(VERSION 3.15)
 
 SET(DESIRED_QT_VERSION "5" CACHE STRING "")
 find_package( Qt5 COMPONENTS Core Gui OpenGL )
@@ -149,8 +149,7 @@ ENDIF()
 IF(MSVC) 
     TARGET_LINK_LIBRARIES(
         ${QtVision_OUTPUT}
-        ${C3D_VIS_LIB}
-        ${C3D_MATH_NAME}
+        ${C3D_ALL_LIB_LINKS}
         opengl32
         glu32
     )
@@ -158,8 +157,7 @@ ELSE()
     find_package(OpenGL REQUIRED)
     TARGET_LINK_LIBRARIES(
         ${QtVision_OUTPUT}
-        ${C3D_VIS_LIB}
-        ${C3D_MATH_NAME}
+        ${C3D_ALL_LIB_LINKS}
         ${OPENGL_LIBRARIES}
         ${GLU_LIBRARY}
     )

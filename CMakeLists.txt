@@ -14,11 +14,17 @@
 ################################################################################
 
 PROJECT(PneumocylinderConfiguratorProject)
-cmake_minimum_required(VERSION 3.4)
+cmake_minimum_required(VERSION 3.15)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+# Runtime output directory
+SET(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/Bin)
 
 IF(MSVC)
-    SET(CMAKE_CXX_FLAGS_DEBUG   "${CMAKE_CXX_FLAGS_DEBUG_INIT} -D_DEBUG -D_DRAWGI /Zi /W3 /MP /bigobj") 
-    SET(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE_INIT} -D_SECURE_SCL=0 /W3") 
+    SET(CMAKE_CXX_FLAGS_DEBUG   "${CMAKE_CXX_FLAGS_DEBUG_INIT} -D_DEBUG -D_DRAWGI /Zi /W4 /D_DEBUG /D_DRAWGI /MP /bigobj") 
+    SET(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE_INIT} -D_SECURE_SCL=0 /W4") 
 ELSE()
     SET(CMAKE_CXX_FLAGS_DEBUG  "${CMAKE_CXX_FLAGS_DEBUG_INIT} -D_DRAWGI -Wno-deprecated-declarations -fno-operator-names -fopenmp")
     SET(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE_INIT} -D_SECURE_SCL=0 -Wno-deprecated-declarations -fno-operator-names -fopenmp")
@@ -47,21 +53,27 @@ if( NOT C3D_Vision_INCLUDE_DIR )
     SET(C3D_Vision_INCLUDE_DIR ${C3D_Vision_DIR}/Include)
 endif()
 
-SET(C3DVSDIR "${Math_SOURCE_DIR}")
+# Libraries  
+SET(Math_SOURCE_DIR   ${C3D_MATH_DIR})
 
-SET(C3D_MATH_NAME c3d)
-SET(C3D_VIS_LIB c3dvision)
+IF (MSVC)
+  SET(C3DLIBNAME "c3d.lib")
+  SET(C3DDLLNAME "c3d.dll")
+ENDIF()
 
-SET(CONFIG_ "$(Configuration)")
+SET(Math_OUTPUT optimized ${Math_SOURCE_DIR}/Release/${C3DLIBNAME} debug ${Math_SOURCE_DIR}/Debug/${C3DLIBNAME})
 
-if(UNIX)
-SET(CONFIG_ "${CMAKE_BUILD_TYPE}")
-endif()
+SET(Vision_SOURCE_DIR ${C3D_Vision_DIR})
 
-# optimized "${C3D_MATH_DIR}/Release/"
-link_directories( "${C3D_MATH_DIR}/${CONFIG_}/" )
-# optimized "${C3D_Vision_DIR}/Release/"
-link_directories( "${C3D_Vision_DIR}/${CONFIG_}/" )
+IF (MSVC)
+  SET(C3DVISIONLIBNAME "c3dvision.lib")
+  SET(C3DVISIONDLLNAME "c3dvision.dll")
+ENDIF()
+
+SET(Vision_OUTPUT optimized ${Vision_SOURCE_DIR}/Release/${C3DVISIONLIBNAME} debug ${Vision_SOURCE_DIR}/Debug/${C3DVISIONLIBNAME})
+
+# Libraries all c3d
+SET(C3D_ALL_LIB_LINKS ${Math_OUTPUT} ${Vision_OUTPUT})
 
 #binary
 set(EXAMPLES_BIN ${CMAKE_BINARY_DIR}/bin/)
@@ -72,6 +84,7 @@ endif()
 SET(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${EXAMPLES_BIN})
 SET(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${EXAMPLES_BIN})
 SET(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${EXAMPLES_BIN})
+
 
 IF(C3DVision_USING_UNICODE)
   ADD_DEFINITIONS( 
@@ -96,16 +109,46 @@ ELSE()
   SET(STDLIB "")
 ENDIF()
 
-  
-If( C3DVision_GUI_QT5_APP )
+
+
+IF( NOT CMAKE_BUILD_TYPE )
     #copy external dll, lib, pdb Math and Vision
-    file(COPY "${C3D_MATH_DIR}/Debug/"   DESTINATION "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Debug")
-    file(COPY "${C3D_MATH_DIR}/Release/" DESTINATION "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Release")
-    if( NOT "${C3D_Vision_DIR}" STREQUAL "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}" )
-        file(COPY "${C3D_Vision_DIR}/Debug/"   DESTINATION "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Debug")
-        file(COPY "${C3D_Vision_DIR}/Release/" DESTINATION "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Release")
-    endif()
-endif()
+    file(INSTALL ${Math_SOURCE_DIR}/Debug/${C3DDLLNAME}           DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Debug)
+    file(INSTALL ${Math_SOURCE_DIR}/Release/${C3DDLLNAME}         DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Release)
+    IF( NOT "${C3D_Vision_DIR}" STREQUAL "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}" )
+        file(INSTALL ${Vision_SOURCE_DIR}/Debug/${C3DVISIONDLLNAME}   DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Debug)
+        file(INSTALL ${Vision_SOURCE_DIR}/Release/${C3DVISIONDLLNAME} DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Release)
+    ENDIF()
+ELSE ()
+  #copy external dll, lib, pdb Math and Vision
+  IF (CMAKE_BUILD_TYPE STREQUAL "Debug")
+    file(INSTALL ${Math_SOURCE_DIR}/Debug/${C3DDLLNAME}           DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
+    file(INSTALL ${Vision_SOURCE_DIR}/Debug/${C3DVISIONDLLNAME}   DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
+  ELSE ()
+    file(INSTALL ${Math_SOURCE_DIR}/Release/${C3DDLLNAME}         DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
+    file(INSTALL ${Vision_SOURCE_DIR}/Release/${C3DVISIONDLLNAME} DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
+  ENDIF ()
+ENDIF()
+
+# Installer 
+################################################################################
+IF (CMAKE_BUILD_TYPE STREQUAL "Release" OR NOT CMAKE_BUILD_TYPE)
+  IF( NOT CMAKE_BUILD_TYPE )
+    file(TO_NATIVE_PATH "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Release/" cmd_path_xcopy_from)
+  ELSE()
+    file(TO_NATIVE_PATH "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/" cmd_path_xcopy_from)
+  ENDIF()
+  file(TO_NATIVE_PATH "${CMAKE_SOURCE_DIR}/x64/Release/" cmd_path_xcopy_to)
+  file(TO_NATIVE_PATH "${CMAKE_SOURCE_DIR}/CreateInstaller/" cmd_path_createinstaller)
+  ADD_CUSTOM_TARGET( CreateInstaller
+    SOURCES "${CMAKE_SOURCE_DIR}/CreateInstaller/Deploy.bat"
+    SOURCES "${CMAKE_SOURCE_DIR}/CreateInstaller/CreateInstaller.iss"
+    COMMAND xcopy /y "${cmd_path_xcopy_from}" "${cmd_path_xcopy_to}"
+    COMMAND cd ${cmd_path_createinstaller} && start Deploy.bat
+    COMMAND cd ${cmd_path_createinstaller} && start CreateInstaller.iss
+    COMMENT "Creating installer"
+  VERBATIM)
+ENDIF ()
 
 ###############################################################################
 #  QT APP
@@ -119,11 +162,11 @@ IF (C3DVision_GUI_QT5_APP)
     ADD_DEFINITIONS(-D__USE_QT__)
     ADD_DEFINITIONS(-DQT_NO_DEPRECATED_WARNINGS)
 
-    SET(QtVision_OUTPUT "qtvision")
+    SET(QtVision_OUTPUT "QtVision")
     SET(QtVision_DIR QtVision)
     ADD_SUBDIRECTORY(QtVision)
 
-    SET(Configurator_OUTPUT "configurator")
+    SET(Configurator_OUTPUT "PneumocylinderConfigurator")
     ADD_SUBDIRECTORY(PneumocylinderConfigurator)
     ADD_DEFINITIONS( -DNOMINMAX )
 ENDIF()
