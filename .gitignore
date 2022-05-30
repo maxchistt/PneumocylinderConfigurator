@@ -3,6 +3,11 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
+# Cmake build
+_[Bb]uild/
+[Bb]uild/
+[Oo]ut/
+
 # Installer build
 [Ii]nstaller/
 
