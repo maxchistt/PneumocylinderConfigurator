@@ -7,6 +7,13 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PneumocylinderConfigurator"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "QtVision", "QtVision\QtVision.vcxproj", "{24FBAF90-E7BC-4DF9-892B-9882E21A1CD0}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CreateInstaller", "CreateInstaller", "{F3C3DAE8-EF06-47D9-B957-952CEAD1AD46}"
+	ProjectSection(SolutionItems) = preProject
+		CreateInstaller\CreateInstaller.iss = CreateInstaller\CreateInstaller.iss
+		CreateInstaller\CreateInstallerFull.ps1 = CreateInstaller\CreateInstallerFull.ps1
+		CreateInstaller\Deploy.bat = CreateInstaller\Deploy.bat
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
