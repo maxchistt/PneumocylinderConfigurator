@@ -93,6 +93,6 @@ void Viewer::nextOrientationSlot()
 void Viewer::prepareSceneBackground()
 {
 	this->mainLight()->SetDoubleSided(true);
-	this->viewport()->SetGradientBackgroundColour(Color(0, 204, 255), Color(255, 255, 255));
+	this->viewport()->SetGradientBackgroundColour(Color(193, 189, 250), Color(206, 206, 228)); // 0 204 255
 
 }

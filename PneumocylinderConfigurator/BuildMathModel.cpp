@@ -293,7 +293,7 @@ void CreateSketchEgor2(RPArray<MbContour>& _arrContours)
 
 	_arrContours.push_back(pContourPolyline);
 }
-void CreateSketchEgor3(RPArray<MbContour>& _arrContours)
+void CreateSketchEgor3(RPArray<MbContour>& _arrContours, double length)
 {
 	// Создание массива точек квадрата, к которому в дальнейшем добавятся скругления.
 	// Размер массива - 8 точек для учета точек четырех сегментов скруглений.
@@ -303,11 +303,11 @@ void CreateSketchEgor3(RPArray<MbContour>& _arrContours)
 	arrPnts.Add(MbCartPoint(0.5, 4));
 	arrPnts.Add(MbCartPoint(10, 4));
 	arrPnts.Add(MbCartPoint(10, 3.5));
-	arrPnts.Add(MbCartPoint(370, 3.5));
-	arrPnts.Add(MbCartPoint(370, 4));
-	arrPnts.Add(MbCartPoint(379.5, 4));
-	arrPnts.Add(MbCartPoint(380, 3.5));
-	arrPnts.Add(MbCartPoint(380, 0));
+	arrPnts.Add(MbCartPoint(length + 70, 3.5));
+	arrPnts.Add(MbCartPoint(length + 70, 4));
+	arrPnts.Add(MbCartPoint(length + 79.5, 4));
+	arrPnts.Add(MbCartPoint(length + 80, 3.5));
+	arrPnts.Add(MbCartPoint(length + 80, 0));
 
 	// Построение единой ломаной внешнего контура по точкам
 	MbPolyline* pPolyline = new MbPolyline(arrPnts, true);
@@ -517,7 +517,7 @@ void CreateSketchSergey1(RPArray<MbContour>& _arrContours)
 }
 
 //Функции по созданию деталей ребят
-void CreateSasha()
+void CreateBase()
 {
 	// Множитель для преобразования углов из градусной в радианную меру.
 	const double DEG_TO_RAD = M_PI / 180.0;
@@ -805,7 +805,7 @@ void CreateSasha()
 	::DeleteItem(pCyl8_Solid);
 
 }
-void CreateDiana()
+void CreateShaftPivot(double position)
 {
 	//Построение параллелепипеда    
 	MbPlacement3D pl;
@@ -976,7 +976,7 @@ void CreateDiana()
 	// 7) Отображение тела после скругления ребра
 	if (ress == rt_Success)
 		pResult->Rotate(axVert, M_PI / 2); // вращаем по оси
-	pResult->Move(MbVector3D(MbCartPoint3D(0, 0, 0), MbCartPoint3D(0, 0, 413.8)));
+	pResult->Move(MbVector3D(MbCartPoint3D(0, 0, 0), MbCartPoint3D(0, 0, position + 113.8)));
 
 	pResult->SetColor(LIGHTGRAY);
 	pAsm->AddItem(*pResult);
@@ -991,7 +991,7 @@ void CreateDiana()
 	::DeleteItem(pResult);
 
 }
-void CreateAlexandr()
+void CreateMainBody(double length)
 {
 	MbCartPoint p0(16.489, 22.63);
 	MbCartPoint p1(20, 30.5);
@@ -1062,7 +1062,7 @@ void CreateAlexandr()
 	MbVector3D dir(0, 0, 1);
 
 	// Параметры операции выдавливания, задающие свойства тела для построения в прямом и в обратном направлении вдоль (глубина выдавливания и уклон).
-	const double HEIGHT_FORWARD = 343.95, HEIGHT_BACKWARD = 0;
+	const double HEIGHT_FORWARD = length + 43.95, HEIGHT_BACKWARD = 0;
 	const double ANGLE_FORWARD_DEGREE = 0;
 	ExtrusionValues extrusionParams(HEIGHT_FORWARD, HEIGHT_BACKWARD);
 
@@ -1094,18 +1094,13 @@ void CreateAlexandr()
 	pCurves1 = new MbSweptData(*ptrSurface1, *ptrContours1);
 	MbVector3D dir1(0, 0, 1);
 
-	// Параметры операции выдавливания, задающие свойства тела для построения в прямом и в обратном направлении вдоль (глубина выдавливания и уклон).
-	const double HEIGHT_FORWARD1 = 343.95, HEIGHT_BACKWARD1 = 0;
-	const double ANGLE_FORWARD_DEGREE1 = 0;
-	ExtrusionValues extrusionParams1(HEIGHT_FORWARD1, HEIGHT_BACKWARD1);
-
 	// Именователи элементов модели твердого тела и контуров образующей
 	MbSNameMaker operNames1(1, MbSNameMaker::i_SideNone, 0);
 	PArray<MbSNameMaker> cNames1(0, 1, false);
 
 	// Вызов функции-утилиты для построения твердого тела выдавливания
 	MbSolid* pSolid1 = nullptr;
-	MbResultType res1 = ::ExtrusionSolid(*pCurves1, dir1, nullptr, nullptr, false, extrusionParams1, operNames1, cNames1, pSolid1);
+	MbResultType res1 = ::ExtrusionSolid(*pCurves1, dir1, nullptr, nullptr, false, extrusionParams, operNames1, cNames1, pSolid1);
 
 	MbCartPoint p14(18.37, 21.2);
 	MbCartPoint p15(21.249, 28.1);
@@ -1149,18 +1144,13 @@ void CreateAlexandr()
 	pCurves2 = new MbSweptData(*ptrSurface2, *ptrContours2);
 	MbVector3D dir2(0, 0, 1);
 
-	// Параметры операции выдавливания, задающие свойства тела для построения в прямом и в обратном направлении вдоль (глубина выдавливания и уклон).
-	const double HEIGHT_FORWARD2 = 343.95, HEIGHT_BACKWARD2 = 0;
-	const double ANGLE_FORWARD_DEGREE2 = 0;
-	ExtrusionValues extrusionParams2(HEIGHT_FORWARD2, HEIGHT_BACKWARD2);
-
 	// Именователи элементов модели твердого тела и контуров образующей
 	MbSNameMaker operNames2(1, MbSNameMaker::i_SideNone, 0);
 	PArray<MbSNameMaker> cNames2(0, 1, false);
 
 	// Вызов функции-утилиты для построения твердого тела выдавливания
 	MbSolid* pSolid2 = nullptr;
-	MbResultType res2 = ::ExtrusionSolid(*pCurves2, dir2, nullptr, nullptr, false, extrusionParams2, operNames2, cNames2, pSolid2);
+	MbResultType res2 = ::ExtrusionSolid(*pCurves2, dir2, nullptr, nullptr, false, extrusionParams, operNames2, cNames2, pSolid2);
 
 	MbCartPoint p20(-18.37, 21.132);
 	MbCartPoint p21(-21.249, 28.1);
@@ -1203,18 +1193,13 @@ void CreateAlexandr()
 	pCurves3 = new MbSweptData(*ptrSurface3, *ptrContours3);
 	MbVector3D dir3(0, 0, 1);
 
-	// Параметры операции выдавливания, задающие свойства тела для построения в прямом и в обратном направлении вдоль (глубина выдавливания и уклон).
-	const double HEIGHT_FORWARD3 = 343.95, HEIGHT_BACKWARD3 = 0;
-	const double ANGLE_FORWARD_DEGREE3 = 0;
-	ExtrusionValues extrusionParams3(HEIGHT_FORWARD3, HEIGHT_BACKWARD3);
-
 	// Именователи элементов модели твердого тела и контуров образующей
 	MbSNameMaker operNames123(1, MbSNameMaker::i_SideNone, 0);
 	PArray<MbSNameMaker> cNames3(0, 1, false);
 
 	// Вызов функции-утилиты для построения твердого тела выдавливания
 	MbSolid* pSolid3 = nullptr;
-	MbResultType res3 = ::ExtrusionSolid(*pCurves3, dir3, nullptr, nullptr, false, extrusionParams3, operNames123, cNames3, pSolid3);
+	MbResultType res3 = ::ExtrusionSolid(*pCurves3, dir3, nullptr, nullptr, false, extrusionParams, operNames123, cNames3, pSolid3);
 
 
 	MbCartPoint p26(-18.37, -21.132);
@@ -1259,18 +1244,13 @@ void CreateAlexandr()
 	pCurves4 = new MbSweptData(*ptrSurface4, *ptrContours4);
 	MbVector3D dir4(0, 0, 1);
 
-	// Параметры операции выдавливания, задающие свойства тела для построения в прямом и в обратном направлении вдоль (глубина выдавливания и уклон).
-	const double HEIGHT_FORWARD4 = 343.95, HEIGHT_BACKWARD4 = 0;
-	const double ANGLE_FORWARD_DEGREE4 = 0;
-	ExtrusionValues extrusionParams4(HEIGHT_FORWARD4, HEIGHT_BACKWARD4);
-
 	// Именователи элементов модели твердого тела и контуров образующей
 	MbSNameMaker operNames4(1, MbSNameMaker::i_SideNone, 0);
 	PArray<MbSNameMaker> cNames4(0, 1, false);
 
 	// Вызов функции-утилиты для построения твердого тела выдавливания
 	MbSolid* pSolid4 = nullptr;
-	MbResultType res4 = ::ExtrusionSolid(*pCurves4, dir4, nullptr, nullptr, false, extrusionParams4, operNames4, cNames4, pSolid4);
+	MbResultType res4 = ::ExtrusionSolid(*pCurves4, dir4, nullptr, nullptr, false, extrusionParams, operNames4, cNames4, pSolid4);
 
 	MbCartPoint
 		p32(18.37, -21.132);
@@ -1315,18 +1295,13 @@ void CreateAlexandr()
 	pCurves5 = new MbSweptData(*ptrSurface5, *ptrContours5);
 	MbVector3D dir5(0, 0, 1);
 
-	// Параметры операции выдавливания, задающие свойства тела для построения в прямом и в обратном направлении вдоль (глубина выдавливания и уклон).
-	const double HEIGHT_FORWARD5 = 343.95, HEIGHT_BACKWARD5 = 0;
-	const double ANGLE_FORWARD_DEGREE5 = 0;
-	ExtrusionValues extrusionParams5(HEIGHT_FORWARD5, HEIGHT_BACKWARD5);
-
 	// Именователи элементов модели твердого тела и контуров образующей
 	MbSNameMaker operNames5(1, MbSNameMaker::i_SideNone, 0);
 	PArray<MbSNameMaker> cNames5(0, 1, false);
 
 	// Вызов функции-утилиты для построения твердого тела выдавливания
 	MbSolid* pSolid5 = nullptr;
-	MbResultType res5 = ::ExtrusionSolid(*pCurves5, dir5, nullptr, nullptr, false, extrusionParams5, operNames5, cNames5, pSolid5);
+	MbResultType res5 = ::ExtrusionSolid(*pCurves5, dir5, nullptr, nullptr, false, extrusionParams, operNames5, cNames5, pSolid5);
 
 
 	MbSolid* pSolid6 = nullptr;
@@ -1359,7 +1334,7 @@ void CreateAlexandr()
 
 
 }
-void CreateGarnik()
+void CreateSealHousing()
 {
 	// Множитель для преобразования угловых значений из градусов в радианы
 	const double DEG_TO_RAD = M_PI / 180.0;
@@ -1483,7 +1458,7 @@ void CreateGarnik()
 
 
 }
-void CreateAlexandra(double X, double Y, double Z = -31.1, int ANGLE = -1)
+void CreateBolt(double X, double Y, double Z = -31.1, int ANGLE = -1)
 {
 	MbSolid* pCyl = NULL;
 
@@ -1720,7 +1695,7 @@ void CreateAlexandra(double X, double Y, double Z = -31.1, int ANGLE = -1)
 	::DeleteItem(pResult);
 
 }
-void CreateEgor()
+void CreateSocketHeadLockingCollarInsert()
 {
 	// Множитель для преобразования угловых значений из градусов в радианы
 	const double DEG_TO_RAD = M_PI / 180.0;
@@ -1840,7 +1815,7 @@ void CreateEgor()
 	::DeleteItem(pSolid);
 	::DeleteItem(pSolid2);
 }
-void CreateEgor2(double X, double Y)
+void CreateClampingBar(double X, double Y, double length)
 {
 	// Множитель для преобразования угловых значений из градусов в радианы
 	const double DEG_TO_RAD = M_PI / 180.0;
@@ -1850,11 +1825,11 @@ void CreateEgor2(double X, double Y)
 
 	// Вызов функции для построения образующей (из примера 6)
 	RPArray<MbContour> arrContours;
-	CreateSketchEgor3(arrContours);
+	CreateSketchEgor3(arrContours, length);
 
 	// Подготовка параметров для вызова функции построения тела вращения.
 	// sweptData - объект, в котором хранятся сведения об образующей.
-	MbPlane* pPlaneXY = new MbPlane(MbCartPoint3D(0, 0, 0), MbCartPoint3D(1, 0, 0),
+	MbPlane* pPlaneXY = new MbPlane(MbCartPoint3D(0, 0, 0), MbCartPoint3D(0, 0, 1),
 		MbCartPoint3D(0, 1, 0));
 	MbSweptData sweptData(*pPlaneXY, arrContours);
 
@@ -1881,7 +1856,7 @@ void CreateEgor2(double X, double Y)
 
 	// Ось вращения для построения тела:
 	// ось Y мировой СК смещается на -50 единиц вдоль оси X.
-	MbAxis3D axis(pl.GetAxisX());
+	MbAxis3D axis(pl.GetAxisZ());
 
 
 	// Вызов функции-утилиты для построения твердого тела вращения
@@ -1891,7 +1866,7 @@ void CreateEgor2(double X, double Y)
 
 	// Отображение построенного тела
 	MbAxis3D axVert(MbVector3D(0, 1, 0));
-	pSolid->Rotate(axVert, -M_PI / 2);
+	//pSolid->Rotate(axVert, -M_PI / 2);
 	pSolid->Move(MbVector3D(MbCartPoint3D(0, 0, 0), MbCartPoint3D(X, Y, -49.525)));
 	if (res == rt_Success) {
 		pSolid->SetColor(BROWN);
@@ -1904,7 +1879,7 @@ void CreateEgor2(double X, double Y)
 	::DeleteItem(pSolid);
 
 }
-void CreateAlexandra2() {
+void CreateTopGuide(double position) {
 
 	// Множитель для преобразования углов из градусной в радианную меру.
 	const double DEG_TO_RAD = M_PI / 180.0;
@@ -2178,23 +2153,17 @@ void CreateAlexandra2() {
 	MbResultType res39 = ::BooleanResult(*pSolid, cm_Copy, *pSolid12, cm_Copy, bo_Difference, flagsBool, operBoolNames, pSolid);
 	//show(Style(1, BLACK), pSolid4);
 	//show(Style(1, BLACK), pSolid5);
-	pSolid->Move(MbVector3D(MbCartPoint3D(0, 0, 0), MbCartPoint3D(-SqureSize / 2, -SqureSize / 2, 343.45)));
+	pSolid->Move(MbVector3D(MbCartPoint3D(0, 0, 0), MbCartPoint3D(-SqureSize / 2, -SqureSize / 2, position + 43.45)));
 
 
 	pSolid->SetColor(LIGHTRED);
 	pAsm->AddItem(*pSolid);
-	//viewManager->AddObject(Style(1, LIGHTRED), pSolid);
 
-	// show(Style(1, LIGHTGRAY), pCyl9_Solid);
-	 //show(Style(1, LIGHTGRAY), pCyl10_Solid);
-	 //show(Style(1, LIGHTGRAY), pCyl6_Solid);
-	 //show(Style(1, LIGHTGRAY), pCyl9_Solid);
-	 //show(Style(1, LIGHTGRAY), pCyl10_Solid);
 	 // Уменьшение счетчиков ссылок динамически созданных объектов ядра
 	::DeleteItem(pSolid);
 	::DeleteItem(pSolid2);
 }
-void CreateSergey1() {
+void CreateBrassCollar() {
 	// Множитель для преобразования угловых значений из градусов в радианы
 	const double DEG_TO_RAD = M_PI / 180.0;
 
@@ -2258,7 +2227,7 @@ void CreateSergey1() {
 	// Уменьшение счетчиков ссылок динамических объектов ядра
 	::DeleteItem(pSolid);
 }
-void CreateSergey2(double Z) {
+void CreateORing(double Z) {
 
 	MbPlacement3D pl;
 
@@ -2319,7 +2288,7 @@ void CreateSergey2(double Z) {
 	::DeleteItem(pSolid);
 }
 
-void CreateCyl(double start, double length, double radius) {
+void CreateShaft(double start, double length, double radius) {
 	// Именователь граней «по умолчанию»
 	MbSNameMaker names(1, MbSNameMaker::i_SideNone, 0);
 
@@ -2542,54 +2511,53 @@ void CreateSketchHookSection2(RPArray<MbSurface>& _arrSurfaces, RPArray<MbContou
 
 MbAssembly* BuildMathModel::CreatePneumocylinderAssembly(double param_length, double param_diam)
 {
-	double lendif = param_length - 366.8;
+	double lendif = param_length;
 	double raddif = param_diam / 2.0 - 10.0;
 
 	pAsm = new MbAssembly();
 
 	//pAsm->AddItem(*pSolid);
 
-	// Переменные для параметризации 
+	// Переменные для параметризации вала 
 	double start = 0;
 	double length = 0;
 	double radius = 0;
 
 	double DD = 23.6;
-	double Z = 316.05;
 
 	//Shaft
-	CreateCyl(start = 0, length = lendif + 366.8, radius = 10 + raddif);
-	CreateCyl(start = lendif + 366.8, length = 9, radius = 9.4 + raddif);
-	CreateCyl(start = lendif + 375.8, length = 3.5, radius = 6.9 + raddif);
-	CreateCyl(start = lendif + 379.3, length = 28, radius = 8 + raddif);
+	CreateShaft(start = 0, length = lendif + 66.8, radius = 10 + raddif);
+	CreateShaft(start =  lendif + 66.8, length = 9, radius = 9.4 + raddif);
+	CreateShaft(start = lendif + 75.8, length = 3.5, radius = 6.9 + raddif);
+	CreateShaft(start =  lendif + 79.3, length = 28, radius = 8 + raddif);
 	// zero x , y , z 
-	CreateCyl(start = 0, length = -5, radius = 9.2 + raddif);
-	CreateCyl(start = -5, length = -17.5, radius = 7 + raddif);
-	CreateCyl(start = -22.5, length = -3.2, radius = 6.15 + raddif);
-	CreateCyl(start = -25.7, length = -16, radius = 7 + raddif);
+	CreateShaft(start = 0, length = -5, radius = 9.2 + raddif);
+	CreateShaft(start = -5, length = -17.5, radius = 7 + raddif);
+	CreateShaft(start = -22.5, length = -3.2, radius = 6.15 + raddif);
+	CreateShaft(start = -25.7, length = -16, radius = 7 + raddif);
 	//Shaft
 
-	CreateSasha(); // Base
-	CreateDiana(); // Стержень Валла
-	//CreateAlexandr(); // Главное Тело
-	CreateGarnik(); // Seal Housing
-	CreateAlexandra(DD, DD); // 1 болт
-	CreateAlexandra(DD, -DD); // 2 болт
-	CreateAlexandra(-DD, -DD); // 3 болт
-	CreateAlexandra(-DD, DD); // 4 болт
-	CreateAlexandra(-DD, DD, lendif + Z, 1); // 5 болт
-	CreateAlexandra(DD, DD, lendif + Z, 1); // 6 болт
-	CreateAlexandra(DD, -DD, lendif + Z, 1); // 7 болт
-	CreateAlexandra(-DD, -DD, lendif + Z, 1); // 7 болт
-	CreateEgor(); // Socket Head Locking Collar Insert
-	CreateEgor2(DD, DD); // 1 пневмо
-	CreateEgor2(DD, -DD); // 2 пневмо
-	CreateEgor2(-DD, -DD); // 3 пневмо
-	CreateEgor2(-DD, DD); // 4 пневмо
-	CreateAlexandra2(); // Top GUide
-	CreateSergey1(); // Brass Collar
-	CreateSergey2(-19); // O-Ring
-	CreateSergey2(-8.5); // O-Ring 2
+	CreateBase(); // Зарубин
+	CreateShaftPivot(lendif); // Васинкина
+	//CreateMainBody(lendif); // Балобанов
+	CreateSealHousing(); // Гарник
+	CreateBolt(DD, DD); // Фукина
+	CreateBolt(DD, -DD); // 
+	CreateBolt(-DD, -DD); // 
+	CreateBolt(-DD, DD); //
+	CreateBolt(-DD, DD, lendif + 16.05, 1); // 
+	CreateBolt(DD, DD, lendif + 16.05, 1); // 
+	CreateBolt(DD, -DD, lendif + 16.05, 1); //
+	CreateBolt(-DD, -DD, lendif + 16.05, 1); // 
+	CreateSocketHeadLockingCollarInsert(); // Приходько
+	CreateClampingBar(DD, DD, lendif); // Приходько 
+	CreateClampingBar(DD, -DD, lendif); // 
+	CreateClampingBar(-DD, -DD, lendif); // 
+	CreateClampingBar(-DD, DD, lendif); // 
+	CreateTopGuide(lendif); // Фукина
+	CreateBrassCollar(); // Козырь
+	CreateORing(-19); // 
+	CreateORing(-8.5); // 
 
 	return pAsm;
 }
