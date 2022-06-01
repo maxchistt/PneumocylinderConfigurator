@@ -1318,19 +1318,10 @@ void CreateMainBody(double length)
 	MbResultType res9 = ::BooleanResult(*pSolid, cm_Copy, *pSolid4, cm_Copy, bo_Difference, flagsBool, operBoolNames, pSolid);
 	MbResultType res10 = ::BooleanResult(*pSolid, cm_Copy, *pSolid5, cm_Copy, bo_Difference, flagsBool, operBoolNames, pSolid);
 
-	//show(Style( 1, RGB(255,255,255) ), pSolid6);
-	//show( Style( 1, RGB(255,255,255) ), pSolid5);
-	//show( Style( 1, RGB(0,0,0) ), pSolid4);
-	//show( Style( 1, RGB(0,0,0) ), pSolid3);
-
-	//show( Style( 1, RGB(0,0,0) ), pSolid2);
 	pSolid->Move(MbVector3D(MbCartPoint3D(0, 0, 0), MbCartPoint3D(0, 0, -31.5)));
 
 	pSolid->SetColor(BLACK);
 	pAsm->AddItem(*pSolid);
-	//viewManager->AddObject(Style(1, RGB(0, 0, 0)), pSolid);
-
-	//show( Style( 1, RGB(0,0,0) ), pSolid1);
 
 
 }
