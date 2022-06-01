@@ -111,6 +111,7 @@ xcopy /y "$(SolutionDir)C3D\Kernel\$(Configuration)\c3d.dll" "$(SolutionDir)$(Pl
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Build_Base.cpp" />
     <ClCompile Include="ParamsWidget.cpp" />
     <ClCompile Include="Viewer.cpp" />
     <QtRcc Include="MainWindow.qrc" />

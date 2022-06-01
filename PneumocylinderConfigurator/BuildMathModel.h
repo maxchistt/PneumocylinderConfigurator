@@ -168,12 +168,12 @@
 
 #include <assembly.h>
 
-
-
 #include <math_namespace.h>
 #include <last.h>
 
 
 namespace BuildMathModel {
 	MbAssembly* CreatePneumocylinderAssembly(double param_length, double param_diam);
+
+	void CreateBase(MbAssembly* pAsm);
 }
