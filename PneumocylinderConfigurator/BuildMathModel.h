@@ -168,12 +168,24 @@
 
 #include <assembly.h>
 
-
-
 #include <math_namespace.h>
 #include <last.h>
 
+#include "BuildParams.h"
+
 
 namespace BuildMathModel {
-	MbAssembly* CreatePneumocylinderAssembly(double param_length, double param_diam);
+	MbAssembly* CreatePneumocylinderAssembly(BuildParams params);
+
+	void CreateBase(MbAssembly* pAsm);
+	void CreateShaftPivot(MbAssembly* pAsm, double position);
+	void CreateMainBody(MbAssembly* pAsm, double length);
+	void CreateSealHousing(MbAssembly* pAsm);
+	void CreateBolt(MbAssembly* pAsm, double X, double Y, double Z = -31.1, int ANGLE = -1);
+	void CreateSocketHeadLockingCollarInsert(MbAssembly* pAsm);
+	void CreateClampingBar(MbAssembly* pAsm, double X, double Y, double length);
+	void CreateTopGuide(MbAssembly* pAsm, double position);
+	void CreateBrassCollar(MbAssembly* pAsm);
+	void CreateORing(MbAssembly* pAsm, double Z);
+	void CreateShaft(MbAssembly* pAsm, double start, double length, double radius);
 }

@@ -111,6 +111,17 @@ xcopy /y "$(SolutionDir)C3D\Kernel\$(Configuration)\c3d.dll" "$(SolutionDir)$(Pl
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Build_Base.cpp" />
+    <ClCompile Include="Build_Bolt.cpp" />
+    <ClCompile Include="Build_Brass_Collar.cpp" />
+    <ClCompile Include="Build_Clamping_Bar.cpp" />
+    <ClCompile Include="Build_Create_O_Ring.cpp" />
+    <ClCompile Include="Build_Main_Body.cpp" />
+    <ClCompile Include="Build_Seal_Housing.cpp" />
+    <ClCompile Include="Build_Shaft.cpp" />
+    <ClCompile Include="Build_ShaftPivot.cpp" />
+    <ClCompile Include="Build_Socket_Head_Locking_CollarInsert.cpp" />
+    <ClCompile Include="Build_Top_Guide.cpp" />
     <ClCompile Include="ParamsWidget.cpp" />
     <ClCompile Include="Viewer.cpp" />
     <QtRcc Include="MainWindow.qrc" />
@@ -128,6 +139,7 @@ xcopy /y "$(SolutionDir)C3D\Kernel\$(Configuration)\c3d.dll" "$(SolutionDir)$(Pl
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BuildMathModel.h" />
+    <ClInclude Include="BuildParams.h" />
     <ClInclude Include="colorDef.h" />
     <QtMoc Include="ParamsWidget.h" />
     <ClInclude Include="resource.h" />
