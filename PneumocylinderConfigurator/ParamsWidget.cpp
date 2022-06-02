@@ -5,6 +5,7 @@ ParamsWidget::ParamsWidget(QWidget* parent)
 {
 	ui.setupUi(this);
 	setupForm();
+	ui.doubleSpinBox_diam->setDisabled(true);// в связи с незавершенностью параметризации
 	connect(ui.pushButton_build, &QPushButton::clicked, this, &ParamsWidget::applyAndBuild);
 	connect(ui.pushButton_reset, &QPushButton::clicked, this, &ParamsWidget::reset);
 }

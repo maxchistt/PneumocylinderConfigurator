@@ -20,7 +20,7 @@ int main(int argc, char* argv[])
 	app.setApplicationName(u8"Конфигуратор пневмоцилидра");
 	app.setOrganizationName(u8"Центр САПР-разработки московского политеха");
 	app.setOrganizationDomain("https://vk.com/mpu_cloud");
-	app.setApplicationVersion("alpha");
+	app.setApplicationVersion("1.0");
 
 	if (!QtVision::activateLicense())
 		return 0;
