@@ -1,6 +1,4 @@
 #pragma once
-#include "colorDef.h"
-
 #include <cassert>
 
 #include <action.h>
@@ -130,7 +128,6 @@
 #include <cdet_bool.h>
 #include <cdet_data.h>
 #include <cdet_utility.h>
-
 #include <alg_base.h>
 #include <alg_draw.h>
 #include <generic_utility.h>
@@ -146,7 +143,6 @@
 #include "cr_elementary_solid.h"
 #include <vector>
 #include "alg_curve_fillet.h"
-
 #include "cur_line_segment3d.h"
 #include "cur_polyline3d.h"
 #include "cur_contour3d.h"
@@ -156,7 +152,6 @@
 #include "surf_revolution_surface.h"
 #include "action_surface_curve.h"
 #include "action_curve.h"
-
 #include "surf_revolution_surface.h"
 #include "surf_plane.h"
 #include "cur_surface_intersection.h"
@@ -165,27 +160,32 @@
 #include "action_surface_curve.h"
 #include "name_item.h"
 #include "wire_frame.h"
-
 #include <assembly.h>
-
 #include <math_namespace.h>
+
 #include <last.h>
 
+#include "colorDef.h"
 #include "BuildParams.h"
 
 
 namespace BuildMathModel {
-	MbAssembly* CreatePneumocylinderAssembly(BuildParams params);
-
-	void CreateBase(MbAssembly* pAsm);
-	void CreateShaftPivot(MbAssembly* pAsm, double position);
-	void CreateMainBody(MbAssembly* pAsm, double length);
-	void CreateSealHousing(MbAssembly* pAsm);
-	void CreateBolt(MbAssembly* pAsm, double X, double Y, double Z = -31.1, int ANGLE = -1);
-	void CreateSocketHeadLockingCollarInsert(MbAssembly* pAsm);
-	void CreateClampingBar(MbAssembly* pAsm, double X, double Y, double length);
-	void CreateTopGuide(MbAssembly* pAsm, double position);
-	void CreateBrassCollar(MbAssembly* pAsm);
-	void CreateORing(MbAssembly* pAsm, double Z);
-	void CreateShaft(MbAssembly* pAsm, double start, double length, double radius);
+	class ParametricModelCreator {
+	public:
+		static MbModel* CreatePneymocylinderModel(BuildParams params);
+	private:
+		static MbAssembly* CreatePneumocylinderAssembly(BuildParams params);
+	private:
+		static void CreateBase(MbAssembly* pAsm);
+		static void CreateShaftPivot(MbAssembly* pAsm, double position);
+		static void CreateMainBody(MbAssembly* pAsm, double length);
+		static void CreateSealHousing(MbAssembly* pAsm);
+		static void CreateBolt(MbAssembly* pAsm, double X, double Y, double Z = -31.1, int ANGLE = -1);
+		static void CreateSocketHeadCollar(MbAssembly* pAsm);
+		static void CreateClampingBar(MbAssembly* pAsm, double X, double Y, double length);
+		static void CreateTopGuide(MbAssembly* pAsm, double position);
+		static void CreateBrassCollar(MbAssembly* pAsm);
+		static void CreateORing(MbAssembly* pAsm, double Z);
+		static void CreateShaft(MbAssembly* pAsm, double start, double length, double radius);
+	};
 }

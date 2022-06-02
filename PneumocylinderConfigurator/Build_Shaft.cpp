@@ -4,7 +4,7 @@ using namespace c3d;
 using namespace std;
 using namespace BuildMathModel;
 
-void BuildMathModel::CreateShaft(MbAssembly* pAsm, double start, double length, double radius) {
+void ParametricModelCreator::CreateShaft(MbAssembly* pAsm, double start, double length, double radius) {
 	// Именователь граней «по умолчанию»
 	MbSNameMaker names(1, MbSNameMaker::i_SideNone, 0);
 

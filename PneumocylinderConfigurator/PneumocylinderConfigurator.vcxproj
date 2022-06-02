@@ -111,6 +111,7 @@ xcopy /y "$(SolutionDir)C3D\Kernel\$(Configuration)\c3d.dll" "$(SolutionDir)$(Pl
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Build_Assembly.cpp" />
     <ClCompile Include="Build_Base.cpp" />
     <ClCompile Include="Build_Bolt.cpp" />
     <ClCompile Include="Build_Brass_Collar.cpp" />
@@ -120,7 +121,7 @@ xcopy /y "$(SolutionDir)C3D\Kernel\$(Configuration)\c3d.dll" "$(SolutionDir)$(Pl
     <ClCompile Include="Build_Seal_Housing.cpp" />
     <ClCompile Include="Build_Shaft.cpp" />
     <ClCompile Include="Build_ShaftPivot.cpp" />
-    <ClCompile Include="Build_Socket_Head_Locking_CollarInsert.cpp" />
+    <ClCompile Include="Build_Socket_Head_Collar.cpp" />
     <ClCompile Include="Build_Top_Guide.cpp" />
     <ClCompile Include="ParamsWidget.cpp" />
     <ClCompile Include="Viewer.cpp" />

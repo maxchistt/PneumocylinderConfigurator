@@ -196,7 +196,7 @@ void CreateSketch7(RPArray<MbContour>& _arrContours7)
 }
 
 //Функции по созданию деталей ребят
-void BuildMathModel::CreateBase(MbAssembly* pAsm)
+void ParametricModelCreator::CreateBase(MbAssembly* pAsm)
 {
 	// Множитель для преобразования углов из градусной в радианную меру.
 	const double DEG_TO_RAD = M_PI / 180.0;

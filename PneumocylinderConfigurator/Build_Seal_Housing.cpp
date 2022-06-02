@@ -4,7 +4,7 @@ using namespace c3d;
 using namespace std;
 using namespace BuildMathModel;
 
-void BuildMathModel::CreateSealHousing(MbAssembly* pAsm)
+void ParametricModelCreator::CreateSealHousing(MbAssembly* pAsm)
 {
 	// Множитель для преобразования угловых значений из градусов в радианы
 	const double DEG_TO_RAD = M_PI / 180.0;

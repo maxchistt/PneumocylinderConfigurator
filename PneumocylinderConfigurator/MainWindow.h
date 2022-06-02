@@ -29,10 +29,10 @@ private:
 	MbModel* currentMathModel = nullptr;
 	Ui::MainWindowClass ui;
 	Viewer* viewer = Q_NULLPTR;
-	ParamsWidget* params = Q_NULLPTR;
+	ParamsWidget* paramsWidget = Q_NULLPTR;
 
 	void drawMathScene();
-	void setNewMathGeoms(MbItem& item);
+	void setNewMathGeoms(MbModel* mathModel);
 
 	c3d::path_string getFilePath(bool save = true);
 	void exportCurrentModel(c3d::path_string path);

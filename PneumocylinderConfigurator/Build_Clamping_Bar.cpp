@@ -42,7 +42,7 @@ void CreateSketchEgorClampingBar(RPArray<MbContour>& _arrContours, double length
 	::DeleteItem(pPolyline);
 }
 
-void BuildMathModel::CreateClampingBar(MbAssembly* pAsm, double X, double Y, double length)
+void ParametricModelCreator::CreateClampingBar(MbAssembly* pAsm, double X, double Y, double length)
 {
 	// Множитель для преобразования угловых значений из градусов в радианы
 	const double DEG_TO_RAD = M_PI / 180.0;

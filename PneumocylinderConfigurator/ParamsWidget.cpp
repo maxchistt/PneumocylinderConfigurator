@@ -14,7 +14,7 @@ ParamsWidget::~ParamsWidget()
 {
 }
 
-BuildParams ParamsWidget::getParams()
+BuildMathModel::BuildParams ParamsWidget::getParams()
 {
 	updateParams();
 	return modelParams;
@@ -42,6 +42,6 @@ void ParamsWidget::applyAndBuild()
 
 void ParamsWidget::reset()
 {
-	modelParams = BuildParams();
+	modelParams = BuildMathModel::BuildParams();
 	setupForm();
 }

@@ -12,11 +12,11 @@ public:
 	ParamsWidget(QWidget* parent = Q_NULLPTR);
 	~ParamsWidget();
 
-	BuildParams getParams();
+	BuildMathModel::BuildParams getParams();
 
 private:
 	Ui::ParamsWidget ui;
-	BuildParams modelParams;
+	BuildMathModel::BuildParams modelParams;
 	void updateParams();
 	void setupForm();
 

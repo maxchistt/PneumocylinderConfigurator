@@ -5,7 +5,7 @@ using namespace std;
 using namespace BuildMathModel;
 
 //Функции по созданию деталей ребят
-void BuildMathModel::CreateBolt(MbAssembly* pAsm, double X, double Y, double Z , int ANGLE )
+void ParametricModelCreator::CreateBolt(MbAssembly* pAsm, double X, double Y, double Z , int ANGLE )
 {
 	MbSolid* pCyl = NULL;
 

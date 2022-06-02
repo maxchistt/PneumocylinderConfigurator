@@ -4,7 +4,7 @@ using namespace c3d;
 using namespace std;
 using namespace BuildMathModel;
 
-void BuildMathModel::CreateORing(MbAssembly* pAsm, double Z) {
+void ParametricModelCreator::CreateORing(MbAssembly* pAsm, double Z) {
 
 	MbPlacement3D pl;
 

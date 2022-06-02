@@ -164,7 +164,7 @@ void CreateSketchTopGuide5(RPArray<MbContour>& _arrContours5)
 	//::DeleteItem(pContourPolyline);
 }
 
-void BuildMathModel::CreateTopGuide(MbAssembly* pAsm, double position) {
+void ParametricModelCreator::CreateTopGuide(MbAssembly* pAsm, double position) {
 
 	// Множитель для преобразования углов из градусной в радианную меру.
 	const double DEG_TO_RAD = M_PI / 180.0;

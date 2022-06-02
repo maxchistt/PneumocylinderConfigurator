@@ -64,7 +64,7 @@
     <ClCompile Include="Build_Bolt.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Build_Socket_Head_Locking_CollarInsert.cpp">
+    <ClCompile Include="Build_Socket_Head_Collar.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Build_Clamping_Bar.cpp">
@@ -80,6 +80,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Build_Shaft.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Build_Assembly.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -40,7 +40,7 @@ void CreateSketchCollar(RPArray<MbContour>& _arrContours)
 	::DeleteItem(pPolyline);
 }
 
-void BuildMathModel::CreateBrassCollar(MbAssembly* pAsm) {
+void ParametricModelCreator::CreateBrassCollar(MbAssembly* pAsm) {
 	// Множитель для преобразования угловых значений из градусов в радианы
 	const double DEG_TO_RAD = M_PI / 180.0;
 

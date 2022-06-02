@@ -34,7 +34,7 @@ void CreateSketchShaftPivot(RPArray<MbContour>& _arrContours)
 	::DeleteItem(pPolyline);
 }
 
-void BuildMathModel::CreateShaftPivot(MbAssembly* pAsm, double position)
+void ParametricModelCreator::CreateShaftPivot(MbAssembly* pAsm, double position)
 {
 	//Построение параллелепипеда    
 	MbPlacement3D pl;

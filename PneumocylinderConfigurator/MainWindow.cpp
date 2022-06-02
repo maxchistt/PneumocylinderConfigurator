@@ -7,10 +7,10 @@ MainWindow::MainWindow(QWidget* parent)
 	unsetCurrentModel();
 
 	viewer = ui.widget_viewer;
-	params = ui.widget_params;
+	paramsWidget = ui.widget_params;
 
 	//запуск создания сцены
-	connect(params, &ParamsWidget::buildSignal, this, &MainWindow::makeCylinderMathGeomSlot);
+	connect(paramsWidget, &ParamsWidget::buildSignal, this, &MainWindow::makeCylinderMathGeomSlot);
 	connect(ui.action_build_pneumocyl, &QAction::triggered, this, &MainWindow::makeCylinderMathGeomSlot);
 	connect(ui.action_clear, &QAction::triggered, this, &MainWindow::clearModelAndSceneSlot);
 
@@ -38,28 +38,24 @@ void MainWindow::drawMathScene()
 	viewer->fitSceneSlot();
 }
 
-void MainWindow::setNewMathGeoms(MbItem& asmItem)
+void MainWindow::setNewMathGeoms(MbModel* mathModel)
 {
 	unsetCurrentModel();
-	MbModel* newModelToShow = new MbModel();
-	newModelToShow->AddItem(asmItem);
-	setCurrentModel(newModelToShow);
+	setCurrentModel(mathModel);
 	drawMathScene();
 }
 
 void MainWindow::makeCylinderMathGeomSlot()
 {
-	BuildParams modelParams = params->getParams();
-	auto item = BuildMathModel::CreatePneumocylinderAssembly(modelParams);
-	setNewMathGeoms(*item);
-	::DeleteItem(item);
+	BuildMathModel::BuildParams modelParams = paramsWidget->getParams();
+	MbModel* newModelToShow = BuildMathModel::ParametricModelCreator::CreatePneymocylinderModel(modelParams);
+	setNewMathGeoms(newModelToShow);
 }
 
 void MainWindow::clearModelAndSceneSlot()
 {
 	viewer->clearScene();
 	unsetCurrentModel();
-
 }
 
 c3d::path_string MainWindow::getFilePath(bool save)

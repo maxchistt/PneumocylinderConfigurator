@@ -78,7 +78,7 @@ void CreateSketchEgor2(RPArray<MbContour>& _arrContours)
 	::DeleteItem(pPolyline);
 }
 
-void BuildMathModel::CreateSocketHeadLockingCollarInsert(MbAssembly* pAsm)
+void ParametricModelCreator::CreateSocketHeadCollar(MbAssembly* pAsm)
 {
 	// Множитель для преобразования угловых значений из градусов в радианы
 	const double DEG_TO_RAD = M_PI / 180.0;

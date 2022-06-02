@@ -4,7 +4,7 @@ using namespace c3d;
 using namespace std;
 using namespace BuildMathModel;
 
-void BuildMathModel::CreateMainBody(MbAssembly* pAsm, double length)
+void ParametricModelCreator::CreateMainBody(MbAssembly* pAsm, double length)
 {
 	MbCartPoint p0(16.489, 22.63);
 	MbCartPoint p1(20, 30.5);
