@@ -34,7 +34,7 @@ void CreateSketch(RPArray<MbContour>& _arrContours)
 
 	_arrContours.push_back(pContourPolyline);
 
-
+	::DeleteItem(pPolyline);
 
 }
 void CreateSketch2(RPArray<MbContour>& _arrContours2)
@@ -62,6 +62,7 @@ void CreateSketch2(RPArray<MbContour>& _arrContours2)
 	pContourPolyline2->FilletTwoSegments(idxSideRight3, 0);
 
 	_arrContours2.push_back(pContourPolyline2);
+	::DeleteItem(pPolyline2);
 }
 void CreateSketch3(RPArray<MbContour>& _arrContours3)
 {
@@ -88,6 +89,7 @@ void CreateSketch3(RPArray<MbContour>& _arrContours3)
 	pContourPolyline->FilletTwoSegments(idxSideRight3, 0);
 
 	_arrContours3.push_back(pContourPolyline);
+	::DeleteItem(pPolyline);
 }
 void CreateSketch4(RPArray<MbContour>& _arrContours4)
 {
@@ -114,6 +116,7 @@ void CreateSketch4(RPArray<MbContour>& _arrContours4)
 	pContourPolyline->FilletTwoSegments(idxSideRight3, 0);
 
 	_arrContours4.push_back(pContourPolyline);
+	::DeleteItem(pPolyline);
 }
 void CreateSketch5(RPArray<MbContour>& _arrContours5)
 {
@@ -139,6 +142,7 @@ void CreateSketch5(RPArray<MbContour>& _arrContours5)
 	pContourPolyline->FilletTwoSegments(idxSideRight3, 0);
 
 	_arrContours5.push_back(pContourPolyline);
+	::DeleteItem(pPolyline);
 }
 void CreateSketch6(RPArray<MbContour>& _arrContours6)
 {
@@ -470,6 +474,8 @@ void BuildMathModel::CreateBase(MbAssembly* pAsm)
 	::DeleteItem(pSolid10);
 	::DeleteItem(pSolid11);
 	::DeleteItem(pSolid12);
+	::DeleteItem(pSolid13);
+	::DeleteItem(pSolid14);
 	::DeleteItem(pCyl1_Solid);
 	::DeleteItem(pCyl2_Solid);
 	::DeleteItem(pCyl3_Solid);
@@ -478,4 +484,11 @@ void BuildMathModel::CreateBase(MbAssembly* pAsm)
 	::DeleteItem(pCyl6_Solid);
 	::DeleteItem(pCyl7_Solid);
 	::DeleteItem(pCyl8_Solid);
+	::DeleteItem(pCyl9_Solid);
+	::DeleteItem(pCyl10_Solid);
+	::DeleteItem(pPlaneXY);
+	::DeleteItem(pPlaneXZ);
+	::DeleteItem(pPlaneXZCen);
+	::DeleteItem(pPlaneYZ);
+	::DeleteItem(pPlaneYZCen);
 }

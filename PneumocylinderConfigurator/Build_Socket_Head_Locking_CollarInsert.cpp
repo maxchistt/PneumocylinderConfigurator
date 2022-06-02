@@ -38,6 +38,7 @@ void CreateSketchEgor(RPArray<MbContour>& _arrContours)
 	pContourPolyline->FilletTwoSegments(idxSideRight3, 0);
 
 	_arrContours.push_back(pContourPolyline);
+	::DeleteItem(pPolyline);
 }
 void CreateSketchEgor2(RPArray<MbContour>& _arrContours)
 {
@@ -74,6 +75,7 @@ void CreateSketchEgor2(RPArray<MbContour>& _arrContours)
 	pContourPolyline->FilletTwoSegments(idxSideRight3, 0);
 
 	_arrContours.push_back(pContourPolyline);
+	::DeleteItem(pPolyline);
 }
 
 void BuildMathModel::CreateSocketHeadLockingCollarInsert(MbAssembly* pAsm)

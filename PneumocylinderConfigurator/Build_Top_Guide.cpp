@@ -33,7 +33,7 @@ void CreateSketchTopGuide(RPArray<MbContour>& _arrContours)
 
 	_arrContours.push_back(pContourPolyline);
 
-
+	::DeleteItem(pPolyline);
 
 }
 void CreateSketchTopGuide2(RPArray<MbContour>& _arrContours2)
@@ -72,6 +72,7 @@ void CreateSketchTopGuide2(RPArray<MbContour>& _arrContours2)
 	///// 
 
 	_arrContours2.push_back(pContourPolyline2);
+	::DeleteItem(pPolyline2);
 }
 void CreateSketchTopGuide3(RPArray<MbContour>& _arrContours3)
 {
@@ -98,6 +99,7 @@ void CreateSketchTopGuide3(RPArray<MbContour>& _arrContours3)
 	pContourPolyline->FilletTwoSegments(idxSideRight3, 0);
 
 	_arrContours3.push_back(pContourPolyline);
+	::DeleteItem(pPolyline);
 }
 void CreateSketchTopGuide4(RPArray<MbContour>& _arrContours4)
 {
@@ -124,6 +126,7 @@ void CreateSketchTopGuide4(RPArray<MbContour>& _arrContours4)
 	pContourPolyline->FilletTwoSegments(idxSideRight3, 0);
 
 	_arrContours4.push_back(pContourPolyline);
+	::DeleteItem(pPolyline);
 }
 void CreateSketchTopGuide5(RPArray<MbContour>& _arrContours5)
 {
@@ -156,6 +159,9 @@ void CreateSketchTopGuide5(RPArray<MbContour>& _arrContours5)
 	bool isCurvilinear = pContourPolyline->IsAnyCurvilinear(); // true
 
 	_arrContours5.push_back(pContourPolyline);
+	::DeleteItem(pPolyline);
+	::DeleteItem(pArc);
+	//::DeleteItem(pContourPolyline);
 }
 
 void BuildMathModel::CreateTopGuide(MbAssembly* pAsm, double position) {
@@ -441,4 +447,35 @@ void BuildMathModel::CreateTopGuide(MbAssembly* pAsm, double position) {
 	// Уменьшение счетчиков ссылок динамически созданных объектов ядра
 	::DeleteItem(pSolid);
 	::DeleteItem(pSolid2);
+	::DeleteItem(pSolid3);
+	::DeleteItem(pSolid4);
+	::DeleteItem(pSolid5);
+	::DeleteItem(pSolid6);
+	::DeleteItem(pSolid7);
+	::DeleteItem(pSolid8);
+	::DeleteItem(pSolid9);
+	::DeleteItem(pSolid10);
+	::DeleteItem(pSolid11);
+	::DeleteItem(pSolid12);
+	::DeleteItem(pSolid13);
+	::DeleteItem(pSolid14);
+
+	::DeleteItem(pCyl1_Solid);
+	::DeleteItem(pCyl2_Solid);
+	::DeleteItem(pCyl3_Solid);
+	::DeleteItem(pCyl4_Solid);
+	::DeleteItem(pCyl5_Solid);
+	::DeleteItem(pCyl6_Solid);
+	::DeleteItem(pCyl7_Solid);
+	::DeleteItem(pCyl8_Solid);
+	::DeleteItem(pCyl9_Solid);
+	::DeleteItem(pCyl10_Solid);
+	::DeleteItem(pCyl11_Solid);
+	::DeleteItem(pCyl12_Solid);
+
+	::DeleteItem(pPlaneXY);
+	::DeleteItem(pPlaneXZ);
+	::DeleteItem(pPlaneXZCen);
+	::DeleteItem(pPlaneYZ);
+	::DeleteItem(pPlaneYZCen);
 }

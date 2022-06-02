@@ -126,5 +126,17 @@ void BuildMathModel::CreateSealHousing(MbAssembly* pAsm)
 	pAsm->AddItem(*m_pResSolid);
 	//viewManager->AddObject(Style(1, BLACK), m_pResSolid);
 
+	for (auto item : *ptrContours) {
+		::DeleteItem(item);
+	}
+	::DeleteMatItem(pCurves);
+	::DeleteMatItem(ptrContours);
+	::DeleteMatItem(place);
 
+	//::DeleteItem(ptrSurface);
+	//::DeleteItem(ptrContour);
+	//::DeleteItem(Seg1);
+	//::DeleteItem(Seg2);
+	//::DeleteItem(Seg3);
+	
 }

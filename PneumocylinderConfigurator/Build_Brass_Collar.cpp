@@ -36,6 +36,8 @@ void CreateSketchCollar(RPArray<MbContour>& _arrContours)
 	pContourPolyline->FilletTwoSegments(idxSideRight3, 0);
 
 	_arrContours.push_back(pContourPolyline);
+
+	::DeleteItem(pPolyline);
 }
 
 void BuildMathModel::CreateBrassCollar(MbAssembly* pAsm) {

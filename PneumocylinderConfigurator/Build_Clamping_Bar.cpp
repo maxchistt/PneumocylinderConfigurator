@@ -39,6 +39,7 @@ void CreateSketchEgorClampingBar(RPArray<MbContour>& _arrContours, double length
 	pContourPolyline->FilletTwoSegments(idxSideRight3, 0);
 
 	_arrContours.push_back(pContourPolyline);
+	::DeleteItem(pPolyline);
 }
 
 void BuildMathModel::CreateClampingBar(MbAssembly* pAsm, double X, double Y, double length)
@@ -103,5 +104,6 @@ void BuildMathModel::CreateClampingBar(MbAssembly* pAsm, double X, double Y, dou
 
 	// Уменьшение счетчиков ссылок динамических объектов ядра
 	::DeleteItem(pSolid);
+	//::DeleteItem(pPlaneXY);
 
 }

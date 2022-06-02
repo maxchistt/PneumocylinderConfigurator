@@ -226,5 +226,6 @@ void BuildMathModel::CreateBolt(MbAssembly* pAsm, double X, double Y, double Z ,
 	::DeleteItem(pSolidSh);
 	::DeleteItem(pResult1);
 	::DeleteItem(pResult);
+	::DeleteItem(pPlaneXZ);
 
 }

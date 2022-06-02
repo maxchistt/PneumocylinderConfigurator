@@ -6,6 +6,7 @@ using namespace BuildMathModel;
 
 MbAssembly* pAsm = nullptr;
 
+/*
 void CreateSketchHookSection1(RPArray<MbSurface>& _arrSurfaces, RPArray<MbContour>& _arrContours, double angle, double OFS_X, double OFS_Y, double OFS_Z, double diam)
 {
 	//создаем положение в пространстве для плоскости эскиза по трем точкам
@@ -180,7 +181,7 @@ void CreateSketchHookSection2(RPArray<MbSurface>& _arrSurfaces, RPArray<MbContou
 	_arrSurfaces.push_back(pSurf2);
 	_arrContours.push_back(pContour2);
 }
-
+*/
 
 MbAssembly* BuildMathModel::CreatePneumocylinderAssembly(double param_length, double param_diam)
 {
