@@ -171,9 +171,11 @@
 #include <math_namespace.h>
 #include <last.h>
 
+#include "BuildParams.h"
+
 
 namespace BuildMathModel {
-	MbAssembly* CreatePneumocylinderAssembly(double param_length, double param_diam);
+	MbAssembly* CreatePneumocylinderAssembly(BuildParams params);
 
 	void CreateBase(MbAssembly* pAsm);
 	void CreateShaftPivot(MbAssembly* pAsm, double position);

@@ -10,9 +10,9 @@ MbAssembly* pAsm = nullptr;
 void CreateSketchHookSection1(RPArray<MbSurface>& _arrSurfaces, RPArray<MbContour>& _arrContours, double angle, double OFS_X, double OFS_Y, double OFS_Z, double diam)
 {
 	//создаем положение в пространстве для плоскости эскиза по трем точкам
-	// Положение создается по тем точкам. Первая точка создается относительно нулевой координате. 
-	// При этом каждая точка имеет оступы OFS_X, OFS_Y, OFS_Z по соответсвующим координатам, задающие отступ в пространстве относительно начала координат. 
-	// Вторая точка имеет отсупы std::cos(-angle * M_PI / 180) и std::sin(-angle * M_PI / 180) по X и Y осям соответственно относительно первой. Эти отступы задают наклон плоскости относительно оси Z. 
+	// Положение создается по тем точкам. Первая точка создается относительно нулевой координате.
+	// При этом каждая точка имеет оступы OFS_X, OFS_Y, OFS_Z по соответсвующим координатам, задающие отступ в пространстве относительно начала координат.
+	// Вторая точка имеет отсупы std::cos(-angle * M_PI / 180) и std::sin(-angle * M_PI / 180) по X и Y осям соответственно относительно первой. Эти отступы задают наклон плоскости относительно оси Z.
 	// Третья точка имеет единичный отступ по оси Z, чтобы по этим тем точкам можно было построить плоскость, наклоненную относительно этой оси
   //  MbPlacement3D plSurf1(
   //      MbCartPoint3D(OFS_X - 20, OFS_Y , OFS_Z),
@@ -77,9 +77,9 @@ void CreateSketchHookSection1(RPArray<MbSurface>& _arrSurfaces, RPArray<MbContou
 void CreateSketchHookSection(RPArray<MbSurface>& _arrSurfaces, RPArray<MbContour>& _arrContours, double angle, double OFS_X, double OFS_Y, double OFS_Z, double diam)
 {
 	//создаем положение в пространстве для плоскости эскиза по трем точкам
-	// Положение создается по тем точкам. Первая точка создается относительно нулевой координате. 
-	// При этом каждая точка имеет оступы OFS_X, OFS_Y, OFS_Z по соответсвующим координатам, задающие отступ в пространстве относительно начала координат. 
-	// Вторая точка имеет отсупы std::cos(-angle * M_PI / 180) и std::sin(-angle * M_PI / 180) по X и Y осям соответственно относительно первой. Эти отступы задают наклон плоскости относительно оси Z. 
+	// Положение создается по тем точкам. Первая точка создается относительно нулевой координате.
+	// При этом каждая точка имеет оступы OFS_X, OFS_Y, OFS_Z по соответсвующим координатам, задающие отступ в пространстве относительно начала координат.
+	// Вторая точка имеет отсупы std::cos(-angle * M_PI / 180) и std::sin(-angle * M_PI / 180) по X и Y осям соответственно относительно первой. Эти отступы задают наклон плоскости относительно оси Z.
 	// Третья точка имеет единичный отступ по оси Z, чтобы по этим тем точкам можно было построить плоскость, наклоненную относительно этой оси
 	MbPlacement3D plSurf(
 		MbCartPoint3D(OFS_X, OFS_Y, OFS_Z),
@@ -132,9 +132,9 @@ void CreateSketchHookSection(RPArray<MbSurface>& _arrSurfaces, RPArray<MbContour
 void CreateSketchHookSection2(RPArray<MbSurface>& _arrSurfaces, RPArray<MbContour>& _arrContours, double angle, double OFS_X, double OFS_Y, double OFS_Z, double diam)
 {
 	//создаем положение в пространстве для плоскости эскиза по трем точкам
-	// Положение создается по тем точкам. Первая точка создается относительно нулевой координате. 
-	// При этом каждая точка имеет оступы OFS_X, OFS_Y, OFS_Z по соответсвующим координатам, задающие отступ в пространстве относительно начала координат. 
-	// Вторая точка имеет отсупы std::cos(-angle * M_PI / 180) и std::sin(-angle * M_PI / 180) по X и Y осям соответственно относительно первой. Эти отступы задают наклон плоскости относительно оси Z. 
+	// Положение создается по тем точкам. Первая точка создается относительно нулевой координате.
+	// При этом каждая точка имеет оступы OFS_X, OFS_Y, OFS_Z по соответсвующим координатам, задающие отступ в пространстве относительно начала координат.
+	// Вторая точка имеет отсупы std::cos(-angle * M_PI / 180) и std::sin(-angle * M_PI / 180) по X и Y осям соответственно относительно первой. Эти отступы задают наклон плоскости относительно оси Z.
 	// Третья точка имеет единичный отступ по оси Z, чтобы по этим тем точкам можно было построить плоскость, наклоненную относительно этой оси
 	MbPlacement3D plSurf2(
 		MbCartPoint3D(OFS_X, OFS_Y, OFS_Z),
@@ -183,8 +183,12 @@ void CreateSketchHookSection2(RPArray<MbSurface>& _arrSurfaces, RPArray<MbContou
 }
 */
 
-MbAssembly* BuildMathModel::CreatePneumocylinderAssembly(double param_length, double param_diam)
+MbAssembly* BuildMathModel::CreatePneumocylinderAssembly(BuildParams params)
 {
+	double param_length = params.length;
+	double param_diam = params.diam;
+	bool create_frame = params.frame;
+
 	double lendif = param_length;
 	double raddif = param_diam / 2.0 - 10.0;
 
@@ -213,7 +217,7 @@ MbAssembly* BuildMathModel::CreatePneumocylinderAssembly(double param_length, do
 
 	CreateBase(pAsm); // Зарубин
 	CreateShaftPivot(pAsm, lendif); // Васинкина
-	//CreateMainBody(pAsm, lendif); // Балобанов
+	if (create_frame) CreateMainBody(pAsm, lendif); // Балобанов
 	CreateSealHousing(pAsm); // Гарник
 	CreateBolt(pAsm, DD, DD); // Фукина
 	CreateBolt(pAsm, DD, -DD); // 

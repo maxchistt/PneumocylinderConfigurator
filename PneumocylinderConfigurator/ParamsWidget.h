@@ -2,6 +2,7 @@
 
 #include <QWidget>
 #include "ui_ParamsWidget.h"
+#include "BuildParams.h"
 
 class ParamsWidget : public QWidget
 {
@@ -10,12 +11,6 @@ class ParamsWidget : public QWidget
 public:
 	ParamsWidget(QWidget* parent = Q_NULLPTR);
 	~ParamsWidget();
-
-	struct BuildParams
-	{
-		double diam = 20.0;
-		double length = 300;
-	};
 
 	BuildParams getParams();
 

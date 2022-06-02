@@ -13,6 +13,8 @@
 #include <QFileDialog>
 #include <QMessageBox>
 
+#include "BuildParams.h"
+
 VSN_USE_NAMESPACE
 
 class MainWindow : public QMainWindow
