@@ -9,13 +9,12 @@ MainWindow::MainWindow(QWidget* parent)
 	viewer = ui.widget_viewer;
 	paramsWidget = ui.widget_params;
 
+	fileController = new FileController(this);
+
 	//запуск создания сцены
 	connect(paramsWidget, &ParamsWidget::buildSignal, this, &MainWindow::makeCylinderMathGeomSlot);
 	connect(ui.action_build_pneumocyl, &QAction::triggered, this, &MainWindow::makeCylinderMathGeomSlot);
 	connect(ui.action_clear, &QAction::triggered, this, &MainWindow::clearModelAndSceneSlot);
-
-	connect(ui.action_save, &QAction::triggered, this, &MainWindow::saveFileSlot);
-	connect(ui.action_open, &QAction::triggered, this, &MainWindow::openFileSlot);
 
 	connect(ui.action_about, &QAction::triggered, this, &MainWindow::aboutSlot);
 	connect(ui.action_aboutqt, &QAction::triggered, this, &MainWindow::aboutQtSlot);
@@ -24,6 +23,13 @@ MainWindow::MainWindow(QWidget* parent)
 	connect(ui.action_nextOrientation, &QAction::triggered, viewer, &Viewer::nextOrientationSlot);
 
 	connect(ui.action_params, &QAction::triggered, this, &MainWindow::showParams);
+
+	connect(ui.action_save, &QAction::triggered, fileController, &FileController::saveFileSlot);
+	connect(ui.action_open, &QAction::triggered, fileController, &FileController::openFileSlot);
+
+	connect(fileController, &FileController::modelExportedSignal, this, &MainWindow::onModelExportedSlot);
+	connect(fileController, &FileController::modelImportedSignal, this, &MainWindow::onModelImportedSlot);
+	connect(fileController, &FileController::getModelSignal, this, &MainWindow::giveModelSlot);
 }
 
 MainWindow::~MainWindow()
@@ -58,35 +64,6 @@ void MainWindow::clearModelAndSceneSlot()
 	unsetCurrentModel();
 }
 
-c3d::path_string MainWindow::getFilePath(bool save)
-{
-	const QString defaultPath = "D:/C3D_files/MyModel.c3d";
-	const QString fileFilter = "Geometric models (*.c3d *.stp *.step *.STEP *.IGES *.SAT *.X_T *.X_B *.STL *.VRML *.JT)";
-	QString fileName = save
-		? QFileDialog::getSaveFileName(this, u8"Сохранить в файл", defaultPath, fileFilter)
-		: QFileDialog::getOpenFileName(this, u8"Открыть из файла", defaultPath, fileFilter);
-	fileName.replace("/", "\\");
-	fileName.replace(":", ":\\");
-	c3d::path_string path = c3d::StdToPathstring(fileName.toStdString());
-	return path;
-}
-
-void MainWindow::exportCurrentModel(c3d::path_string path)
-{
-	c3d::ExportIntoFile(*currentMathModel, path);
-	drawMathScene();
-}
-
-void MainWindow::importCurrentModel(c3d::path_string path)
-{
-	MbModel* importModel = new MbModel();
-	MbeConvResType importRes = c3d::ImportFromFile(*importModel, path);
-
-	if (importRes == MbeConvResType::cnv_Success) setCurrentModel(importModel);
-
-	drawMathScene();
-}
-
 void MainWindow::setCurrentModel(MbModel* model)
 {
 	unsetCurrentModel();
@@ -96,23 +73,6 @@ void MainWindow::setCurrentModel(MbModel* model)
 void MainWindow::unsetCurrentModel()
 {
 	::DeleteMatItem(currentMathModel);
-}
-
-void MainWindow::saveFileSlot()
-{
-	if (currentMathModel) {
-		c3d::path_string path = getFilePath();
-		if (!path.empty()) exportCurrentModel(path);
-	}
-	else {
-		QMessageBox::information(this, u8"Предупреждение", u8"Нечего сохранять");
-	}
-}
-
-void MainWindow::openFileSlot()
-{
-	c3d::path_string path = getFilePath(false);
-	if (!path.empty()) importCurrentModel(path);
 }
 
 void MainWindow::aboutSlot()
@@ -137,4 +97,19 @@ void MainWindow::aboutQtSlot()
 void MainWindow::showParams()
 {
 	ui.dockWidget_params->setVisible(!ui.dockWidget_params->isVisible());
+}
+
+void MainWindow::giveModelSlot(MbModel*& modelPtrRef)
+{
+	modelPtrRef = currentMathModel;
+}
+
+void MainWindow::onModelImportedSlot(MbModel* modelPtr)
+{
+	setNewMathGeoms(modelPtr);
+}
+
+void MainWindow::onModelExportedSlot()
+{
+	drawMathScene();
 }

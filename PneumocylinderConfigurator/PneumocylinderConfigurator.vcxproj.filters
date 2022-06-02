@@ -85,6 +85,9 @@
     <ClCompile Include="Build_Assembly.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="FileController.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="colorDef.h">
@@ -105,6 +108,9 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="ParamsWidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="FileController.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
