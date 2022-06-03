@@ -11,6 +11,8 @@ ParamsWidget::ParamsWidget(QWidget* parent)
 	ui.comboBox_lighttype->addItem("point", QVariant(0));
 	ui.comboBox_lighttype->addItem("direction", QVariant(1));
 	ui.comboBox_lighttype->addItem("spot", QVariant(2));
+	ui.comboBox_colorScheme->addItem("White/Gray", QVariant(0));
+	ui.comboBox_colorScheme->addItem("Red/Blue", QVariant(1));
 
 	setupForm_model();
 	setupForm_scene();
@@ -41,6 +43,7 @@ void ParamsWidget::updateParams_model()
 	modelParams.diam = ui.doubleSpinBox_diam->value();
 	modelParams.length = ui.doubleSpinBox_length->value();
 	modelParams.frame = ui.checkBox_frame->checkState() == Qt::CheckState::Checked;
+	modelParams.colorScheme = ui.comboBox_colorScheme->currentIndex();
 }
 
 void ParamsWidget::setupForm_model()
@@ -48,6 +51,7 @@ void ParamsWidget::setupForm_model()
 	ui.doubleSpinBox_diam->setValue(modelParams.diam);
 	ui.doubleSpinBox_length->setValue(modelParams.length);
 	ui.checkBox_frame->setCheckState(modelParams.frame ? Qt::CheckState::Checked : Qt::CheckState::Unchecked);
+	ui.comboBox_colorScheme->setCurrentIndex(modelParams.colorScheme ? 1 : 0);
 }
 
 void ParamsWidget::updateParams_scene()
