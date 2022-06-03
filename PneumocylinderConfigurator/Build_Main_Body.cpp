@@ -333,8 +333,6 @@ void ParametricModelCreator::CreateMainBody(MbAssembly* pAsm, double length)
 
 	pSolid->Move(MbVector3D(MbCartPoint3D(0, 0, 0), MbCartPoint3D(0, 0, -31.5)));
 
-	pSolid->SetColor(BLACK);
+	pSolid->SetColor(ParametricModelCreator::colorScheme ? BLACK : RGB(10,20,20));
 	pAsm->AddItem(*pSolid);
-
-
 }

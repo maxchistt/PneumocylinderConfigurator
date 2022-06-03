@@ -188,7 +188,7 @@ void ParametricModelCreator::CreateSocketHeadCollar(MbAssembly* pAsm)
 		pSolid2->Rotate(axVertX, M_PI);
 		pSolid2->Move(MbVector3D(MbCartPoint3D(0, 0, 0), MbCartPoint3D(0, 0, -54)));
 
-		pSolid2->SetColor(LIGHTGRAY);
+		pSolid2->SetColor(ParametricModelCreator::colorScheme ? LIGHTGRAY : BLACK);
 		pAsm->AddItem(*pSolid2);
 		//viewManager->AddObject(Style(1, LIGHTGRAY), pSolid2);
 	}

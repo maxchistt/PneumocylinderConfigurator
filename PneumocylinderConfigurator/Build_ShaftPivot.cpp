@@ -207,7 +207,7 @@ void ParametricModelCreator::CreateShaftPivot(MbAssembly* pAsm, double position)
 		pResult->Rotate(axVert, M_PI / 2); // вращаем по оси
 	pResult->Move(MbVector3D(MbCartPoint3D(0, 0, 0), MbCartPoint3D(0, 0, position + 113.8)));
 
-	pResult->SetColor(LIGHTGRAY);
+	pResult->SetColor(ParametricModelCreator::colorScheme ? LIGHTGRAY : RGB(160,164,160));//GRAY
 	pAsm->AddItem(*pResult);
 	//viewManager->AddObject(Style(1, LIGHTGRAY), pResult);
 

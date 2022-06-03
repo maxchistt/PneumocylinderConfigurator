@@ -56,7 +56,7 @@ void ParametricModelCreator::CreateORing(MbAssembly* pAsm, double Z) {
 	pSolid->Rotate(axVert, -M_PI / 2);
 	pSolid->Move(MbVector3D(MbCartPoint3D(0, 0, 0), MbCartPoint3D(0, 0, Z)));
 
-	pSolid->SetColor(LIGHTGRAY);
+	pSolid->SetColor(ParametricModelCreator::colorScheme ? LIGHTGRAY : BLACK);
 	pAsm->AddItem(*pSolid);
 	//viewManager->AddObject(Style(1, LIGHTGRAY), pSolid);
 

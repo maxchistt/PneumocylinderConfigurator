@@ -171,6 +171,7 @@
 
 namespace BuildMathModel {
 	class ParametricModelCreator {
+		static int colorScheme;
 	public:
 		static MbModel* CreatePneymocylinderModel(BuildParams params);
 	private:
