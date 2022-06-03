@@ -5,11 +5,10 @@ MainWindow::MainWindow(QWidget* parent)
 {
 	ui.setupUi(this);
 	unsetCurrentModel();
+	fileController.setParentWidget(this);
 
 	viewer = ui.widget_viewer;
 	paramsWidget = ui.widget_params;
-
-	fileController = new FileController(this);
 
 	//запуск создания сцены
 	connect(paramsWidget, &ParamsWidget::buildSignal, this, &MainWindow::makeCylinderMathGeomSlot);
@@ -22,14 +21,10 @@ MainWindow::MainWindow(QWidget* parent)
 	connect(ui.action_centralyze, &QAction::triggered, viewer, &Viewer::fitSceneSlot);
 	connect(ui.action_nextOrientation, &QAction::triggered, viewer, &Viewer::nextOrientationSlot);
 
-	connect(ui.action_params, &QAction::triggered, this, &MainWindow::showParams);
+	connect(ui.action_params, &QAction::triggered, this, &MainWindow::showParamsSlot);
 
-	connect(ui.action_save, &QAction::triggered, fileController, &FileController::saveFileSlot);
-	connect(ui.action_open, &QAction::triggered, fileController, &FileController::openFileSlot);
-
-	connect(fileController, &FileController::modelExportedSignal, this, &MainWindow::onModelExportedSlot);
-	connect(fileController, &FileController::modelImportedSignal, this, &MainWindow::onModelImportedSlot);
-	connect(fileController, &FileController::getModelSignal, this, &MainWindow::giveModelSlot);
+	connect(ui.action_save, &QAction::triggered, this, &MainWindow::saveFileSlot);
+	connect(ui.action_open, &QAction::triggered, this, &MainWindow::openFileSlot);
 }
 
 MainWindow::~MainWindow()
@@ -46,7 +41,7 @@ void MainWindow::drawMathScene()
 
 void MainWindow::setNewMathGeoms(MbModel* mathModel)
 {
-	unsetCurrentModel();
+	//unsetCurrentModel();
 	setCurrentModel(mathModel);
 	drawMathScene();
 }
@@ -94,22 +89,19 @@ void MainWindow::aboutQtSlot()
 	QMessageBox::aboutQt(this);
 }
 
-void MainWindow::showParams()
+void MainWindow::showParamsSlot()
 {
 	ui.dockWidget_params->setVisible(!ui.dockWidget_params->isVisible());
 }
 
-void MainWindow::giveModelSlot(MbModel*& modelPtrRef)
+void MainWindow::saveFileSlot()
 {
-	modelPtrRef = currentMathModel;
-}
-
-void MainWindow::onModelImportedSlot(MbModel* modelPtr)
-{
-	setNewMathGeoms(modelPtr);
-}
-
-void MainWindow::onModelExportedSlot()
-{
+	fileController.saveModel(currentMathModel);
 	drawMathScene();
+}
+
+void MainWindow::openFileSlot()
+{
+	MbModel* openedModel = fileController.openModel();
+	if (openedModel) setNewMathGeoms(openedModel);
 }

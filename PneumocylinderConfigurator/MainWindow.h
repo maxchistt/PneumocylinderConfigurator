@@ -24,7 +24,7 @@ public:
 	~MainWindow();
 
 private:
-	FileController* fileController = Q_NULLPTR;
+	FileController fileController;
 	MbModel* currentMathModel = nullptr;
 	Ui::MainWindowClass ui;
 	Viewer* viewer = Q_NULLPTR;
@@ -41,9 +41,7 @@ private slots:
 	void clearModelAndSceneSlot();
 	void aboutSlot();
 	void aboutQtSlot();
-	void showParams();
-
-	void giveModelSlot(MbModel*& modelPtrRef);
-	void onModelImportedSlot(MbModel* modelPtr);
-	void onModelExportedSlot();
+	void showParamsSlot();
+	void saveFileSlot();
+	void openFileSlot();
 };

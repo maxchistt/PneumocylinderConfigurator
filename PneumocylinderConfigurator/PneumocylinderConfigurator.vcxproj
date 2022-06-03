@@ -144,7 +144,7 @@ xcopy /y "$(SolutionDir)C3D\Kernel\$(Configuration)\c3d.dll" "$(SolutionDir)$(Pl
     <ClInclude Include="BuildParams.h" />
     <ClInclude Include="colorDef.h" />
     <QtMoc Include="ParamsWidget.h" />
-    <QtMoc Include="FileController.h" />
+    <ClInclude Include="FileController.h" />
     <ClInclude Include="resource.h" />
     <QtMoc Include="Viewer.h" />
   </ItemGroup>
