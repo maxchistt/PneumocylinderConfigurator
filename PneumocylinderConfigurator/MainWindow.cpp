@@ -11,9 +11,9 @@ MainWindow::MainWindow(QWidget* parent)
 	paramsWidget = ui.widget_params;
 
 	//запуск создания сцены
-	connect(paramsWidget, &ParamsWidget::buildSignal, this, &MainWindow::makeCylinderMathGeomSlot);
-	connect(ui.action_build_pneumocyl, &QAction::triggered, this, &MainWindow::makeCylinderMathGeomSlot);
-	connect(ui.action_clear, &QAction::triggered, this, &MainWindow::clearModelAndSceneSlot);
+	connect(paramsWidget, &ParamsWidget::buildSignal, this, &MainWindow::makeCylinderMathModelSlot);
+	connect(ui.action_build_pneumocyl, &QAction::triggered, this, &MainWindow::makeCylinderMathModelSlot);
+	connect(ui.action_clear, &QAction::triggered, this, &MainWindow::clearModelSlot);
 
 	connect(ui.action_about, &QAction::triggered, this, &MainWindow::aboutSlot);
 	connect(ui.action_aboutqt, &QAction::triggered, this, &MainWindow::aboutQtSlot);
@@ -32,28 +32,21 @@ MainWindow::~MainWindow()
 	::DeleteMatItem(currentMathModel);
 }
 
-void MainWindow::drawMathScene()
+void MainWindow::drawMathModel()
 {
 	viewer->clearScene();
 	if (currentMathModel) viewer->addMathGeoms(currentMathModel);
 	viewer->fitSceneSlot();
 }
 
-void MainWindow::setNewMathGeoms(MbModel* mathModel)
-{
-	//unsetCurrentModel();
-	setCurrentModel(mathModel);
-	drawMathScene();
-}
-
-void MainWindow::makeCylinderMathGeomSlot()
+void MainWindow::makeCylinderMathModelSlot()
 {
 	BuildMathModel::BuildParams modelParams = paramsWidget->getParams();
-	MbModel* newModelToShow = BuildMathModel::ParametricModelCreator::CreatePneymocylinderModel(modelParams);
-	setNewMathGeoms(newModelToShow);
+	MbModel* cylModel = BuildMathModel::ParametricModelCreator::CreatePneymocylinderModel(modelParams);
+	setCurrentModel(cylModel);
 }
 
-void MainWindow::clearModelAndSceneSlot()
+void MainWindow::clearModelSlot()
 {
 	viewer->clearScene();
 	unsetCurrentModel();
@@ -63,6 +56,7 @@ void MainWindow::setCurrentModel(MbModel* model)
 {
 	unsetCurrentModel();
 	if (model) currentMathModel = model;
+	drawMathModel();
 }
 
 void MainWindow::unsetCurrentModel()
@@ -97,11 +91,11 @@ void MainWindow::showParamsSlot()
 void MainWindow::saveFileSlot()
 {
 	fileController.saveModel(currentMathModel);
-	drawMathScene();
+	drawMathModel();
 }
 
 void MainWindow::openFileSlot()
 {
 	MbModel* openedModel = fileController.openModel();
-	if (openedModel) setNewMathGeoms(openedModel);
+	if (openedModel) setCurrentModel(openedModel);
 }

@@ -30,15 +30,14 @@ private:
 	Viewer* viewer = Q_NULLPTR;
 	ParamsWidget* paramsWidget = Q_NULLPTR;
 
-	void drawMathScene();
-	void setNewMathGeoms(MbModel* mathModel);
+	void drawMathModel();
 
 	void setCurrentModel(MbModel* model);
 	void unsetCurrentModel();
 
 private slots:
-	void makeCylinderMathGeomSlot();
-	void clearModelAndSceneSlot();
+	void makeCylinderMathModelSlot();
+	void clearModelSlot();
 	void aboutSlot();
 	void aboutQtSlot();
 	void showParamsSlot();
