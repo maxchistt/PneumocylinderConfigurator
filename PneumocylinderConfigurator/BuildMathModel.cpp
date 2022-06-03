@@ -4,6 +4,7 @@ using namespace c3d;
 using namespace std;
 using namespace BuildMathModel;
 
+// Инициализирую статическую переменную класса - обязательно
 int ParametricModelCreator::colorScheme = 0;
 
 MbModel* ParametricModelCreator::CreatePneymocylinderModel(BuildParams params)
