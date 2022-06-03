@@ -85,6 +85,9 @@
     <ClCompile Include="Build_Assembly.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="FileController.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="colorDef.h">
@@ -97,6 +100,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="BuildParams.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FileController.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

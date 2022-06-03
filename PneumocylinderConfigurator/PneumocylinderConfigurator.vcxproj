@@ -123,6 +123,7 @@ xcopy /y "$(SolutionDir)C3D\Kernel\$(Configuration)\c3d.dll" "$(SolutionDir)$(Pl
     <ClCompile Include="Build_ShaftPivot.cpp" />
     <ClCompile Include="Build_Socket_Head_Collar.cpp" />
     <ClCompile Include="Build_Top_Guide.cpp" />
+    <ClCompile Include="FileController.cpp" />
     <ClCompile Include="ParamsWidget.cpp" />
     <ClCompile Include="Viewer.cpp" />
     <QtRcc Include="MainWindow.qrc" />
@@ -143,6 +144,7 @@ xcopy /y "$(SolutionDir)C3D\Kernel\$(Configuration)\c3d.dll" "$(SolutionDir)$(Pl
     <ClInclude Include="BuildParams.h" />
     <ClInclude Include="colorDef.h" />
     <QtMoc Include="ParamsWidget.h" />
+    <ClInclude Include="FileController.h" />
     <ClInclude Include="resource.h" />
     <QtMoc Include="Viewer.h" />
   </ItemGroup>
