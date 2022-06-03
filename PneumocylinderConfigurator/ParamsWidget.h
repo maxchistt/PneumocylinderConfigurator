@@ -3,6 +3,7 @@
 #include <QWidget>
 #include "ui_ParamsWidget.h"
 #include "BuildParams.h"
+#include "SceneParams.h"
 
 class ParamsWidget : public QWidget
 {
@@ -12,18 +13,24 @@ public:
 	ParamsWidget(QWidget* parent = Q_NULLPTR);
 	~ParamsWidget();
 
-	BuildMathModel::BuildParams getParams();
+	BuildMathModel::BuildParams getParams_model();
+	SceneParams getParams_scene();
 
 private:
 	Ui::ParamsWidget ui;
 	BuildMathModel::BuildParams modelParams;
-	void updateParams();
-	void setupForm();
+	SceneParams sceneParams;
+	void updateParams_model();
+	void setupForm_model();
+	void updateParams_scene();
+	void setupForm_scene();
 
 private slots:
 	void applyAndBuild();
 	void reset();
+	void sceneset();
 
 signals:
 	void buildSignal();
+	void setupSceneSignal();
 };

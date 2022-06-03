@@ -12,6 +12,7 @@ MainWindow::MainWindow(QWidget* parent)
 
 	//запуск создания сцены
 	connect(paramsWidget, &ParamsWidget::buildSignal, this, &MainWindow::makeCylinderMathModelSlot);
+	connect(paramsWidget, &ParamsWidget::setupSceneSignal, this, &MainWindow::setupViewerSceneSlot);
 	connect(ui.action_build_pneumocyl, &QAction::triggered, this, &MainWindow::makeCylinderMathModelSlot);
 	connect(ui.action_clear, &QAction::triggered, this, &MainWindow::clearModelSlot);
 
@@ -32,18 +33,24 @@ MainWindow::~MainWindow()
 	::DeleteMatItem(currentMathModel);
 }
 
-void MainWindow::drawMathModel()
+void MainWindow::drawMathModel(bool fit)
 {
 	viewer->clearScene();
 	if (currentMathModel) viewer->addMathGeoms(currentMathModel);
-	viewer->fitSceneSlot();
+	if (fit)viewer->fitSceneSlot();
 }
 
 void MainWindow::makeCylinderMathModelSlot()
 {
-	BuildMathModel::BuildParams modelParams = paramsWidget->getParams();
+	BuildMathModel::BuildParams modelParams = paramsWidget->getParams_model();
 	MbModel* cylModel = BuildMathModel::ParametricModelCreator::CreatePneymocylinderModel(modelParams);
 	setCurrentModel(cylModel);
+}
+
+void MainWindow::setupViewerSceneSlot()
+{
+	SceneParams sceneParams = paramsWidget->getParams_scene();
+	viewer->setSceneParams(sceneParams);
 }
 
 void MainWindow::clearModelSlot()

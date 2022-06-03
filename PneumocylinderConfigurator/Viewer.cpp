@@ -35,7 +35,6 @@ NodeKeyVector Viewer::addMathGeoms(MbItem* item, VSN::SceneSegment* sceneSegment
 	}
 	else {
 		SceneSegment* segSinSurface = new SceneSegment(SceneGenerator::Instance()->CreateMathRep(item, CommandType::Synchronous), sceneSegment);
-		segSinSurface->AddFeature(new Features::DoubleSidedLighting());
 		keys.push_back(segSinSurface->GetUniqueKey());
 	}
 
@@ -74,6 +73,13 @@ void Viewer::clearScene()
 	this->update();
 }
 
+void Viewer::setSceneParams(SceneParams params)
+{
+	sceneParams = params;
+	prepareSceneBackground();
+	update();
+}
+
 void Viewer::fitSceneSlot()
 {
 	this->sceneContent()->GetContainer()->SetUseVertexBufferObjects(true);
@@ -92,6 +98,8 @@ void Viewer::nextOrientationSlot()
 
 void Viewer::prepareSceneBackground()
 {
-	this->mainLight()->SetDoubleSided(true);
+	this->graphicsView()->SetRenderMode(sceneParams.edges ? RenderMode::rm_ShadedWithEdges : RenderMode::rm_Shaded);
+	this->mainLight()->SetType((Light::LightTypes)(sceneParams.lightType));
+	this->mainLight()->SetDoubleSided(sceneParams.doubleSided);
 	this->viewport()->SetGradientBackgroundColour(Color(2, 204, 255), Color(232, 234, 255));
 }

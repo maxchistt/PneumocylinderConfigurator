@@ -12,7 +12,7 @@ MbAssembly* ParametricModelCreator::CreatePneumocylinderAssembly(BuildParams par
 	double param_diam = params.diam;
 	bool create_frame = params.frame;
 
-	double lendif = param_length;
+	double lendif = param_length - 132.95;
 	double raddif = param_diam / 2.0 - 10.0;
 
 	//pAsm->AddItem(*pSolid);

@@ -9,6 +9,7 @@
 
 #include "Viewer.h"
 #include "ParamsWidget.h"
+#include "SceneParams.h"
 #include "BuildParams.h"
 #include "BuildMathModel.h"
 #include "FileController.h"
@@ -30,13 +31,14 @@ private:
 	Viewer* viewer = Q_NULLPTR;
 	ParamsWidget* paramsWidget = Q_NULLPTR;
 
-	void drawMathModel();
+	void drawMathModel(bool fit = true);
 
 	void setCurrentModel(MbModel* model);
 	void unsetCurrentModel();
 
 private slots:
 	void makeCylinderMathModelSlot();
+	void setupViewerSceneSlot();
 	void clearModelSlot();
 	void aboutSlot();
 	void aboutQtSlot();
