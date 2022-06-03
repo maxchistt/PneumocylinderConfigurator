@@ -2,7 +2,7 @@
 
 Конфигуратор параметрической модели пневмоцилиндра на базе [C3D Toolkit](https://c3dlabs.com/ru/products/c3d-toolkit/)
 
-![Screenshot](https://i.postimg.cc/s27p5QSB/screenshot-cyl.png)
+![Screenshot](https://i.postimg.cc/B6xXp2b1/screenshot-cylinder1.png)
 
 В решении используется проект статической библиотеки [QtVision](https://github.com/maxchistt/QtVision-Static-Class-Library)
 
