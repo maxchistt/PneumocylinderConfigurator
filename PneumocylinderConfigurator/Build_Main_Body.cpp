@@ -389,5 +389,35 @@ void ParametricModelCreator::CreateMainBody(MbAssembly* pAsm = nullptr, double l
 	pSolid6->SetColor(ParametricModelCreator::colorScheme ? RGB(140, 160, 170) : RGB(10, 20, 20));// RGB(180, 180, 190)
 	pAsm->AddItem(*pSolid6);
 
+	::DeleteMatItem(ptrContours);
+	::DeleteMatItem(place);
+	::DeleteItem(ptrSurface);
+	::DeleteItem(pPlaneXY);
+	::DeleteMatItem(pCurves);
+
+	::DeleteMatItem(ptrContours1);
+	::DeleteMatItem(place1);
+	::DeleteItem(ptrSurface1);
+	::DeleteItem(pPlaneXY1);
+	::DeleteMatItem(pCurves1);
+
+	::DeleteMatItem(ptrContours2);
+	::DeleteMatItem(place2);
+	::DeleteItem(ptrSurface2);
+	::DeleteItem(pPlaneXY2);
+	::DeleteMatItem(pCurves2);
+
+	::DeleteMatItem(ptrContours3);
+	::DeleteMatItem(place3);
+	::DeleteItem(ptrSurface3);
+	::DeleteItem(pPlaneXY3);
+	::DeleteMatItem(pCurves3);
+
+	::DeleteItem(pSolid);
+	::DeleteItem(pSolid1);
+	::DeleteItem(pSolid2);
+	::DeleteItem(pSolid3); 
+	::DeleteItem(pSolid6);
+
 	//show(Style(1, RGB(255, 255, 255)), pSolid6);
 }
