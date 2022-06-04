@@ -451,7 +451,7 @@ void ParametricModelCreator::CreateBase(MbAssembly* pAsm)
 	pSolid->Move(MbVector3D(MbCartPoint3D(0, 0, 0), MbCartPoint3D(-SqureSize / 2, -SqureSize / 2, -62)));
 	//pSolid->Move(MbVector3D(MbCartPoint3D(0, 0, 0), MbCartPoint3D(0, -SqureSize / 2, 0)));
 
-	pSolid->SetColor(ParametricModelCreator::colorScheme ? LIGHTRED : WHITE);
+	pSolid->SetColor(ParametricModelCreator::colorScheme ? RGB(210, 20, 20) : WHITE);
 	pAsm->AddItem(*pSolid);
 	//viewManager->AddObject(Style(1, LIGHTRED), pSolid);
 

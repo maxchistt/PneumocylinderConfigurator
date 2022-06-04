@@ -441,7 +441,7 @@ void ParametricModelCreator::CreateTopGuide(MbAssembly* pAsm, double position) {
 	pSolid->Move(MbVector3D(MbCartPoint3D(0, 0, 0), MbCartPoint3D(-SqureSize / 2, -SqureSize / 2, position + 43.45)));
 
 
-	pSolid->SetColor(ParametricModelCreator::colorScheme ? LIGHTRED : WHITE);
+	pSolid->SetColor(ParametricModelCreator::colorScheme ? RGB(200, 25, 25) : WHITE);
 	pAsm->AddItem(*pSolid);
 
 	// Уменьшение счетчиков ссылок динамически созданных объектов ядра
