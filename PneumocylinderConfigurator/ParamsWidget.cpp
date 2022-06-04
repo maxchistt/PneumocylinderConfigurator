@@ -11,8 +11,8 @@ ParamsWidget::ParamsWidget(QWidget* parent)
 	ui.comboBox_lighttype->addItem("point", QVariant(0));
 	ui.comboBox_lighttype->addItem("direction", QVariant(1));
 	ui.comboBox_lighttype->addItem("spot", QVariant(2));
-	ui.comboBox_colorScheme->addItem("White/Gray", QVariant(0));
-	ui.comboBox_colorScheme->addItem("Red/Blue", QVariant(1));
+	ui.comboBox_colorScheme->addItem("White", QVariant(0));
+	ui.comboBox_colorScheme->addItem("Red", QVariant(1));
 
 	setupForm_model();
 	setupForm_scene();

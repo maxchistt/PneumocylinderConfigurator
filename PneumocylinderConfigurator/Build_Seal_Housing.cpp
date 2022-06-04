@@ -122,7 +122,7 @@ void ParametricModelCreator::CreateSealHousing(MbAssembly* pAsm)
 		m_pResSolid->Rotate(axVert, M_PI / 2);
 	m_pResSolid->Move(MbVector3D(MbCartPoint3D(0, 0, 0), MbCartPoint3D(0, 0, -5)));
 
-	m_pResSolid->SetColor(BLACK);
+	m_pResSolid->SetColor(RGB(8, 8, 6));
 	pAsm->AddItem(*m_pResSolid);
 	//viewManager->AddObject(Style(1, BLACK), m_pResSolid);
 
