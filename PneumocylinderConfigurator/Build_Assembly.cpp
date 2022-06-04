@@ -42,10 +42,10 @@ MbAssembly* ParametricModelCreator::CreatePneumocylinderAssembly(BuildParams par
 	CreateShaftPivot(pAsm, lendif); // Васинкина
 	if (create_frame) CreateMainBody(pAsm, lendif, diamCaseInside); // Балобанов
 	CreateSealHousing(pAsm); // Гарник
-	CreateBolt(pAsm, DD, DD); // Фукина
-	CreateBolt(pAsm, DD, -DD); // 
-	CreateBolt(pAsm, -DD, -DD); // 
-	CreateBolt(pAsm, -DD, DD); //
+	CreateBolt(pAsm, DD, DD, -32.6); // Фукина
+	CreateBolt(pAsm, DD, -DD, -32.6); // 
+	CreateBolt(pAsm, -DD, -DD, -32.6); // 
+	CreateBolt(pAsm, -DD, DD, -32.6); //
 	CreateBolt(pAsm, -DD, DD, lendif + 16.05, 1); // 
 	CreateBolt(pAsm, DD, DD, lendif + 16.05, 1); // 
 	CreateBolt(pAsm, DD, -DD, lendif + 16.05, 1); //
