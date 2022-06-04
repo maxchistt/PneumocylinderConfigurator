@@ -15,6 +15,8 @@ MbAssembly* ParametricModelCreator::CreatePneumocylinderAssembly(BuildParams par
 	double lendif = param_length - 132.95;
 	double raddif = param_diam / 2.0 - 10.0;
 
+	double diamCaseInside = param_diam + 30;
+
 	//pAsm->AddItem(*pSolid);
 
 	// Переменные для параметризации вала 
@@ -38,7 +40,7 @@ MbAssembly* ParametricModelCreator::CreatePneumocylinderAssembly(BuildParams par
 
 	CreateBase(pAsm); // Зарубин
 	CreateShaftPivot(pAsm, lendif); // Васинкина
-	if (create_frame) CreateMainBody(pAsm, lendif); // Балобанов
+	if (create_frame) CreateMainBody(pAsm, lendif, diamCaseInside); // Балобанов
 	CreateSealHousing(pAsm); // Гарник
 	CreateBolt(pAsm, DD, DD); // Фукина
 	CreateBolt(pAsm, DD, -DD); // 

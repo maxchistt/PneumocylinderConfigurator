@@ -179,7 +179,7 @@ namespace BuildMathModel {
 	private:
 		static void CreateBase(MbAssembly* pAsm);
 		static void CreateShaftPivot(MbAssembly* pAsm, double position);
-		static void CreateMainBody(MbAssembly* pAsm, double length);
+		static void CreateMainBody(MbAssembly* pAsm, double length, double diamIn);
 		static void CreateSealHousing(MbAssembly* pAsm);
 		static void CreateBolt(MbAssembly* pAsm, double X, double Y, double Z = -31.1, int ANGLE = -1);
 		static void CreateSocketHeadCollar(MbAssembly* pAsm);
