@@ -386,7 +386,7 @@ void ParametricModelCreator::CreateMainBody(MbAssembly* pAsm = nullptr, double l
 
 	// раскомментировать
 	pSolid6->Move(MbVector3D(MbCartPoint3D(0, 0, 0), MbCartPoint3D(0, 0, -31.5)));
-	pSolid6->SetColor(ParametricModelCreator::colorScheme ? RGB(140, 160, 170) : RGB(10,20,20));// RGB(180, 180, 190)
+	pSolid6->SetColor(ParametricModelCreator::colorScheme ? RGB(140, 160, 170) : RGB(10, 20, 20));// RGB(180, 180, 190)
 	pAsm->AddItem(*pSolid6);
 
 	//show(Style(1, RGB(255, 255, 255)), pSolid6);

@@ -25,7 +25,7 @@ void ParametricModelCreator::CreateShaft(MbAssembly* pAsm, double start, double 
 	// Отображение построенного тела
 	if (pCyl) {
 		///непонятки с цветом
-		pCyl->SetColor(ParametricModelCreator::colorScheme ?  RGB(170, 180, 190) : RGB(70, 130, 180));
+		pCyl->SetColor(ParametricModelCreator::colorScheme ? RGB(70, 130, 180) : RGB(170, 180, 190));
 		pAsm->AddItem(*pCyl);
 	}
 
