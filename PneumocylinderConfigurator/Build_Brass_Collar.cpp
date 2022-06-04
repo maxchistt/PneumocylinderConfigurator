@@ -94,7 +94,7 @@ void ParametricModelCreator::CreateBrassCollar(MbAssembly* pAsm) {
 	pSolid->Rotate(axVert, M_PI / 2);
 	pSolid->Move(MbVector3D(MbCartPoint3D(0, 0, 0), MbCartPoint3D(0, 0, 27)));
 	if (res == rt_Success) {
-		pSolid->SetColor(ParametricModelCreator::colorScheme ? LIGHTGRAY : DARKGRAY);
+		pSolid->SetColor(LIGHTGRAY);
 		pAsm->AddItem(*pSolid);
 		//viewManager->AddObject(Style(1, LIGHTGRAY), pSolid);
 	}
