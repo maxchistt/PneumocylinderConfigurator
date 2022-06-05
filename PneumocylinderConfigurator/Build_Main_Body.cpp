@@ -15,7 +15,7 @@ void baseSketch(RPArray<MbContour>* ptrContours, double diamIn = 50) {
 	//params std 
 	//—тандартный внутренний диаметр
 	const long double diamIn_STD = 50;
-
+	const double thickness = 3;
 	//calculate offsets
 	//–азница стандартного и заданного диаметров
 	long double diamOffset = diamIn - diamIn_STD;
@@ -34,7 +34,7 @@ void baseSketch(RPArray<MbContour>* ptrContours, double diamIn = 50) {
 	//–ассчитанна€ ширина по X, между двум€ пр€мыми боковыми гран€ми
 	long double widthX = widthX_STD + diamOffset;
 	//–ассчитанна€ ширина по X выреза в верхней и нижней гран€х
-	long double widthXIn = widthXIn_STD + diamOffset / (widthX_STD / widthXIn_STD);
+	long double widthXIn = widthXIn_STD + ((diamOffset < 0) ? (diamOffset - (1.5 * thickness * (1 / diamDifRatio - 1))) : (diamOffset / (widthX_STD / widthXIn_STD)));
 	//–ассчитанна€ высота по Y от верхней до нижней грани
 	long double heightY = heightY_STD + diamOffset;
 
@@ -142,7 +142,7 @@ void baseSideHoleSketch(RPArray<MbContour>* ptrContours, double diamIn = 50, boo
 	//–ассчитанна€ ширина по X, между двум€ пр€мыми боковыми гран€ми
 	double widthX = widthX_STD + diamOffset;
 	//–ассчитанна€ ширина по X выреза в верхней и нижней гран€х
-	double widthXIn = widthXIn_STD + diamOffset / (widthX_STD / widthXIn_STD);
+	double widthXIn = widthXIn_STD + ((diamOffset < 0) ? (diamOffset) : (diamOffset / (widthX_STD / widthXIn_STD)));
 	//–ассчитанна€ высота по Y от верхней до нижней грани
 	double heightY = heightY_STD + diamOffset;
 
@@ -416,7 +416,7 @@ void ParametricModelCreator::CreateMainBody(MbAssembly* pAsm = nullptr, double l
 	::DeleteItem(pSolid);
 	::DeleteItem(pSolid1);
 	::DeleteItem(pSolid2);
-	::DeleteItem(pSolid3); 
+	::DeleteItem(pSolid3);
 	::DeleteItem(pSolid6);
 
 	//show(Style(1, RGB(255, 255, 255)), pSolid6);

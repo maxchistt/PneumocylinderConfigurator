@@ -4,12 +4,12 @@ using namespace c3d;
 using namespace std;
 using namespace BuildMathModel;
 
-void ParametricModelCreator::CreateORing(MbAssembly* pAsm, double Z) {
+void ParametricModelCreator::CreateORing(MbAssembly* pAsm, double Z, double ratio) {
 
 	MbPlacement3D pl;
 
 	// Центр окружностей и дуг в локальной СК
-	MbCartPoint cnt(0, 22.575);
+	MbCartPoint cnt(0, 22.575*ratio);
 	// Построение окружности по центру и радиусу
 	const double RAD1 = 1.325;
 	MbArc* circle1 = new MbArc(cnt, RAD1);

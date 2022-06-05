@@ -96,7 +96,7 @@ void ParametricModelCreator::CreateClampingBar(MbAssembly* pAsm, double X, doubl
 	//pSolid->Rotate(axVert, -M_PI / 2);
 	pSolid->Move(MbVector3D(MbCartPoint3D(0, 0, 0), MbCartPoint3D(X, Y, -49.525)));
 	if (res == rt_Success) {
-		pSolid->SetColor(ParametricModelCreator::colorScheme ? DARKGRAY : RGB(65, 45, 10));//BROWN
+		pSolid->SetColor(ParametricModelCreator::colorScheme ? RGB(78, 81, 81) : RGB(65, 45, 10));//BROWN
 		pAsm->AddItem(*pSolid);
 		//viewManager->AddObject(Style(1, BROWN), pSolid);
 	}

@@ -4,18 +4,18 @@ using namespace c3d;
 using namespace std;
 using namespace BuildMathModel;
 
-void CreateSketchCollar(RPArray<MbContour>& _arrContours)
+void CreateSketchCollar(RPArray<MbContour>& _arrContours,double ratio)
 {
 	// Создание массива точек квадрата, к которому в дальнейшем добавятся скругления.
 	// Размер массива - 8 точек для учета точек четырех сегментов скруглений.
 	SArray<MbCartPoint> arrPnts(20);
-	arrPnts.Add(MbCartPoint(0, 10.05));
-	arrPnts.Add(MbCartPoint(0, 11));
-	arrPnts.Add(MbCartPoint(3, 12.25));
-	arrPnts.Add(MbCartPoint(32, 12.25));
-	arrPnts.Add(MbCartPoint(32, 9.25));
-	arrPnts.Add(MbCartPoint(27, 9.25));
-	arrPnts.Add(MbCartPoint(27, 10.05));
+	arrPnts.Add(MbCartPoint(0, 10.05 * ratio));
+	arrPnts.Add(MbCartPoint(0, 11 * ratio));
+	arrPnts.Add(MbCartPoint(3, 12.25 * ratio));
+	arrPnts.Add(MbCartPoint(32, 12.25 * ratio));
+	arrPnts.Add(MbCartPoint(32, 9.25 * ratio));
+	arrPnts.Add(MbCartPoint(27, 9.25 * ratio));
+	arrPnts.Add(MbCartPoint(27, 10.05 * ratio));
 
 	// Построение единой ломаной внешнего контура по точкам
 	MbPolyline* pPolyline = new MbPolyline(arrPnts, true);
@@ -40,7 +40,7 @@ void CreateSketchCollar(RPArray<MbContour>& _arrContours)
 	::DeleteItem(pPolyline);
 }
 
-void ParametricModelCreator::CreateBrassCollar(MbAssembly* pAsm) {
+void ParametricModelCreator::CreateBrassCollar(MbAssembly* pAsm, double ratio) {
 	// Множитель для преобразования угловых значений из градусов в радианы
 	const double DEG_TO_RAD = M_PI / 180.0;
 
@@ -49,7 +49,7 @@ void ParametricModelCreator::CreateBrassCollar(MbAssembly* pAsm) {
 
 	// Вызов функции для построения образующей (из примера 6)
 	RPArray<MbContour> arrContours;
-	CreateSketchCollar(arrContours);
+	CreateSketchCollar(arrContours, ratio);
 
 
 	// Подготовка параметров для вызова функции построения тела вращения.

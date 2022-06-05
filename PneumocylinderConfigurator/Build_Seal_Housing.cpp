@@ -4,37 +4,39 @@ using namespace c3d;
 using namespace std;
 using namespace BuildMathModel;
 
-void ParametricModelCreator::CreateSealHousing(MbAssembly* pAsm)
+void ParametricModelCreator::CreateSealHousing(MbAssembly* pAsm, double ratio)
 {
 	// Множитель для преобразования угловых значений из градусов в радианы
 	const double DEG_TO_RAD = M_PI / 180.0;
 
 	//Создание двумерные точки на осях X и Y
-	MbCartPoint p1(7.25 + 8.75, 7);
-	MbCartPoint p2(7.75 + 8.75, 7.5);
-	MbCartPoint p3(7.75 + 8.75, 17.5);
-	MbCartPoint p4(8.75 + 8.75, 17.5);
-	MbCartPoint p5(8.75 + 8.75, 23.975);
-	MbCartPoint p6(7.75 + 8.75, 24.875);
-	MbCartPoint p7(6.85 + 8.75, 24.875);
-	MbCartPoint p8(6.85 + 8.75, 20.995);
-	MbCartPoint p9(3.25 + 8.75, 20.995);
-	MbCartPoint p10(3.25 + 8.75, 24.875);
-	MbCartPoint p11(2.25 + 8.75, 24.875);
-	MbCartPoint p12(2.25 + 8.75, 22.495);
+	MbCartPoint p1(7.25 + 8.75, 7 * ratio);
+	MbCartPoint p2(7.75 + 8.75, 7.5 * ratio);
+	MbCartPoint p3(7.75 + 8.75, 17.5 * ratio);
+	MbCartPoint p4(8.75 + 8.75, 17.5 * ratio);
 
-	MbCartPoint p13(-2.25 + 8.75, 22.495);
-	MbCartPoint p14(-2.25 + 8.75, 24.875);
-	MbCartPoint p15(-3.25 + 8.75, 24.875);
-	MbCartPoint p16(-3.25 + 8.75, 20.995);
-	MbCartPoint p17(-6.85 + 8.75, 20.995);
-	MbCartPoint p18(-6.85 + 8.75, 24.875);
-	MbCartPoint p19(-7.75 + 8.75, 24.875);
-	MbCartPoint p20(-8.75 + 8.75, 23.975);
-	MbCartPoint p21(-8.75 + 8.75, 17.5);
-	MbCartPoint p22(-7.75 + 8.75, 17.5);
-	MbCartPoint p23(-7.75 + 8.75, 7.5);
-	MbCartPoint p24(-7.25 + 8.75, 7);
+	MbCartPoint p5(8.75 + 8.75, 23.975 * ratio);
+	MbCartPoint p6(7.75 + 8.75, 24.875 * ratio);
+	MbCartPoint p7(6.85 + 8.75, 24.875 * ratio);
+	MbCartPoint p8(6.85 + 8.75, 20.995 * ratio);
+	MbCartPoint p9(3.25 + 8.75, 20.995 * ratio);
+	MbCartPoint p10(3.25 + 8.75, 24.875 * ratio);
+	MbCartPoint p11(2.25 + 8.75, 24.875 * ratio);
+	MbCartPoint p12(2.25 + 8.75, 22.495 * ratio);
+
+	MbCartPoint p13(-2.25 + 8.75, 22.495 * ratio);
+	MbCartPoint p14(-2.25 + 8.75, 24.875 * ratio);
+	MbCartPoint p15(-3.25 + 8.75, 24.875 * ratio);
+	MbCartPoint p16(-3.25 + 8.75, 20.995 * ratio);
+	MbCartPoint p17(-6.85 + 8.75, 20.995 * ratio);
+	MbCartPoint p18(-6.85 + 8.75, 24.875 * ratio);
+	MbCartPoint p19(-7.75 + 8.75, 24.875 * ratio);
+	MbCartPoint p20(-8.75 + 8.75, 23.975 * ratio);
+
+	MbCartPoint p21(-8.75 + 8.75, 17.5 * ratio);
+	MbCartPoint p22(-7.75 + 8.75, 17.5 * ratio);
+	MbCartPoint p23(-7.75 + 8.75, 7.5 * ratio);
+	MbCartPoint p24(-7.25 + 8.75, 7 * ratio);
 
 	//Динамическое создание объектов отрезков
 	MbLineSegment* Seg1 = new MbLineSegment(p1, p2);

@@ -9,13 +9,31 @@ MbAssembly* ParametricModelCreator::CreatePneumocylinderAssembly(BuildParams par
 	MbAssembly* pAsm = new MbAssembly();
 
 	double param_length = params.length;
-	double param_diam = params.diam;
 	bool create_frame = params.frame;
 
-	double lendif = param_length - 132.95;
-	double raddif = param_diam / 2.0 - 10.0;
+	double diamMain = params.diam;
+	const double diamMain_STD = 50;
+	//calculate offsets
+	//Разница стандартного и заданного диаметров
+	double diamMainOffset = diamMain - diamMain_STD;
+	//Соотношение стандартного и заданного диаметров
+	double diamMainDifRatio = diamMain / diamMain_STD;
 
-	double diamCaseInside = param_diam + 30;
+	double radMainOffset = diamMainOffset / 2;
+
+
+	double diamShaft = diamMain - 30 * diamMainDifRatio;
+	const double diamShaft_STD = 20;
+	//calculate offsets
+	//Разница стандартного и заданного диаметров
+	double diamShaftOffset = diamShaft - diamShaft_STD;
+	//Соотношение стандартного и заданного диаметров
+	double diamShaftDifRatio = diamShaft / diamShaft_STD;
+
+	double radShaftOffset = diamShaftOffset / 2;
+
+	// странный расчет
+	double len_dif = param_length - 132.95;
 
 	//pAsm->AddItem(*pSolid);
 
@@ -24,41 +42,44 @@ MbAssembly* ParametricModelCreator::CreatePneumocylinderAssembly(BuildParams par
 	double length = 0;
 	double radius = 0;
 
-	double DD = 23.6;
+	double DD = 23.6 + radMainOffset;//ClampingBar and bolts offset from 0 coord
 
-	//Shaft
-	CreateShaft(pAsm, start = 0, length = lendif + 66.8, radius = 10 + raddif);
-	CreateShaft(pAsm, start = lendif + 66.8, length = 9, radius = 9.4 + raddif);
-	CreateShaft(pAsm, start = lendif + 75.8, length = 3.5, radius = 6.9 + raddif);
-	CreateShaft(pAsm, start = lendif + 79.3, length = 28, radius = 8 + raddif);
-	// zero x , y , z 
-	CreateShaft(pAsm, start = 0, length = -5, radius = 9.2 + raddif);
-	CreateShaft(pAsm, start = -5, length = -17.5, radius = 7 + raddif);
-	CreateShaft(pAsm, start = -22.5, length = -3.2, radius = 6.15 + raddif);
-	CreateShaft(pAsm, start = -25.7, length = -16, radius = 7 + raddif);
-	//Shaft
+	//Шток
+	CreateShaft(pAsm,len_dif,diamShaftDifRatio);
 
+	// Вращающая насадка на шток
+	CreateShaftPivot(pAsm, len_dif, diamShaftDifRatio); // Васинкина
+
+	// крышки пневмоцилиндра
 	CreateBase(pAsm); // Зарубин
-	CreateShaftPivot(pAsm, lendif); // Васинкина
-	if (create_frame) CreateMainBody(pAsm, lendif, diamCaseInside); // Балобанов
-	CreateSealHousing(pAsm); // Гарник
+	CreateTopGuide(pAsm, len_dif); // Фукина
+
+	// корпус
+	if (create_frame) CreateMainBody(pAsm, len_dif, diamMain); // Балобанов
+
+	// поршень и кольца на нем
+	CreateSealHousing(pAsm, diamShaftDifRatio); // Гарник
+	CreateORing(pAsm, -19, diamShaftDifRatio); // 
+	CreateORing(pAsm, -8.5, diamShaftDifRatio); // 
+
+	// Упоры поршня на штоке
+	CreateSocketHeadCollar(pAsm, diamShaftDifRatio); // Приходько
+	CreateBrassCollar(pAsm, diamShaftDifRatio); // Козырь
+
+	// штыри
+	CreateClampingBar(pAsm, DD, DD, len_dif); // Приходько 
+	CreateClampingBar(pAsm, DD, -DD, len_dif); // 
+	CreateClampingBar(pAsm, -DD, -DD, len_dif); // 
+	CreateClampingBar(pAsm, -DD, DD, len_dif); // 
+
 	CreateBolt(pAsm, DD, DD, -32.6); // Фукина
-	CreateBolt(pAsm, DD, -DD, -32.6); // 
-	CreateBolt(pAsm, -DD, -DD, -32.6); // 
+	CreateBolt(pAsm, DD, -DD, -32.6); //
+	CreateBolt(pAsm, -DD, -DD, -32.6); //
 	CreateBolt(pAsm, -DD, DD, -32.6); //
-	CreateBolt(pAsm, -DD, DD, lendif + 16.05, 1); // 
-	CreateBolt(pAsm, DD, DD, lendif + 16.05, 1); // 
-	CreateBolt(pAsm, DD, -DD, lendif + 16.05, 1); //
-	CreateBolt(pAsm, -DD, -DD, lendif + 16.05, 1); // 
-	CreateSocketHeadCollar(pAsm); // Приходько
-	CreateClampingBar(pAsm, DD, DD, lendif); // Приходько 
-	CreateClampingBar(pAsm, DD, -DD, lendif); // 
-	CreateClampingBar(pAsm, -DD, -DD, lendif); // 
-	CreateClampingBar(pAsm, -DD, DD, lendif); // 
-	CreateTopGuide(pAsm, lendif); // Фукина
-	CreateBrassCollar(pAsm); // Козырь
-	CreateORing(pAsm, -19); // 
-	CreateORing(pAsm, -8.5); // 
+	CreateBolt(pAsm, -DD, DD, len_dif + 16.05, 1); //
+	CreateBolt(pAsm, DD, DD, len_dif + 16.05, 1); //
+	CreateBolt(pAsm, DD, -DD, len_dif + 16.05, 1); //
+	CreateBolt(pAsm, -DD, -DD, len_dif + 16.05, 1); //
 
 	return pAsm;
 }
