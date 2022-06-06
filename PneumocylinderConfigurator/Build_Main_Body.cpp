@@ -10,46 +10,46 @@ double calcCircle(double rad, double otherCord) {
 	return std::sqrt(r2 - p2);
 }
 
-//������� ��������� ���������� diamIn - ���������� ������� ��������� ��� ��� param
+//Функция принимает параметром diamIn - Внутренний диаметр отверстия под вал param
 void baseSketch(RPArray<MbContour>* ptrContours, double diamIn = 50) {
 	//params std 
-	//����������� ���������� �������
+	//Стандартный внутренний диаметр
 	const double diamIn_STD = 50;
 	const double thickness = 3;
 	//calculate offsets
-	//������� ������������ � ��������� ���������
+	//Разница стандартного и заданного диаметров
 	double diamOffset = diamIn - diamIn_STD;
-	//����������� ������������ � ��������� ���������
+	//Соотношение стандартного и заданного диаметров
 	double diamDifRatio = diamIn / diamIn_STD;
 
 	//params std 
-	//����������� ������ �� X, ����� ����� ������� �������� �������
+	//Стандартная ширина по X, между двумя прямыми боковыми гранями
 	const double widthX_STD = 64.5;
-	//����������� ������ �� X ������ � ������� � ������ ������
+	//Стандартная ширина по X выреза в верхней и нижней гранях
 	const double widthXIn_STD = 40;
-	//����������� ������ �� Y �� ������� �� ������ �����
+	//Стандартная высота по Y от верхней до нижней грани
 	const double heightY_STD = 61;
 
 	//calculate model dimensions 
-	//������������ ������ �� X, ����� ����� ������� �������� �������
+	//Рассчитанная ширина по X, между двумя прямыми боковыми гранями
 	double widthX = widthX_STD + diamOffset;
-	//������������ ������ �� X ������ � ������� � ������ ������
+	//Рассчитанная ширина по X выреза в верхней и нижней гранях
 	double widthXIn = widthXIn_STD + ((diamOffset < 0) ? (diamOffset - (1.5 * thickness * (1 / diamDifRatio - 1))) : (diamOffset / (widthX_STD / widthXIn_STD)));
-	//������������ ������ �� Y �� ������� �� ������ �����
+	//Рассчитанная высота по Y от верхней до нижней грани
 	double heightY = heightY_STD + diamOffset;
 
-	//����������� ������������ ������� � �����������
+	//Соотношения рассчитанных величин к стандартным
 	double widthXDifRatio = widthX / widthX_STD;
 	double widthXInDifRatio = widthXIn / widthXIn_STD;
 	double heightYDifRatio = heightY / heightY_STD;
 
-	// ��������� ������ : diamIn=50, widthX=64.5, widthXIn=40, heightY=61
+	// Параметры модели : diamIn=50, widthX=64.5, widthXIn=40, heightY=61
 
 	////////////
 
-	// ���������� ����� ���������� �� ����� ��������� �� ����� ������� �� ����� ���
-	// ���������� ������� ��� ��������� ���������� ������ �� ������� ������������ ������
-	// � ���� ������� ������ ��� �������� �����������
+	// Координаты точек нумеруются от самой маленькой до самой большой по своей оси
+	// Координаты собраны для упрощения построения эскиза из четырех симметричных частей
+	// В след строчке пример как считался коэффициент
 	// 40(widthXIn) / 16.489(old val of x1 and p0.x) = 2.425(widthXIn ratio to x1)
 	double x1 = widthXIn / 2.425, x2 = widthXIn / 2, x3 = widthX / 2;
 	double y1 = heightY / 2.695, y2 = heightY / 2;
@@ -90,7 +90,7 @@ void baseSketch(RPArray<MbContour>* ptrContours, double diamIn = 50) {
 
 	MbContour* ptrContour = new MbContour();
 
-	//���������� � ������ ���������
+	//Добавление в контур сегментов
 	ptrContour->AddSegment(Seg1);
 	ptrContour->AddSegment(Seg2);
 	ptrContour->AddSegment(Seg3);
@@ -107,8 +107,8 @@ void baseSketch(RPArray<MbContour>* ptrContours, double diamIn = 50) {
 	ptrContour->AddSegment(Seg14);
 
 	MbContour* pFillets = NULL;
-	// ����� ������� ���������� �������� �� ����������� ��������� ������
-	// ��������� ����������� ����������� 1.76*1.6 ���������� ����� ������� ����
+	// здесь радиусы скруглений множатся на соотношение изменения ширины
+	// численный константный коэффициент 1.76*1.6 подбирался почти методом тыка
 	::FilletPolyContour(ptrContour, 9 * widthXDifRatio, false, p3, pFillets);
 	::FilletPolyContour(ptrContour, 9 * widthXDifRatio, false, p9, pFillets);
 	::FilletPolyContour(ptrContour, 9 * widthXInDifRatio, false, p10, pFillets);
@@ -119,40 +119,40 @@ void baseSketch(RPArray<MbContour>* ptrContours, double diamIn = 50) {
 
 void baseSideHoleSketch(RPArray<MbContour>* ptrContours, double diamIn = 50, bool xInvert = false, bool yInvert = false) {
 	//params std 
-	//����������� ���������� �������
+	//Стандартный внутренний диаметр
 	const double diamIn_STD = 50;
 
 	const double thickness = 3;
 
 	//calculate offsets
-	//������� ������������ � ��������� ���������
+	//Разница стандартного и заданного диаметров
 	double diamOffset = diamIn - diamIn_STD;
-	//����������� ������������ � ��������� ���������
+	//Соотношение стандартного и заданного диаметров
 	double diamDifRatio = diamIn / diamIn_STD;
 
 	//params std 
-	//����������� ������ �� X, ����� ����� ������� �������� �������
+	//Стандартная ширина по X, между двумя прямыми боковыми гранями
 	const double widthX_STD = 64.5;
-	//����������� ������ �� X ������ � ������� � ������ ������
+	//Стандартная ширина по X выреза в верхней и нижней гранях
 	const double widthXIn_STD = 40;
-	//����������� ������ �� Y �� ������� �� ������ �����
+	//Стандартная высота по Y от верхней до нижней грани
 	const double heightY_STD = 61;
 
 	//calculate model dimensions 
-	//������������ ������ �� X, ����� ����� ������� �������� �������
+	//Рассчитанная ширина по X, между двумя прямыми боковыми гранями
 	double widthX = widthX_STD + diamOffset;
-	//������������ ������ �� X ������ � ������� � ������ ������
+	//Рассчитанная ширина по X выреза в верхней и нижней гранях
 	double widthXIn = widthXIn_STD + ((diamOffset < 0) ? (diamOffset) : (diamOffset / (widthX_STD / widthXIn_STD)));
-	//������������ ������ �� Y �� ������� �� ������ �����
+	//Рассчитанная высота по Y от верхней до нижней грани
 	double heightY = heightY_STD + diamOffset;
 
-	//����������� ������������ ������� � �����������
+	//Соотношения рассчитанных величин к стандартным
 	double widthXDifRatio = widthX / widthX_STD;
 	double widthXInDifRatio = widthXIn / widthXIn_STD;
 	double heightYDifRatio = heightY / heightY_STD;
 	/////////////////////////////////////////////////////////Sketch3 
 
-// ��������� ������ : diamIn=50, widthX=64.5, widthXIn=40, heightY=61
+// Параметры модели : diamIn=50, widthX=64.5, widthXIn=40, heightY=61
 
 	//double x01 = widthXIn / 2.425, x02 = widthXIn / 2, x03 = widthX / 2;
 	//double y01 = heightY / 2.695, y02 = heightY / 2, y03 = y01/*heightY/1.76*/;
@@ -209,7 +209,7 @@ void baseSideHoleSketch(RPArray<MbContour>* ptrContours, double diamIn = 50, boo
 
 	MbContour* ptrContour2 = new MbContour();
 
-	//���������� � ������ ���������
+	//Добавление в контур сегментов
 	ptrContour2->AddSegment(Seg15);
 	ptrContour2->AddSegment(Seg16);
 	ptrContour2->AddSegment(Seg18);
@@ -226,7 +226,7 @@ void baseSideHoleSketch(RPArray<MbContour>* ptrContours, double diamIn = 50, boo
 void sketchCircle(RPArray<MbContour>* ptrContours, double RAD1) {
 	MbCartPoint cnt1(0, 0);
 
-	// ���������� ���������� �� ������ � �������
+	// Построение окружности по центру и радиусу
 
 	MbArc* pc1 = new MbArc(cnt1, RAD1);
 
@@ -242,19 +242,19 @@ void ParametricModelCreator::CreateMainBody(MbAssembly* pAsm = nullptr, double l
 	double diamIn = diamIn_STD * ratio;
 
 
-	//������� ������, ��� � ������� ������, ��������� ���������� diamIn 
-	//���������� ������� ��������� ��� ���
-	//��� �������� �������� ���� ������, �� �������� ��� �������������
-	//����� ���� �������� ����� ������
+	//Функция эскиза, как и функция детали, принимает параметром diamIn 
+	//Внутренний диаметр отверстия под вал
+	//Это основной параметр этой детали, от которого все отталкивается
+	//Здесь этот параметр можно менять
 	//double diamIn = 50; 
 
-	//����� ������
+	//Длина детали
 	//double length = 343.95;
 
-	////////// �������� ����
-	//�������� ���������� ��� ���� ��������
+	////////// Основное тело
+	//Создание образующей для тела вращения
 	RPArray<MbContour>* ptrContours = new RPArray<MbContour>();
-	//�������� ������� �������� ������
+	//Вызываем функцию создания эскиза
 	baseSketch(ptrContours, diamIn);
 
 	MbPlacement3D* place = new MbPlacement3D();
@@ -265,30 +265,30 @@ void ParametricModelCreator::CreateMainBody(MbAssembly* pAsm = nullptr, double l
 	pCurves = new MbSweptData(*ptrSurface, *ptrContours);
 	MbVector3D dir(0, 0, 1);
 
-	// ��������� �������� ������������, �������� �������� ���� ��� ���������� � ������ � � �������� ����������� ����� (������� ������������ � �����).
+	// Параметры операции выдавливания, задающие свойства тела для построения в прямом и в обратном направлении вдоль (глубина выдавливания и уклон).
 	const double HEIGHT_FORWARD = length + 43.95, HEIGHT_BACKWARD = 0;
 	const double ANGLE_FORWARD_DEGREE = 0;
 	ExtrusionValues extrusionParams(HEIGHT_FORWARD, HEIGHT_BACKWARD);
 
-	// ����������� ��������� ������ �������� ���� � �������� ����������
+	// Именователи элементов модели твердого тела и контуров образующей
 	MbSNameMaker operNames(1, MbSNameMaker::i_SideNone, 0);
 	PArray<MbSNameMaker> cNames(0, 1, false);
 
-	// ����� �������-������� ��� ���������� �������� ���� ������������
+	// Вызов функции-утилиты для построения твердого тела выдавливания
 	MbSolid* pSolid = nullptr;
 	MbResultType res = ::ExtrusionSolid(*pCurves, dir, nullptr, nullptr, false, extrusionParams, operNames, cNames, pSolid);
-	////////// �������� ���� ���������
+	////////// Основное тело выдавлено
 
 
 
-	////////// �������� ���������, ������������
+	////////// Основное отверстие, выдавливание
 	const double RAD1 = diamIn / 2;//(diamDifRatio);
 	RPArray<MbContour>* ptrContours1 = new RPArray<MbContour>();
 	/////////////////////////////////////////////////////////Sketch2
 	sketchCircle(ptrContours1, RAD1);
 	/////////////////////////////////////////////////////////Sketch2
 	// 
-	//�������� ���������� ��� ���� ��������
+	//Создание образующей для тела вращения
 	MbPlacement3D* place1 = new MbPlacement3D();
 	MbPlane* ptrSurface1 = new MbPlane(*place1);
 
@@ -297,16 +297,16 @@ void ParametricModelCreator::CreateMainBody(MbAssembly* pAsm = nullptr, double l
 	pCurves1 = new MbSweptData(*ptrSurface1, *ptrContours1);
 	MbVector3D dir1(0, 0, 1);
 
-	// ����������� ��������� ������ �������� ���� � �������� ����������
+	// Именователи элементов модели твердого тела и контуров образующей
 	MbSNameMaker operNames1(1, MbSNameMaker::i_SideNone, 0);
 	PArray<MbSNameMaker> cNames1(0, 1, false);
 
-	// ����� �������-������� ��� ���������� �������� ���� ������������
+	// Вызов функции-утилиты для построения твердого тела выдавливания
 	MbSolid* pSolid1 = nullptr;
 	MbResultType res1 = ::ExtrusionSolid(*pCurves1, dir1, nullptr, nullptr, false, extrusionParams, operNames1, cNames1, pSolid1);
-	//������������ ���������
-	////////// �������� ���������, ������������
-	//������������ ���������
+	//выдавливание завершено
+	////////// Основное отверстие, выдавливание
+	//выдавливание завершено
 
 
 
@@ -314,12 +314,12 @@ void ParametricModelCreator::CreateMainBody(MbAssembly* pAsm = nullptr, double l
 	////////////out circle
 	const double thickness = 3;
 	const double RAD3 = RAD1 + thickness;
-	////////// �������� ���������, ������������
+	////////// Основное отверстие, выдавливание
 	RPArray<MbContour>* ptrContours3 = new RPArray<MbContour>();
 	/////////////////////////////////////////////////////////Sketch2
 	sketchCircle(ptrContours3, RAD3);
 	/////////////////////////////////////////////////////////Sketch2
-	//�������� ���������� ��� ���� ��������
+	//Создание образующей для тела вращения
 	MbPlacement3D* place3 = new MbPlacement3D();
 	MbPlane* ptrSurface3 = new MbPlane(*place3);
 
@@ -328,21 +328,21 @@ void ParametricModelCreator::CreateMainBody(MbAssembly* pAsm = nullptr, double l
 	pCurves3 = new MbSweptData(*ptrSurface3, *ptrContours3);
 	MbVector3D dir3(0, 0, 1);
 
-	// ����������� ��������� ������ �������� ���� � �������� ����������
+	// Именователи элементов модели твердого тела и контуров образующей
 	MbSNameMaker operNames3(1, MbSNameMaker::i_SideNone, 0);
 	PArray<MbSNameMaker> cNames3(0, 1, false);
 
-	// ����� �������-������� ��� ���������� �������� ���� ������������
+	// Вызов функции-утилиты для построения твердого тела выдавливания
 	MbSolid* pSolid3 = nullptr;
 	MbResultType res3 = ::ExtrusionSolid(*pCurves3, dir3, nullptr, nullptr, false, extrusionParams, operNames3, cNames3, pSolid3);
-	//������������ ���������
-	////////// �������� ���������, ������������
+	//выдавливание завершено
+	////////// Основное отверстие, выдавливание
 	////////////out circle
 
 
 
 
-	//////////  ������� ���������, ������������
+	//////////  Боковые отверстия, выдавливание
 	RPArray<MbContour>* ptrContours2 = new RPArray<MbContour>();
 	/////////////////////////////////////////////////////////Sketch3 
 	baseSideHoleSketch(ptrContours2, diamIn, false, false);
@@ -351,7 +351,7 @@ void ParametricModelCreator::CreateMainBody(MbAssembly* pAsm = nullptr, double l
 	baseSideHoleSketch(ptrContours2, diamIn, true, true);
 	////////////////////////////////////////////////////////Sketch3
 
-	//�������� ���������� ��� ���� ��������
+	//Создание образующей для тела вращения
 	MbPlacement3D* place2 = new MbPlacement3D();
 	MbPlane* ptrSurface2 = new MbPlane(*place2);
 	MbPlane* pPlaneXY2 = new MbPlane(MbCartPoint3D(0, 0, 0), MbCartPoint3D(1, 0, 0), MbCartPoint3D(0, 1, 0));
@@ -359,16 +359,19 @@ void ParametricModelCreator::CreateMainBody(MbAssembly* pAsm = nullptr, double l
 	pCurves2 = new MbSweptData(*ptrSurface2, *ptrContours2);
 	MbVector3D dir2(0, 0, 1);
 
-	// ����������� ��������� ������ �������� ���� � �������� ����������
+	// Именователи элементов модели твердого тела и контуров образующей
 	MbSNameMaker operNames2(1, MbSNameMaker::i_SideNone, 0);
 	PArray<MbSNameMaker> cNames2(0, 1, false);
 
-	// ����� �������-������� ��� ���������� �������� ���� ������������
+	// Вызов функции-утилиты для построения твердого тела выдавливания
 	MbSolid* pSolid2 = nullptr;
 	MbResultType res2 = ::ExtrusionSolid(*pCurves2, dir2, nullptr, nullptr, false, extrusionParams, operNames2, cNames2, pSolid2);
-	//////////  ������� ���������, ����������
+	//////////  Боковые отверстия, выдавлиены
 
-	/// ��������� ������������
+
+
+
+	/// финальное выдавливание
 	MbSolid* pSolid6 = nullptr;
 
 	MbBooleanFlags flagsBool;
@@ -381,7 +384,7 @@ void ParametricModelCreator::CreateMainBody(MbAssembly* pAsm = nullptr, double l
 
 	MbResultType res7 = ::BooleanResult(*pSolid, cm_Copy, *pSolid3, cm_Copy, bo_Union, flagsBool, operBoolNames, pSolid6);
 
-	//������������ ����������� �� �����
+	//ВЫДАВЛИВАНИЕ КВАДРАТИКОВ ПО УГЛАМ
 	MbResultType res8 = ::BooleanResult(*pSolid6, cm_Copy, *pSolid1, cm_Copy, bo_Difference, flagsBool, operBoolNames, pSolid6);
 
 	pSolid6->Move(MbVector3D(MbCartPoint3D(0, 0, 0), MbCartPoint3D(0, 0, -31.5)));
