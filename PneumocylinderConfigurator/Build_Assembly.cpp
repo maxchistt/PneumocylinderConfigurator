@@ -17,21 +17,21 @@ MbAssembly* ParametricModelCreator::CreatePneumocylinderAssembly(BuildParams par
 	//Разница стандартного и заданного диаметров
 	double diamMainOffset = diamMain - diamMain_STD;
 	//Соотношение стандартного и заданного диаметров
-	double diamMainDifRatio = diamMain / diamMain_STD;
+	double diamDifRatio = diamMain / diamMain_STD;
 
 	double radMainOffset = diamMainOffset / 2;
 
 
-	double diamShaft = diamMain - 30 * diamMainDifRatio;
-	const double diamShaft_STD = 20;
+	//double diamShaft = diamMain - 30 * diamMainDifRatio;
+	//const double diamShaft_STD = 20;
 	//calculate offsets
 	//Разница стандартного и заданного диаметров
-	double diamShaftOffset = diamShaft - diamShaft_STD;
+	//double diamShaftOffset = diamShaft - diamShaft_STD;
 	//Соотношение стандартного и заданного диаметров
-	double diamShaftDifRatio = diamShaft / diamShaft_STD;
+	//double diamShaftDifRatio = diamShaft / diamShaft_STD; // = diamDifRatio
 
-	double radShaftOffset = diamShaftOffset / 2;
-
+	//double radShaftOffset = diamShaftOffset / 2;
+	
 	// странный расчет
 	double len_dif = param_length - 132.95;
 
@@ -45,26 +45,26 @@ MbAssembly* ParametricModelCreator::CreatePneumocylinderAssembly(BuildParams par
 	double DD = 23.6 + radMainOffset;//ClampingBar and bolts offset from 0 coord
 
 	//Шток
-	CreateShaft(pAsm,len_dif,diamShaftDifRatio);
+	CreateShaft(pAsm,len_dif, diamDifRatio);
 
 	// Вращающая насадка на шток
-	CreateShaftPivot(pAsm, len_dif, diamShaftDifRatio); // Васинкина
+	CreateShaftPivot(pAsm, len_dif, diamDifRatio); // Васинкина
 
 	// крышки пневмоцилиндра
 	CreateBase(pAsm); // Зарубин
 	CreateTopGuide(pAsm, len_dif); // Фукина
 
 	// корпус
-	if (create_frame) CreateMainBody(pAsm, len_dif, diamMain); // Балобанов
+	if (create_frame) CreateMainBody(pAsm, len_dif, diamDifRatio); // Балобанов
 
 	// поршень и кольца на нем
-	CreateSealHousing(pAsm, diamShaftDifRatio); // Гарник
-	CreateORing(pAsm, -19, diamShaftDifRatio); // 
-	CreateORing(pAsm, -8.5, diamShaftDifRatio); // 
+	CreateSealHousing(pAsm, diamDifRatio); // Гарник
+	CreateORing(pAsm, -19, diamDifRatio); // 
+	CreateORing(pAsm, -8.5, diamDifRatio); // 
 
 	// Упоры поршня на штоке
-	CreateSocketHeadCollar(pAsm, diamShaftDifRatio); // Приходько
-	CreateBrassCollar(pAsm, diamShaftDifRatio); // Козырь
+	CreateSocketHeadCollar(pAsm, diamDifRatio); // Приходько
+	CreateBrassCollar(pAsm, diamDifRatio); // Козырь
 
 	// штыри
 	CreateClampingBar(pAsm, DD, DD, len_dif); // Приходько 

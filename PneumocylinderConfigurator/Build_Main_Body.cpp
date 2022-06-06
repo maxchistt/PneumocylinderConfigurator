@@ -236,8 +236,12 @@ void sketchCircle(RPArray<MbContour>* ptrContours, double RAD1) {
 	ptrContours->Add(ptrContour1);
 }
 
-void ParametricModelCreator::CreateMainBody(MbAssembly* pAsm = nullptr, double length = 343.95, double  diamIn = 50)
+void ParametricModelCreator::CreateMainBody(MbAssembly* pAsm = nullptr, double length = 343.95, double  ratio = 1)
 {
+	const double diamIn_STD = 50;
+	double diamIn = diamIn_STD * ratio;
+
+
 	//Функция эскиза, как и функция детали, принимает параметром diamIn 
 	//Внутренний диаметр отверстия под вал
 	//Это основной параметр этой детали, от которого все отталкивается
