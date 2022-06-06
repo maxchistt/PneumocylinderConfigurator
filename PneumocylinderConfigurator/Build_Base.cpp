@@ -45,10 +45,13 @@ void CreateSketch(RPArray<MbContour>* ptrContours, double SqureSize ,double diam
 void CreateSketch2(RPArray<MbContour>* ptrContours2, double SqureSize , double diamMain, double ratio)
 {
 	//Коэффициент маленьких квадратиков по углам
+
 	double ratioSquare = 0.308;
 	double SquareCenter = SqureSize* ratioSquare;
+	double corner1 = 6;
 	if (ratio >= 1) {
 		SquareCenter = 20;
+		corner1 = 10.5;
 	}
 
 	SArray<MbCartPoint> arrPnts2(4);
@@ -64,7 +67,7 @@ void CreateSketch2(RPArray<MbContour>* ptrContours2, double SqureSize , double d
 	
 
 	// Задание скругления с использованием функции FilletPolyContour
-	::FilletPolyContour(pPolyline2, 10.5, false, arrPnts2[2], pContourPolyline2);
+	::FilletPolyContour(pPolyline2, corner1, false, arrPnts2[2], pContourPolyline2);
 
 
 	ptrContours2->Add(pContourPolyline2);
@@ -415,10 +418,28 @@ void ParametricModelCreator::CreateBase(MbAssembly* pAsm, double ratio = 1 , dou
 		namesElSolid, pCyl3_Solid);
 	// ИСХОДНОЕ ТЕЛО №4 - ЦИЛИНДР СБОКУ
 	// Опорные точки для элементарного тела - цилиндра
+	double offsetW = 38.8;
+	double offsetW2 = 15.4;
+	double offsetR = 12.5;
+	double offsetR2 = 22;
+	double offsetR3 = 11.4;
+	if (ratio < 1) {
+		offsetW = 38.8 * ratio;
+		offsetW2 = 15.4 * ratio;
+		offsetR = 12.5 * ratio;
+		offsetR2 = 22 * ratio;
+		offsetR3 = 11.4 * ratio;
+	}else if (ratio > 1) {
+		offsetW = 38.8 * ratio;
+		offsetW2 = 15.4 * ratio;
+		offsetR = 12.5;
+		offsetR2 = 22;
+		offsetR3 = 11.4;
+	}
 	SArray<MbCartPoint3D> cylPnts4(3);
-	cylPnts4.Add(MbCartPoint3D(0, 38.8, 18.25));
-	cylPnts4.Add(MbCartPoint3D(SqureSize / 2, 38.8, 18.25));
-	cylPnts4.Add(MbCartPoint3D(SqureSize / 2, 38.8 + 12.5 / 2, 18.25));
+	cylPnts4.Add(MbCartPoint3D(0, offsetW, 18.25));
+	cylPnts4.Add(MbCartPoint3D(SqureSize / 2, offsetW, 18.25));
+	cylPnts4.Add(MbCartPoint3D(SqureSize / 2, offsetW + offsetR / 2, 18.25));
 	// Построение элементарного тела - цилиндра
 	MbResultType resCyl4 = ::ElementarySolid(cylPnts4, et_Cylinder,
 		namesElSolid, pCyl4_Solid);
@@ -434,18 +455,18 @@ void ParametricModelCreator::CreateBase(MbAssembly* pAsm, double ratio = 1 , dou
 	// ИСХОДНОЕ ТЕЛО №6 - ЦИЛИНДР СБОКУ(МАЛЕНЬКАЯ ДЕТАЛЬ)
 	// Опорные точки для элементарного тела - цилиндра
 	SArray<MbCartPoint3D> cylPnts6(3);
-	cylPnts6.Add(MbCartPoint3D(0, 38.8, 18.25));
-	cylPnts6.Add(MbCartPoint3D(0.2, 38.8, 18.25));
-	cylPnts6.Add(MbCartPoint3D(0.2, 38.8 + 22 / 2, 18.25));
+	cylPnts6.Add(MbCartPoint3D(0, offsetW, 18.25));
+	cylPnts6.Add(MbCartPoint3D(0.2, offsetW, 18.25));
+	cylPnts6.Add(MbCartPoint3D(0.2, offsetW + offsetR2 / 2, 18.25));
 	// Построение элементарного тела - цилиндра
 	MbResultType resCyl6 = ::ElementarySolid(cylPnts6, et_Cylinder,
 		namesElSolid, pCyl9_Solid);
 	// ИСХОДНОЕ ТЕЛО №7 - СБОКУ(МАЛЕНЬКАЯ ДЕТАЛЬ)
 	// Опорные точки для элементарного тела - цилиндра
 	SArray<MbCartPoint3D> cylPnts7(3);
-	cylPnts7.Add(MbCartPoint3D(0, 15.4, 22.7));
-	cylPnts7.Add(MbCartPoint3D(1.2, 15.4, 22.7));
-	cylPnts7.Add(MbCartPoint3D(1.2, 15.4 + 11.4 / 2, 22.7));
+	cylPnts7.Add(MbCartPoint3D(0, offsetW2, 22.7));
+	cylPnts7.Add(MbCartPoint3D(1.2, offsetW2, 22.7));
+	cylPnts7.Add(MbCartPoint3D(1.2, offsetW2 + offsetR3 / 2, 22.7));
 	// Построение элементарного тела - цилиндра
 	MbResultType resCyl7 = ::ElementarySolid(cylPnts7, et_Cylinder,
 		namesElSolid, pCyl10_Solid);

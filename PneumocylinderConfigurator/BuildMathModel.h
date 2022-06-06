@@ -184,7 +184,7 @@ namespace BuildMathModel {
 		static void CreateBolt(MbAssembly* pAsm, double X, double Y, double Z = -31.1, int ANGLE = -1);
 		static void CreateSocketHeadCollar(MbAssembly* pAsm, double ratio);
 		static void CreateClampingBar(MbAssembly* pAsm, double X, double Y, double length);
-		static void CreateTopGuide(MbAssembly* pAsm, double position);
+		static void CreateTopGuide(MbAssembly* pAsm, double position, double ratio, double diamMain);
 		static void CreateBrassCollar(MbAssembly* pAsm, double ratio);
 		static void CreateORing(MbAssembly* pAsm, double Z, double ratio);
 		static void CreateShaft(MbAssembly* pAsm, double length, double ratio);
