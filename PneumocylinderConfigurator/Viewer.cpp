@@ -108,6 +108,7 @@ void Viewer::changeSectionPlaneSlot()
 		tool->SetEnable(m_sectionPlaneIdArr[sectionId], false);
 		sectionId = sectionId == 0 ? 1 : 0;
 		tool->SetEnable(m_sectionPlaneIdArr[sectionId], state);
+		this->update();
 	}
 }
 
