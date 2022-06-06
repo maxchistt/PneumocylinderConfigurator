@@ -101,6 +101,16 @@ void Viewer::nextOrientationSlot()
 	this->fitSceneSlot();
 }
 
+void Viewer::changeSectionPlaneSlot()
+{
+	if (auto tool = graphicsScene()->GetCuttingTool()) {
+		bool state = tool->IsEnabled(m_sectionPlaneIdArr[sectionId]);
+		tool->SetEnable(m_sectionPlaneIdArr[sectionId], false);
+		sectionId = sectionId == 0 ? 1 : 0;
+		tool->SetEnable(m_sectionPlaneIdArr[sectionId], state);
+	}
+}
+
 void Viewer::prepareSceneBackground()
 {
 	this->graphicsView()->SetRenderMode(sceneParams.edges ? RenderMode::rm_ShadedWithEdges : RenderMode::rm_Shaded);
@@ -112,20 +122,26 @@ void Viewer::prepareSceneBackground()
 void Viewer::prepareSectionPlane()
 {
 	if (auto tool = graphicsScene()->GetCuttingTool()) {
-		m_sectionPlaneId = tool->AddSectionPlane(MbPlacement3D(
+		m_sectionPlaneIdArr[0] = tool->AddSectionPlane(MbPlacement3D(
+			MbCartPoint3D(1, 0, 0),
+			MbCartPoint3D(0, 0, 1),
+			MbCartPoint3D(0, 0, 0)
+		));
+		tool->SetEnable(m_sectionPlaneIdArr[0], false);
+		m_sectionPlaneIdArr[1] = tool->AddSectionPlane(MbPlacement3D(
 			MbCartPoint3D(0, 0, 1),
 			MbCartPoint3D(0, 1, 0),
 			MbCartPoint3D(0, 0, 0)
 		));
-		tool->SetEnable(m_sectionPlaneId, false);
+		tool->SetEnable(m_sectionPlaneIdArr[1], false);
 	}
 }
 
 void Viewer::updSectionState()
 {
 	if (auto tool = graphicsScene()->GetCuttingTool()) {
-		if (tool->IsEnabled(m_sectionPlaneId) != sceneParams.section) {
-			tool->SetEnable(m_sectionPlaneId, sceneParams.section);
+		if (tool->IsEnabled(m_sectionPlaneIdArr[sectionId]) != sceneParams.section) {
+			tool->SetEnable(m_sectionPlaneIdArr[sectionId], sceneParams.section);
 			//this->update();
 		}
 	}
@@ -150,7 +166,7 @@ void Viewer::checkHideElement(VSN::SceneSegment* seg)
 		Q_ASSERT(it != set.end());
 		VSN::Material* m_pMaterial = *it;
 
-		double value = static_cast<double>(sceneParams.frameTransp)/100;
+		double value = static_cast<double>(sceneParams.frameTransp) / 100;
 		m_pMaterial->SetOpacity(value);
 	}
 }

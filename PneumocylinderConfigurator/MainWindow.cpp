@@ -21,6 +21,7 @@ MainWindow::MainWindow(QWidget* parent)
 
 	connect(ui.action_centralyze, &QAction::triggered, viewer, &Viewer::fitSceneSlot);
 	connect(ui.action_nextOrientation, &QAction::triggered, viewer, &Viewer::nextOrientationSlot);
+	connect(ui.action_changeSectionPlane, &QAction::triggered, viewer, &Viewer::changeSectionPlaneSlot);
 	connect(ui.action_section, &QAction::triggered, paramsWidget, &ParamsWidget::toggleViewSectionSlot);
 
 	connect(ui.action_params, &QAction::triggered, this, &MainWindow::showParamsSlot);

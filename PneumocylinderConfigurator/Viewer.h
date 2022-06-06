@@ -22,9 +22,11 @@ public:
 public slots:
 	void fitSceneSlot();
 	void nextOrientationSlot();
+	void changeSectionPlaneSlot();
 
 private:
-	SectionPlaneId m_sectionPlaneId = 0;
+	int sectionId = 0;
+	SectionPlaneId m_sectionPlaneIdArr[2]{ 0,0 };
 	SceneParams sceneParams;
 	VSN::Orientation orientation = VSN::Orientation::IsoXYZ;
 	VSN::SceneSegment* rootSceneSegment = nullptr;

@@ -80,6 +80,7 @@
     <addaction name="action_centralyze"/>
     <addaction name="action_nextOrientation"/>
     <addaction name="action_section"/>
+    <addaction name="action_changeSectionPlane"/>
     <addaction name="action_params"/>
    </widget>
    <addaction name="menu"/>
@@ -147,7 +148,7 @@
     <string>О программе</string>
    </property>
    <property name="shortcut">
-    <string>F6</string>
+    <string>F7</string>
    </property>
   </action>
   <action name="action_aboutqt">
@@ -155,7 +156,7 @@
     <string>О Qt</string>
    </property>
    <property name="shortcut">
-    <string>F7</string>
+    <string>F8</string>
    </property>
   </action>
   <action name="action_centralyze">
@@ -179,15 +180,23 @@
     <string>Окно параметров</string>
    </property>
    <property name="shortcut">
-    <string>F5</string>
+    <string>F6</string>
    </property>
   </action>
   <action name="action_section">
    <property name="text">
-    <string>Сечение</string>
+    <string>Рассечь</string>
    </property>
    <property name="shortcut">
     <string>F4</string>
+   </property>
+  </action>
+  <action name="action_changeSectionPlane">
+   <property name="text">
+    <string>Другое сечение</string>
+   </property>
+   <property name="shortcut">
+    <string>F5</string>
    </property>
   </action>
  </widget>
