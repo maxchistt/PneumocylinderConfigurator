@@ -191,9 +191,9 @@ void ParametricModelCreator::CreateTopGuide(MbAssembly* pAsm, double position, d
 	// Множитель для преобразования углов из градусной в радианную меру.
 	const double DEG_TO_RAD = M_PI / 180.0;
 	const double SqureSize = diamMain + 15.2;
-	double ratioSquareH = SqureSize * 0.19;
+	double sizeSquareH = SqureSize * 0.19;
 	//крюк
-	double width = (SqureSize - ratioSquareH * 2);
+	double width = (SqureSize - sizeSquareH * 2);
 
 	/*ВЫДАВЛИВАНИЕ
 	bo_Union - объединение
@@ -273,7 +273,7 @@ void ParametricModelCreator::CreateTopGuide(MbAssembly* pAsm, double position, d
 	const double HEIGHT_FORWARD2 = 0, HEIGHT_BACKWARD2 = 7.8;//31-23.2
 	const double HEIGHT_FORWARD3 = 0, HEIGHT_BACKWARD3 = 24.5;//31-6.5
 	const double HEIGHT_FORWARD4 = 15 * ratio / 2, HEIGHT_BACKWARD4 = 15 * ratio / 2;
-	const double HEIGHT_FORWARD5 = ratioSquareH, HEIGHT_BACKWARD5 = 0;
+	const double HEIGHT_FORWARD5 = sizeSquareH, HEIGHT_BACKWARD5 = 0;
 	ExtrusionValues extrusionParams(HEIGHT_FORWARD, HEIGHT_BACKWARD);
 	ExtrusionValues extrusionParams2(HEIGHT_FORWARD2, HEIGHT_BACKWARD2);
 	ExtrusionValues extrusionParams3(HEIGHT_FORWARD3, HEIGHT_BACKWARD3);
@@ -392,15 +392,7 @@ void ParametricModelCreator::CreateTopGuide(MbAssembly* pAsm, double position, d
 	MbResultType resCyl5 = ::ElementarySolid(cylPnts5, et_Cylinder,
 		namesElSolid, pCyl5_Solid);
 
-	// ИСХОДНОЕ ТЕЛО №3 - ЦИЛИНДР БОЛЬШОЙ НАВЕРХУ
-  // Опорные точки для элементарного тела - цилиндра
-	SArray<MbCartPoint3D> cylPnts3(3);
-	cylPnts3.Add(MbCartPoint3D(SqureSize / 2, SqureSize / 2, 0));
-	cylPnts3.Add(MbCartPoint3D(SqureSize / 2, SqureSize / 2, 25.3));
-	cylPnts3.Add(MbCartPoint3D(SqureSize / 2, SqureSize / 2 - (diamMain - 12*ratio) / 2, 0));
-	// Построение элементарного тела - цилиндра
-	MbResultType resCyl3 = ::ElementarySolid(cylPnts3, et_Cylinder,
-		namesElSolid, pCyl3_Solid);
+
 
 	// ИСХОДНОЕ ТЕЛО №6 - ЦИЛИНДР СВЕРХУ МАЛЕНЬКИЙ
   // Опорные точки для элементарного тела - цилиндра
@@ -412,12 +404,22 @@ void ParametricModelCreator::CreateTopGuide(MbAssembly* pAsm, double position, d
 	MbResultType resCyl6 = ::ElementarySolid(cylPnts6, et_Cylinder,
 		namesElSolid, pCyl11_Solid);
 
+	// ИСХОДНОЕ ТЕЛО №3 - ЦИЛИНДР БОЛЬШОЙ НАВЕРХУ
+// Опорные точки для элементарного тела - цилиндра
+	SArray<MbCartPoint3D> cylPnts3(3);
+	cylPnts3.Add(MbCartPoint3D(SqureSize / 2, SqureSize / 2, 0));
+	cylPnts3.Add(MbCartPoint3D(SqureSize / 2, SqureSize / 2, 25.3));
+	cylPnts3.Add(MbCartPoint3D(SqureSize / 2, SqureSize / 2 + (SqureSize / 2 - (sizeSquareH + 0.525 * ratio)), 0));
+	// Построение элементарного тела - цилиндра
+	MbResultType resCyl3 = ::ElementarySolid(cylPnts3, et_Cylinder,
+		namesElSolid, pCyl3_Solid);
+
 	// ИСХОДНОЕ ТЕЛО №7 - ЦИЛИНДР БОЛЬШОЙ НАВЕРХУ
 	   // Опорные точки для элементарного тела - цилиндра
 	SArray<MbCartPoint3D> cylPnts7(3);
 	cylPnts7.Add(MbCartPoint3D(SqureSize / 2, SqureSize / 2, 0));
 	cylPnts7.Add(MbCartPoint3D(SqureSize / 2, SqureSize / 2, 3.6));
-	cylPnts7.Add(MbCartPoint3D(SqureSize / 2, SqureSize / 2 - (diamMain - 10.1*ratio) / 2, 0));
+	cylPnts7.Add(MbCartPoint3D(SqureSize / 2, SqureSize / 2 + (SqureSize / 2 - (sizeSquareH)), 0));
 	// Построение элементарного тела - цилиндра
 	MbResultType resCyl666 = ::ElementarySolid(cylPnts7, et_Cylinder,
 		namesElSolid, pCyl12_Solid);
