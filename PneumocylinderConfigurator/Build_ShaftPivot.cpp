@@ -86,7 +86,7 @@ void ParametricModelCreator::CreateShaftPivot(MbAssembly* pAsm, double position,
 
 		params.type = BorerValues::bt_SimpleCylinder;
 
-		params.diameter = 13.835* ratio;
+		params.diameter = 16* ratio;
 
 		params.depth = 32;
 
