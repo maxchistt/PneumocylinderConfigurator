@@ -79,8 +79,8 @@
     </property>
     <addaction name="action_centralyze"/>
     <addaction name="action_nextOrientation"/>
-    <addaction name="action_params"/>
     <addaction name="action_section"/>
+    <addaction name="action_params"/>
    </widget>
    <addaction name="menu"/>
    <addaction name="menu_2"/>
