@@ -74,6 +74,13 @@ void ParamsWidget::setupForm_scene()
 	ui.horizontalSlider_frameTransp->setValue(sceneParams.frameTransp);
 }
 
+void ParamsWidget::toggleCaseTranspSlot()
+{
+	sceneParams.frameTransp = sceneParams.frameTransp > 50 ? 10 : 100;
+	ui.horizontalSlider_frameTransp->setValue(sceneParams.frameTransp);
+	emit setupSceneSignal();
+}
+
 void ParamsWidget::toggleViewSectionSlot()
 {
 	sceneParams.section = !sceneParams.section;

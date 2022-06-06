@@ -27,6 +27,7 @@ private:
 
 public slots:
 	void toggleViewSectionSlot();
+	void toggleCaseTranspSlot();
 
 private slots:
 	void applyAndBuild();
