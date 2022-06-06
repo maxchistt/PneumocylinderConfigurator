@@ -4,23 +4,28 @@ using namespace c3d;
 using namespace std;
 using namespace BuildMathModel;
 
-//Вспомогательные функции для создания деталей
-void CreateSketch(RPArray<MbContour>& _arrContours)
+void CreateSketch(RPArray<MbContour>* ptrContours, double SqureSize ,double diamMain)
 {
 	// Создание массива точек квадрата, к которому в дальнейшем добавятся скругления.
 	// Размер массива - 8 точек для учета точек четырех сегментов скруглений.
 	SArray<MbCartPoint> arrPnts(4);
 	arrPnts.Add(MbCartPoint(0, 0));
-	arrPnts.Add(MbCartPoint(65.2, 0));
-	arrPnts.Add(MbCartPoint(65.2, 65.2));
-	arrPnts.Add(MbCartPoint(0, 65.2));
+	arrPnts.Add(MbCartPoint(SqureSize, 0));
+	arrPnts.Add(MbCartPoint(SqureSize, SqureSize));
+	arrPnts.Add(MbCartPoint(0, SqureSize));
+
+	//Переменные скругления
+	int corner1;	
+	if (diamMain <= 50) { corner1 = 6; }
+	else if (diamMain <= 60) { corner1 = 8; }
+	else { corner1 = 10; };
 
 	// Построение единой ломаной внешнего контура по точкам
 	MbPolyline* pPolyline = new MbPolyline(arrPnts, true);
 	MbContour* pContourPolyline = nullptr;
-	::FilletPolyContour(pPolyline, 6, false, arrPnts[0], pContourPolyline);
+	::FilletPolyContour(pPolyline, corner1, false, arrPnts[0], pContourPolyline);
 
-
+	
 	// Задание индексов точек, в которых будет задаваться скругление с учетом
 	// добавления новой точки при скруглении с использованием функции FilletTwoSegments
 	ptrdiff_t idxSideRight1 = 0;
@@ -28,20 +33,24 @@ void CreateSketch(RPArray<MbContour>& _arrContours)
 	ptrdiff_t idxSideRight3 = 4;
 
 	// Добавление скруглений
-	pContourPolyline->FilletTwoSegments(idxSideRight1, 6);
-	pContourPolyline->FilletTwoSegments(idxSideRight2, 6);
-	pContourPolyline->FilletTwoSegments(idxSideRight3, 6);
+	pContourPolyline->FilletTwoSegments(idxSideRight1, corner1);
+	pContourPolyline->FilletTwoSegments(idxSideRight2, corner1);
+	pContourPolyline->FilletTwoSegments(idxSideRight3, corner1);
 
-	_arrContours.push_back(pContourPolyline);
+	ptrContours->Add(pContourPolyline);
 
 	::DeleteItem(pPolyline);
 
 }
-void CreateSketch2(RPArray<MbContour>& _arrContours2)
+void CreateSketch2(RPArray<MbContour>* ptrContours2, double SqureSize , double diamMain, double ratio)
 {
-	//SecondScetch
-	double SqureSize = 65.2;
-	double SquareCenter = 20;
+	//Коэффициент маленьких квадратиков по углам
+	double ratioSquare = 0.308;
+	double SquareCenter = SqureSize* ratioSquare;
+	if (ratio >= 1) {
+		SquareCenter = 20;
+	}
+
 	SArray<MbCartPoint> arrPnts2(4);
 	arrPnts2.Add(MbCartPoint(SqureSize, SqureSize));
 	arrPnts2.Add(MbCartPoint(SqureSize - SquareCenter, SqureSize));
@@ -50,27 +59,37 @@ void CreateSketch2(RPArray<MbContour>& _arrContours2)
 
 	MbPolyline* pPolyline2 = new MbPolyline(arrPnts2, true);
 	MbContour* pContourPolyline2 = nullptr;
+
+	//Переменные скругления
+	
+
 	// Задание скругления с использованием функции FilletPolyContour
 	::FilletPolyContour(pPolyline2, 10.5, false, arrPnts2[2], pContourPolyline2);
 
 
-	_arrContours2.push_back(pContourPolyline2);
+	ptrContours2->Add(pContourPolyline2);
 	::DeleteItem(pPolyline2);
 }
-
-void CreateSketch3(RPArray<MbContour>& _arrContours3)
+void CreateSketch3(RPArray<MbContour>* ptrContours3, double SqureSize , double diamMain)
 {
 	//SecondScetch
-	double SqureSize = 65.2;
-	double Square = 15;
+	double ratioSquareW = SqureSize * 0.23;
+	double ratioSquareH = SqureSize * 0.19;
 	SArray<MbCartPoint> arrPnts(4);
-	arrPnts.Add(MbCartPoint((SqureSize / 2) + Square / 2, -0));
-	arrPnts.Add(MbCartPoint((SqureSize / 2) + Square / 2, 12.65));
-	arrPnts.Add(MbCartPoint((SqureSize / 2) - Square / 2, 12.65));
-	arrPnts.Add(MbCartPoint((SqureSize / 2) - Square / 2, -0));
+	arrPnts.Add(MbCartPoint((SqureSize / 2) + ratioSquareW / 2, -0));
+	arrPnts.Add(MbCartPoint((SqureSize / 2) + ratioSquareW / 2, ratioSquareH));
+	arrPnts.Add(MbCartPoint((SqureSize / 2) - ratioSquareW / 2, ratioSquareH));
+	arrPnts.Add(MbCartPoint((SqureSize / 2) - ratioSquareW / 2, -0));
 
 	MbPolyline* pPolyline = new MbPolyline(arrPnts, true);
 	MbContour* pContourPolyline = nullptr;
+
+	//Переменные скругления
+	int corner1;
+	if (diamMain <= 50) { corner1 = 3; }
+	else if (diamMain <= 60) { corner1 = 4; }
+	else { corner1 = 5; };
+
 	// Задание скругления с использованием функции FilletPolyContour
 	::FilletPolyContour(pPolyline, 0, false, arrPnts[3], pContourPolyline);
 
@@ -78,52 +97,68 @@ void CreateSketch3(RPArray<MbContour>& _arrContours3)
 	ptrdiff_t idxSideRight2 = 2;
 	ptrdiff_t idxSideRight3 = 4;
 
-	pContourPolyline->FilletTwoSegments(idxSideRight1, 3);
-	pContourPolyline->FilletTwoSegments(idxSideRight2, 3);
+	pContourPolyline->FilletTwoSegments(idxSideRight1, corner1);
+	pContourPolyline->FilletTwoSegments(idxSideRight2, corner1);
 	//pContourPolyline->FilletTwoSegments(idxSideRight3, 0);
 
-	_arrContours3.push_back(pContourPolyline);
+	ptrContours3->Add(pContourPolyline);
 	::DeleteItem(pPolyline);
 }
-void CreateSketch4(RPArray<MbContour>& _arrContours4)
+void CreateSketch4(RPArray<MbContour>* ptrContours4, double SqureSize, double diamMain)
 {
 	//SecondScetch
-	double SqureSize = 65.2;
-	double Square = 15;
+	double ratioSquareW = SqureSize * 0.23;
+	double ratioSquareH = SqureSize * 0.19;
 	SArray<MbCartPoint> arrPnts(4);
-	arrPnts.Add(MbCartPoint(SqureSize, SqureSize / 2 - Square / 2));
-	arrPnts.Add(MbCartPoint(SqureSize, SqureSize / 2 + Square / 2));
-	arrPnts.Add(MbCartPoint(SqureSize - 12.65, SqureSize / 2 + Square / 2));
-	arrPnts.Add(MbCartPoint(SqureSize - 12.65, SqureSize / 2 - Square / 2));
+	arrPnts.Add(MbCartPoint(SqureSize, SqureSize / 2 - ratioSquareW / 2));
+	arrPnts.Add(MbCartPoint(SqureSize, SqureSize / 2 + ratioSquareW / 2));
+	arrPnts.Add(MbCartPoint(SqureSize - ratioSquareH, SqureSize / 2 + ratioSquareW / 2));
+	arrPnts.Add(MbCartPoint(SqureSize - ratioSquareH, SqureSize / 2 - ratioSquareW / 2));
 
 	MbPolyline* pPolyline = new MbPolyline(arrPnts, true);
 	MbContour* pContourPolyline = nullptr;
+
+	//Переменные скругления
+	int corner1;
+	if (diamMain <= 50) { corner1 = 3; }
+	else if (diamMain <= 60) { corner1 = 4; }
+	else { corner1 = 5; };
+
 	// Задание скругления с использованием функции FilletPolyContour
-	::FilletPolyContour(pPolyline, 3, false, arrPnts[3], pContourPolyline);
+	::FilletPolyContour(pPolyline, corner1, false, arrPnts[3], pContourPolyline);
 
 	ptrdiff_t idxSideRight1 = 0;
 	ptrdiff_t idxSideRight2 = 2;
 	ptrdiff_t idxSideRight3 = 4;
 
 	pContourPolyline->FilletTwoSegments(idxSideRight1, 0);
-	pContourPolyline->FilletTwoSegments(idxSideRight2, 3);
+	pContourPolyline->FilletTwoSegments(idxSideRight2, corner1);
 	//pContourPolyline->FilletTwoSegments(idxSideRight3, 0);
 
-	_arrContours4.push_back(pContourPolyline);
+	ptrContours4->Add(pContourPolyline);
 	::DeleteItem(pPolyline);
 }
-void CreateSketch5(RPArray<MbContour>& _arrContours5)
+void CreateSketch5(RPArray<MbContour>* ptrContours5, double SqureSize, double diamMain , double ratio)
 {
+	double ratioSquareH = SqureSize * 0.19;
+	double width = (SqureSize - ratioSquareH * 2) / 2;
+	double high = 33.75 * ratio;
 	//SecondScetch
-	double SqureSize = 65.2;
 	SArray<MbCartPoint> arrPnts(4);
-	arrPnts.Add(MbCartPoint(39.9 / 2 + SqureSize / 2, 0));
-	arrPnts.Add(MbCartPoint(39.9 / 2 + SqureSize / 2, -33.75));
-	arrPnts.Add(MbCartPoint(-39.9 / 2 + SqureSize / 2, -33.75));
-	arrPnts.Add(MbCartPoint(-39.9 / 2 + SqureSize / 2, 0));
+	arrPnts.Add(MbCartPoint(width + SqureSize / 2, 0));
+	arrPnts.Add(MbCartPoint(width + SqureSize / 2, -high));
+	arrPnts.Add(MbCartPoint(-width + SqureSize / 2, -high));
+	arrPnts.Add(MbCartPoint(-width + SqureSize / 2, 0));
 
 	MbPolyline* pPolyline = new MbPolyline(arrPnts, true);
 	MbContour* pContourPolyline = nullptr;
+
+	//Переменные скругления
+	int corner1;
+	if (diamMain <= 50) { corner1 = 16; }
+	else if (diamMain <= 60) { corner1 = 16; }
+	else { corner1 = 16; };
+
 	// Задание скругления с использованием функции FilletPolyContour//16
 	::FilletPolyContour(pPolyline, 0, false, arrPnts[0], pContourPolyline);
 
@@ -131,29 +166,31 @@ void CreateSketch5(RPArray<MbContour>& _arrContours5)
 	ptrdiff_t idxSideRight2 = 2;
 	ptrdiff_t idxSideRight3 = 4;
 
-	pContourPolyline->FilletTwoSegments(idxSideRight1, 16);
-	pContourPolyline->FilletTwoSegments(idxSideRight2, 16);
+	pContourPolyline->FilletTwoSegments(idxSideRight1, corner1);
+	pContourPolyline->FilletTwoSegments(idxSideRight2, corner1);
 	//pContourPolyline->FilletTwoSegments(idxSideRight3, 0);
 
-	_arrContours5.push_back(pContourPolyline);
+	ptrContours5->Add(pContourPolyline);
 	::DeleteItem(pPolyline);
 }
-void CreateSketch6(RPArray<MbContour>& _arrContours6)
+void CreateSketch6(RPArray<MbContour>* ptrContours6, double SqureSize, double diamMain , double ratio)
 {
+	double ratioSquareW = SqureSize * 0.23;
 	//SecondScetch
 	SArray<MbCartPoint> arrPnts(6);
-	arrPnts.Add(MbCartPoint(25.1, 3 + 8.9));
-	arrPnts.Add(MbCartPoint(25.1, 0));
-	arrPnts.Add(MbCartPoint(25.1 + 15, 0));
-	arrPnts.Add(MbCartPoint(25.1 + 15, 3));
-	arrPnts.Add(MbCartPoint(25.1 + 4, 3));
-	arrPnts.Add(MbCartPoint(25.1 + 4, 3 + 8.9));
+
+	arrPnts.Add(MbCartPoint(SqureSize / 2 - ratioSquareW / 2, (3 + 8.9) * ratio));
+	arrPnts.Add(MbCartPoint(SqureSize / 2 - ratioSquareW / 2, 0));
+	arrPnts.Add(MbCartPoint(SqureSize / 2 + ratioSquareW / 2, 0));
+	arrPnts.Add(MbCartPoint(SqureSize / 2 + ratioSquareW / 2, 3 * ratio));
+	arrPnts.Add(MbCartPoint(SqureSize / 2 - ratioSquareW / 2 + 4 * ratio, 3 * ratio));
+	arrPnts.Add(MbCartPoint(SqureSize / 2 - ratioSquareW / 2 + 4 * ratio, (3 + 8.9) * ratio));
 	//arrPnts.Add(MbCartPoint(25.1+2, 3+8.9));
 
 
 	MbPolyline* pPolyline = new MbPolyline(arrPnts, false);
-	MbCartPoint arrcenter(25.1 + 2, 3 + 8.9);
-	const double RAD = 2;
+	MbCartPoint arrcenter(SqureSize / 2 - ratioSquareW / 2 + 2 * ratio, (3 + 8.9) * ratio);
+	const double RAD = 2 * ratio;
 	MbArc* pArc = new MbArc(arrcenter, RAD, arrPnts[5], arrPnts[0], 1);
 
 	MbContour* pContourPolyline = new MbContour(*pPolyline, true);
@@ -168,34 +205,36 @@ void CreateSketch6(RPArray<MbContour>& _arrContours6)
 	bool isClosed = pContourPolyline->IsClosedContinuousC0(); // true
 	bool isCurvilinear = pContourPolyline->IsAnyCurvilinear(); // true
 
-	_arrContours6.push_back(pContourPolyline);
+	ptrContours6->Add(pContourPolyline);
+	::DeleteItem(pPolyline);
 }
-void CreateSketch7(RPArray<MbContour>& _arrContours7)
+void CreateSketch7(RPArray<MbContour>* ptrContours7, double SqureSize, double diamMain, double ratio)
 {
-	double SqureSize = 65.2;
 	//SecondScetch
 	SArray<MbCartPoint> arrPnts(4);
-	arrPnts.Add(MbCartPoint(SqureSize / 2 - 15 / 2, -5));
-	arrPnts.Add(MbCartPoint(SqureSize / 2 - 15 / 2, 0));
-	arrPnts.Add(MbCartPoint(SqureSize / 2 - 15 / 2 - 5, 0));
+	arrPnts.Add(MbCartPoint(SqureSize / 2 - 15 * ratio / 2, -5 * ratio));
+	arrPnts.Add(MbCartPoint(SqureSize / 2 - 15 * ratio / 2, 0));
+	arrPnts.Add(MbCartPoint(SqureSize / 2 - 15 * ratio / 2 - 5 * ratio, 0));
 	//arrPnts.Add(MbCartPoint(SqureSize/2-15/2-5, -5));
 
 
 	MbPolyline* pPolyline = new MbPolyline(arrPnts, true);
-	MbCartPoint arrcenter(SqureSize / 2 - 15 / 2 - 5, -5);
+	MbCartPoint arrcenter(SqureSize / 2 - 15 * ratio / 2 - 5 * ratio, -5 * ratio);
 
 	MbContour* pContourPolyline = new MbContour(*pPolyline, true);
 
-	_arrContours7.push_back(pContourPolyline);
+	ptrContours7->Add(pContourPolyline);
+	::DeleteItem(pPolyline);
 }
 
 //Функции по созданию деталей ребят
-void ParametricModelCreator::CreateBase(MbAssembly* pAsm)
+void ParametricModelCreator::CreateBase(MbAssembly* pAsm, double ratio = 1 , double diamMain = 50)
 {
 	// Множитель для преобразования углов из градусной в радианную меру.
 	const double DEG_TO_RAD = M_PI / 180.0;
-	const double SqureSize = 65.2;
-
+	const double SqureSize = diamMain + 15.2;
+	double ratioSquareH = SqureSize * 0.19;
+	double width = (SqureSize - ratioSquareH * 2);
 	/*ВЫДАВЛИВАНИЕ
 	bo_Union - объединение
 	bo_Difference - удаление
@@ -203,20 +242,27 @@ void ParametricModelCreator::CreateBase(MbAssembly* pAsm)
 	// Локальная СК (по умолчанию совпадает с мировой СК)
 	MbPlacement3D pl;
 	// Создание образующей для тела выдавливания
-	RPArray<MbContour> arrContours;
-	CreateSketch(arrContours);
-	RPArray<MbContour> arrContours2;
-	CreateSketch2(arrContours2);
-	RPArray<MbContour> arrContours3;
-	CreateSketch3(arrContours3);
-	RPArray<MbContour> arrContours4;
-	CreateSketch4(arrContours4);
-	RPArray<MbContour> arrContours5;
-	CreateSketch5(arrContours5);
-	RPArray<MbContour> arrContours6;
-	CreateSketch6(arrContours6);
-	RPArray<MbContour> arrContours7;
-	CreateSketch7(arrContours7);
+	RPArray<MbContour>* ptrContours = new RPArray<MbContour>();
+	CreateSketch(ptrContours, SqureSize , diamMain);
+
+	RPArray<MbContour>* ptrContours2 = new RPArray<MbContour>();
+	CreateSketch2(ptrContours2, SqureSize, diamMain, ratio);
+
+	RPArray<MbContour>* ptrContours3 = new RPArray<MbContour>();
+	CreateSketch3(ptrContours3, SqureSize, diamMain);
+
+	RPArray<MbContour>* ptrContours4 = new RPArray<MbContour>();
+	CreateSketch4(ptrContours4, SqureSize, diamMain);
+
+	RPArray<MbContour>* ptrContours5 = new RPArray<MbContour>();
+	CreateSketch5(ptrContours5, SqureSize, diamMain, ratio);
+
+	RPArray<MbContour>* ptrContours6 = new RPArray<MbContour>();
+	CreateSketch6(ptrContours6, SqureSize, diamMain, ratio);
+
+	RPArray<MbContour>* ptrContours7 = new RPArray<MbContour>();
+	CreateSketch7(ptrContours7, SqureSize, diamMain, ratio);
+	
 	//ПЕРЕМЕННЫЕ ДЛЯ ВЫДАВЛИВАНИЯ
 	MbBooleanFlags flagsBool;
 	flagsBool.InitBoolean(true);
@@ -242,41 +288,59 @@ void ParametricModelCreator::CreateBase(MbAssembly* pAsm)
 	MbPlane* pPlaneXY = new MbPlane(MbCartPoint3D(0, 0, 0),
 		MbCartPoint3D(1, 0, 0),
 		MbCartPoint3D(0, 1, 0));
-	MbPlane* pPlaneYZCen = new MbPlane(MbCartPoint3D(12.65, 0, 0),
-		MbCartPoint3D(12.65, 1, 0),
-		MbCartPoint3D(12.65, 0, 1));
-	MbPlane* pPlaneXZCen = new MbPlane(MbCartPoint3D(0, 32.6 + 7.5, 0),
-		MbCartPoint3D(1, 32.6 + 7.5, 0),
-		MbCartPoint3D(0, 32.6 + 7.5, 1));
+	//Плоскости для крюка класа MbPlane
+	MbPlane* pPlaneYZCen = new MbPlane(
+		MbCartPoint3D(ratioSquareH, 0, 0),
+		MbCartPoint3D(ratioSquareH, 1, 0),
+		MbCartPoint3D(ratioSquareH, 0, 1));
+	MbPlane* pPlaneXZCen = new MbPlane(
+		MbCartPoint3D(0, SqureSize/2 + (7.5 * ratio), 0),
+		MbCartPoint3D(1, SqureSize/2 + (7.5 * ratio), 0),
+		MbCartPoint3D(0, SqureSize/2 + (7.5 * ratio), 1));
 	//СОЗДАНИЕ ПЛСК ДЛЯ ЗЕРКАЛИРОВАНИЯ
-	MbPlacement3D HorizPlane(MbVector3D(1, 0, 0), /* Ось X локальной СК */
+	MbPlacement3D HorizPlane(
+		MbVector3D(1, 0, 0), /* Ось X локальной СК */
 		MbVector3D(0, 0, 1), /* Ось Z локальной СК */
-		MbCartPoint3D(0, 32.6, 0 /* Начало координат локальной СК */));
+		MbCartPoint3D(0, SqureSize/2, 0 /* Начало координат локальной СК */));
 	MbPlacement3D VerticalPlane(MbVector3D(0, 0, 1), /* Ось Z локальной СК */
 		MbVector3D(0, 1, 0), /* Ось Y локальной СК */
-		MbCartPoint3D(32.6, 0, 0 /* Начало координат локальной СК */));
+		MbCartPoint3D(SqureSize/2, 0, 0 /* Начало координат локальной СК */));
 	// Направляющий вектор для операции выдавливания
 	MbVector3D dirX(1, 0, 0);
 	MbVector3D dirY(0, 1, 0);
 	MbVector3D dirZ(0, 0, 1);
 	// Объект, хранящий параметры образующей
-	MbSweptData sweptData(*pPlaneXY, arrContours);
-	MbSweptData sweptData2(*pPlaneXY, arrContours2);
-	MbSweptData sweptData3(*pPlaneXY, arrContours3);
-	MbSweptData sweptData4(*pPlaneXY, arrContours4);
-	MbSweptData sweptData5(*pPlaneXZCen, arrContours5);
-	MbSweptData sweptData6(*pPlaneYZ, arrContours6);
-	MbSweptData sweptData7(*pPlaneYZCen, arrContours7);
+	//SweptData для 1 скетча
+	MbSweptData* sweptData;
+	sweptData = new MbSweptData(*pPlaneXY, *ptrContours);
+	//SweptData для 2 скетча
+	MbSweptData* sweptData2;
+	sweptData2 = new MbSweptData(*pPlaneXY, *ptrContours2);
+	//SweptData для 3 скетча
+	MbSweptData* sweptData3;
+	sweptData3 = new MbSweptData(*pPlaneXY, *ptrContours3);
+	//SweptData для 4 скетча
+	MbSweptData* sweptData4;
+	sweptData4 = new MbSweptData(*pPlaneXY, *ptrContours4);
+	//SweptData для 5 скетча
+	MbSweptData* sweptData5;
+	sweptData5 = new MbSweptData(*pPlaneXZCen, *ptrContours5);
+	//SweptData для 6 скетча
+	MbSweptData* sweptData6;
+	sweptData6 = new MbSweptData(*pPlaneYZ, *ptrContours6);
+	//SweptData для 7 скетча
+	MbSweptData* sweptData7;
+	sweptData7 = new MbSweptData(*pPlaneYZCen, *ptrContours7);
 	// Направляющий вектор для операции выдавливания
 	// Параметры операции выдавливания, задающие свойства тела для построения в прямом
 	// и в обратном направлении вдоль (глубина выдавливания и уклон).
 	const double HEIGHT_FORWARD = 31, HEIGHT_BACKWARD = 0;
-	const double HEIGHT_FORWARD2 = 0, HEIGHT_BACKWARD2 = -7.8;//31-23.2
+	const double HEIGHT_FORWARD2 = 0, HEIGHT_BACKWARD2 = -7.8 ;//31-23.2
 	const double HEIGHT_FORWARD3 = 0, HEIGHT_BACKWARD3 = -24.5;//31-6.5
-	const double HEIGHT_FORWARD4 = 15 / 2, HEIGHT_BACKWARD4 = 15 / 2;
-	const double HEIGHT_FORWARD5 = 0, HEIGHT_BACKWARD5 = 15;
-	const double HEIGHT_FORWARD6 = 12.65, HEIGHT_BACKWARD6 = 0;
-	const double HEIGHT_FORWARD7 = 39.9, HEIGHT_BACKWARD7 = 0;
+	const double HEIGHT_FORWARD4 = 15 * ratio / 2, HEIGHT_BACKWARD4 = 15 * ratio / 2;
+	const double HEIGHT_FORWARD5 = 0, HEIGHT_BACKWARD5 = 15 * ratio;
+	const double HEIGHT_FORWARD6 = ratioSquareH, HEIGHT_BACKWARD6 = 0;
+	const double HEIGHT_FORWARD7 = width, HEIGHT_BACKWARD7 = 0;
 	ExtrusionValues extrusionParams(HEIGHT_FORWARD, HEIGHT_BACKWARD);
 	ExtrusionValues extrusionParams2(HEIGHT_FORWARD2, HEIGHT_BACKWARD2);
 	ExtrusionValues extrusionParams3(HEIGHT_FORWARD3, HEIGHT_BACKWARD3);
@@ -327,7 +391,7 @@ void ParametricModelCreator::CreateBase(MbAssembly* pAsm)
 	SArray<MbCartPoint3D> cylPnts(3);
 	cylPnts.Add(MbCartPoint3D(SqureSize / 2, SqureSize / 2, 4.5));
 	cylPnts.Add(MbCartPoint3D(SqureSize / 2, SqureSize / 2, 40));
-	cylPnts.Add(MbCartPoint3D(SqureSize / 2, SqureSize / 2 + 25, 4.5));
+	cylPnts.Add(MbCartPoint3D(SqureSize / 2, SqureSize / 2 + diamMain/2, 4.5));
 	// Построение элементарного тела - цилиндра
 	MbResultType resCyl1 = ::ElementarySolid(cylPnts, et_Cylinder,
 		namesElSolid, pCyl1_Solid);
@@ -336,16 +400,16 @@ void ParametricModelCreator::CreateBase(MbAssembly* pAsm)
 	SArray<MbCartPoint3D> cylPnts2(3);
 	cylPnts2.Add(MbCartPoint3D(SqureSize / 2, SqureSize / 2, 4.5));
 	cylPnts2.Add(MbCartPoint3D(SqureSize / 2, SqureSize / 2, 40));
-	cylPnts2.Add(MbCartPoint3D(SqureSize / 2, SqureSize / 2 + 13, 4.5));
+	cylPnts2.Add(MbCartPoint3D(SqureSize / 2, SqureSize / 2 + diamMain/2/2, 4.5));
 	// Построение элементарного тела - цилиндра
 	MbResultType resCyl2 = ::ElementarySolid(cylPnts2, et_Cylinder,
 		namesElSolid, pCyl2_Solid);
 	// ИСХОДНОЕ ТЕЛО №3 - ЦИЛИНДР В КРЮКЕ
 	// Опорные точки для элементарного тела - цилиндра
 	SArray<MbCartPoint3D> cylPnts3(3);
-	cylPnts3.Add(MbCartPoint3D(SqureSize / 2, 25.1, -18.75));
-	cylPnts3.Add(MbCartPoint3D(SqureSize / 2, 25.1 + 15, -18.75));
-	cylPnts3.Add(MbCartPoint3D(SqureSize / 2, 25.1 + 15, -18.75 + 13.5 / 2));
+	cylPnts3.Add(MbCartPoint3D(SqureSize / 2, 0, -18.75 * ratio));
+	cylPnts3.Add(MbCartPoint3D(SqureSize / 2, 0 + SqureSize * ratio, -18.75 * ratio));
+	cylPnts3.Add(MbCartPoint3D(SqureSize / 2, 0 + SqureSize * ratio, -18.75 * ratio + 13.5 * ratio / 2));
 	// Построение элементарного тела - цилиндра
 	MbResultType resCyl3 = ::ElementarySolid(cylPnts3, et_Cylinder,
 		namesElSolid, pCyl3_Solid);
@@ -386,14 +450,14 @@ void ParametricModelCreator::CreateBase(MbAssembly* pAsm)
 	MbResultType resCyl7 = ::ElementarySolid(cylPnts7, et_Cylinder,
 		namesElSolid, pCyl10_Solid);
 	//СОЗДАНИЕ БАЗЫ ДЛЯ МОДЕЛИ
-	MbResultType res = ::ExtrusionSolid(sweptData, dirZ, nullptr, nullptr, false, extrusionParams, operNames, cNames, pSolid);
+	MbResultType res = ::ExtrusionSolid(*sweptData, dirZ, nullptr, nullptr, false, extrusionParams, operNames, cNames, pSolid);
 	MbResultType res16 = ::BooleanResult(*pSolid, cm_Copy, *pCyl1_Solid, cm_Copy, bo_Union, flagsBool, operBoolNames, pSolid);
 	MbResultType res17 = ::BooleanResult(*pSolid, cm_Copy, *pCyl2_Solid, cm_Copy, bo_Difference, flagsBool, operBoolNames, pSolid);
 	//Создание ТТ ДЛЯ КВАДРАТИКОВ ПО УГЛАМ
-	MbResultType res2 = ::ExtrusionSolid(sweptData2, dirZ, nullptr, nullptr, false, extrusionParams2, operNames, cNames, pSolid2);
+	MbResultType res2 = ::ExtrusionSolid(*sweptData2, dirZ, nullptr, nullptr, false, extrusionParams2, operNames, cNames, pSolid2);
 	//СОЗДАНИЕ ТТ ДЛЯ 3ПРЯМОУГОЛЬНИКОВ ПО КРАЯМ
-	MbResultType res3 = ::ExtrusionSolid(sweptData3, dirZ, nullptr, nullptr, false, extrusionParams3, operNames, cNames, pSolid7);
-	MbResultType res12 = ::ExtrusionSolid(sweptData4, dirZ, nullptr, nullptr, false, extrusionParams3, operNames, cNames, pSolid8);
+	MbResultType res3 = ::ExtrusionSolid(*sweptData3, dirZ, nullptr, nullptr, false, extrusionParams3, operNames, cNames, pSolid7);
+	MbResultType res12 = ::ExtrusionSolid(*sweptData4, dirZ, nullptr, nullptr, false, extrusionParams3, operNames, cNames, pSolid8);
 
 	//ЗЕРКАЛИРОВАНИЕ ОБЪЕКТОВ
 	MbResultType res10 = ::MirrorSolid(*pSolid2, HorizPlane, operNames, pSolid4);
@@ -415,13 +479,13 @@ void ParametricModelCreator::CreateBase(MbAssembly* pAsm)
 	MbResultType res15 = ::BooleanResult(*pSolid, cm_Copy, *pSolid8, cm_Copy, bo_Difference, flagsBool, operBoolNames, pSolid);
 	//СОЗДАНИЕ КРЮКА
 
-	MbResultType res18 = ::ExtrusionSolid(sweptData5, dirY, nullptr, nullptr, false, extrusionParams5, operNames, cNames, pSolid10);
+	MbResultType res18 = ::ExtrusionSolid(*sweptData5, dirY, nullptr, nullptr, false, extrusionParams5, operNames, cNames, pSolid10);
 	//END TEST
 	MbResultType res19 = ::BooleanResult(*pSolid10, cm_Copy, *pCyl3_Solid, cm_Copy, bo_Difference, flagsBool, operBoolNames, pSolid10);
 	MbResultType res20 = ::BooleanResult(*pSolid, cm_Copy, *pSolid10, cm_Copy, bo_Union, flagsBool, operBoolNames, pSolid);
 	MbResultType res21 = ::BooleanResult(*pSolid, cm_Copy, *pCyl4_Solid, cm_Copy, bo_Difference, flagsBool, operBoolNames, pSolid);
 	//СОЗДАНИЕ ВЫРЕЗА ВОЗЛЕ ВЫХОДА ДИАМЕТРА
-	MbResultType res22 = ::ExtrusionSolid(sweptData6, dirX, nullptr, nullptr, false, extrusionParams6, operNames, cNames, pSolid12);
+	MbResultType res22 = ::ExtrusionSolid(*sweptData6, dirX, nullptr, nullptr, false, extrusionParams6, operNames, cNames, pSolid12);
 	MbResultType res23 = ::BooleanResult(*pSolid, cm_Copy, *pSolid12, cm_Copy, bo_Difference, flagsBool, operBoolNames, pSolid);
 	//ВЫДАВЛИВАНИЕ ОТВЕРСТИЙ В КВАДРАТИКАХ
 	MbResultType res27 = ::BooleanResult(*pSolid, cm_Copy, *pCyl5_Solid, cm_Copy, bo_Difference, flagsBool, operBoolNames, pSolid);
@@ -432,7 +496,7 @@ void ParametricModelCreator::CreateBase(MbAssembly* pAsm)
 	MbResultType res31 = ::BooleanResult(*pSolid, cm_Copy, *pCyl9_Solid, cm_Copy, bo_Difference, flagsBool, operBoolNames, pSolid);
 	MbResultType res32 = ::BooleanResult(*pSolid, cm_Copy, *pCyl10_Solid, cm_Copy, bo_Difference, flagsBool, operBoolNames, pSolid);
 	//FILLETS 
-	MbResultType res33 = ::ExtrusionSolid(sweptData7, dirX, nullptr, nullptr, false, extrusionParams7, operNames, cNames, pSolid13);
+	MbResultType res33 = ::ExtrusionSolid(*sweptData7, dirX, nullptr, nullptr, false, extrusionParams7, operNames, cNames, pSolid13);
 	MbResultType res34 = ::MirrorSolid(*pSolid13, HorizPlane, operNames, pSolid14);
 	MbResultType res35 = ::BooleanResult(*pSolid, cm_Copy, *pSolid13, cm_Copy, bo_Union, flagsBool, operBoolNames, pSolid);
 	MbResultType res36 = ::BooleanResult(*pSolid, cm_Copy, *pSolid14, cm_Copy, bo_Union, flagsBool, operBoolNames, pSolid);
@@ -442,7 +506,7 @@ void ParametricModelCreator::CreateBase(MbAssembly* pAsm)
 
 	//show(Style(1, BLACK), pSolid4);
 	//show(Style(1, BLACK), pSolid5);
-	pSolid->Move(MbVector3D(MbCartPoint3D(0, 0, 0), MbCartPoint3D(-SqureSize / 2, -SqureSize / 2, -62)));
+	pSolid->Move(MbVector3D(MbCartPoint3D(0, 0, 0), MbCartPoint3D(-SqureSize / 2, -SqureSize / 2, -62)));//+( 31 - 31 * ratio) <-код для параметризации (добавить к 62)
 	//pSolid->Move(MbVector3D(MbCartPoint3D(0, 0, 0), MbCartPoint3D(0, -SqureSize / 2, 0)));
 
 	pSolid->SetColor(ParametricModelCreator::colorScheme ? RGB(210, 20, 20) : WHITE);

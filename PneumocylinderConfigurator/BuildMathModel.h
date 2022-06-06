@@ -177,7 +177,7 @@ namespace BuildMathModel {
 	private:
 		static MbAssembly* CreatePneumocylinderAssembly(BuildParams params);
 	private:
-		static void CreateBase(MbAssembly* pAsm);
+		static void CreateBase(MbAssembly* pAsm, double ratio, double diamMain);
 		static void CreateShaftPivot(MbAssembly* pAsm, double position, double ratio);
 		static void CreateMainBody(MbAssembly* pAsm, double length, double ratio);
 		static void CreateSealHousing(MbAssembly* pAsm, double ratio);
