@@ -8,6 +8,7 @@ Viewer::Viewer(QWidget* parent) : QtVision::QtOpenGLSceneWidget(parent)
 	QtVision::createProcessesCameraControls(this);
 
 	prepareSceneBackground();
+	prepareSectionPlane();
 }
 
 Viewer::~Viewer()
@@ -96,10 +97,31 @@ void Viewer::nextOrientationSlot()
 	this->fitSceneSlot();
 }
 
+void Viewer::toggleSectionSlot()
+{
+	if (auto tool = graphicsScene()->GetCuttingTool()) {
+		bool value = tool->IsEnabled(m_sectionPlaneId);
+		tool->SetEnable(m_sectionPlaneId, !value);
+		this->update();
+	}
+}
+
 void Viewer::prepareSceneBackground()
 {
 	this->graphicsView()->SetRenderMode(sceneParams.edges ? RenderMode::rm_ShadedWithEdges : RenderMode::rm_Shaded);
 	this->mainLight()->SetType((Light::LightTypes)(sceneParams.lightType));
 	this->mainLight()->SetDoubleSided(sceneParams.doubleSided);
 	this->viewport()->SetGradientBackgroundColour(Color(2, 204, 255), Color(232, 234, 255));
+}
+
+void Viewer::prepareSectionPlane()
+{
+	if (auto tool = graphicsScene()->GetCuttingTool()) {
+		m_sectionPlaneId = tool->AddSectionPlane(MbPlacement3D(
+			MbCartPoint3D(0, 0, 1),
+			MbCartPoint3D(0, 1, 0),
+			MbCartPoint3D(0, 0, 0)
+		));
+		tool->SetEnable(m_sectionPlaneId, false);
+	}
 }
