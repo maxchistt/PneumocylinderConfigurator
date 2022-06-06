@@ -60,7 +60,7 @@ void ParamsWidget::updateParams_scene()
 	sceneParams.edges = ui.comboBox_edges->currentIndex();
 	sceneParams.lightType = ui.comboBox_lighttype->currentIndex();
 	sceneParams.section = ui.comboBox_section->currentIndex();
-	sceneParams.frameVisble = ui.checkBox_frame->checkState() == Qt::CheckState::Checked;
+	sceneParams.frameTransp = ui.horizontalSlider_frameTransp->value();
 }
 
 void ParamsWidget::setupForm_scene()
@@ -69,7 +69,7 @@ void ParamsWidget::setupForm_scene()
 	ui.comboBox_edges->setCurrentIndex(sceneParams.edges ? 1 : 0);
 	ui.comboBox_lighttype->setCurrentIndex(sceneParams.lightType);
 	ui.comboBox_section->setCurrentIndex(sceneParams.section ? 1 : 0);
-	ui.checkBox_frame->setCheckState(sceneParams.frameVisble ? Qt::CheckState::Checked : Qt::CheckState::Unchecked);
+	ui.horizontalSlider_frameTransp->setValue(sceneParams.frameTransp);
 }
 
 void ParamsWidget::toggleViewSectionSlot()

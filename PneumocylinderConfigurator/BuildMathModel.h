@@ -167,7 +167,7 @@
 
 #include "colorDef.h"
 #include "BuildParams.h"
-
+#include "SceneParams.h"
 
 namespace BuildMathModel {
 	class ParametricModelCreator {

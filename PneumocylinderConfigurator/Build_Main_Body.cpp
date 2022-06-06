@@ -334,5 +334,5 @@ void ParametricModelCreator::CreateMainBody(MbAssembly* pAsm, double length)
 	pSolid->SetColor(ParametricModelCreator::colorScheme ? BLACK : RGB(10,20,20));
 
 	auto addedItem = pAsm->AddItem(*pSolid);
-	addedItem->SetItemName(SimpleName(std::uint32_t("Pneumocylinder case")));
+	addedItem->SetItemName(SimpleName(CASE_ITEMNAME));
 }

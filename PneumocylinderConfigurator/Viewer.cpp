@@ -150,7 +150,7 @@ void Viewer::checkHideElement(VSN::SceneSegment* seg)
 		Q_ASSERT(it != set.end());
 		VSN::Material* m_pMaterial = *it;
 
-		double value = sceneParams.frameVisble ? 1.0 : 0.1;
+		double value = static_cast<double>(sceneParams.frameTransp)/100;
 		m_pMaterial->SetOpacity(value);
 	}
 }
