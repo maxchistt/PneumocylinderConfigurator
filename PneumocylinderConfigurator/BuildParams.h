@@ -1,4 +1,6 @@
 #pragma once
+#define CASE_ITEMNAME std::uint32_t("Pneumocylinder case")
+
 namespace BuildMathModel {
 	struct BuildParams
 	{

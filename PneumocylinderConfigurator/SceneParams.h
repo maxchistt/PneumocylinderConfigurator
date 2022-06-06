@@ -1,5 +1,5 @@
 #pragma once
-#define CASE_ITEMNAME std::uint32_t("Pneumocylinder case")
+#include "BuildParams.h"
 
 struct SceneParams {
 	bool doubleSided = true;
