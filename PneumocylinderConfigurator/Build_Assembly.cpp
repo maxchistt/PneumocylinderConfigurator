@@ -19,60 +19,43 @@ MbAssembly* ParametricModelCreator::CreatePneumocylinderAssembly(BuildParams par
 	double diamDifRatio = diamMain / diamMain_STD;
 
 	double radMainOffset = diamMainOffset / 2;
-
-
-	//double diamShaft = diamMain - 30 * diamMainDifRatio;
-	//const double diamShaft_STD = 20;
-	//calculate offsets
-	//������� ������������ � ��������� ���������
-	//double diamShaftOffset = diamShaft - diamShaft_STD;
-	//����������� ������������ � ��������� ���������
-	//double diamShaftDifRatio = diamShaft / diamShaft_STD; // = diamDifRatio
-
-	//double radShaftOffset = diamShaftOffset / 2;
 	
 	// �������� ������
 	double len_dif = param_length - 132.95;
 
 	//pAsm->AddItem(*pSolid);
 
-	// ���������� ��� �������������� ���� 
-	double start = 0;
-	double length = 0;
-	double radius = 0;
-
 	double DD = 23.6 + radMainOffset;//ClampingBar and bolts offset from 0 coord
 
-	//����
-	CreateShaft(pAsm,len_dif, diamDifRatio);
+	//Шток
+	CreateShaft(pAsm, len_dif, diamDifRatio);
 
+	// Вращающая насадка на шток
+	CreateShaftPivot(pAsm, len_dif, diamDifRatio); // Васинкина
 
-	// ��������� ������� �� ����
-	CreateShaftPivot(pAsm, len_dif, diamDifRatio); // ���������
+	// крышки пневмоцилиндра
+	CreateBase(pAsm, diamDifRatio); // Зарубин
+	CreateTopGuide(pAsm, len_dif, diamDifRatio); // Фукина
 
-	// ������ ��������������
-	CreateBase(pAsm, diamDifRatio); // �������
-	CreateTopGuide(pAsm, len_dif, diamDifRatio); // ������
+	// корпус
+	CreateMainBody(pAsm, len_dif, diamDifRatio); // Балобанов
 
-	// ������
-	if (create_frame) CreateMainBody(pAsm, len_dif, diamDifRatio); // ���������
-
-	// ������� � ������ �� ���
-	CreateSealHousing(pAsm, diamDifRatio); // ������
+	// поршень и кольца на нем
+	CreateSealHousing(pAsm, diamDifRatio); // Гарник
 	CreateORing(pAsm, -19, diamDifRatio); // 
 	CreateORing(pAsm, -8.5, diamDifRatio); // 
 
-	// ����� ������ �� �����
-	CreateSocketHeadCollar(pAsm, diamDifRatio); // ���������
-	CreateBrassCollar(pAsm, diamDifRatio); // ������
+	// Упоры поршня на штоке
+	CreateSocketHeadCollar(pAsm, diamDifRatio); // Приходько
+	CreateBrassCollar(pAsm, diamDifRatio); // Козырь
 
-	// �����
-	CreateClampingBar(pAsm, DD, DD, len_dif); // ��������� 
+	// штыри
+	CreateClampingBar(pAsm, DD, DD, len_dif); // Приходько 
 	CreateClampingBar(pAsm, DD, -DD, len_dif); // 
 	CreateClampingBar(pAsm, -DD, -DD, len_dif); // 
 	CreateClampingBar(pAsm, -DD, DD, len_dif); // 
 
-	CreateBolt(pAsm, DD, DD, -32.6); // ������
+	CreateBolt(pAsm, DD, DD, -32.6); // Фукина
 	CreateBolt(pAsm, DD, -DD, -32.6); //
 	CreateBolt(pAsm, -DD, -DD, -32.6); //
 	CreateBolt(pAsm, -DD, DD, -32.6); //
