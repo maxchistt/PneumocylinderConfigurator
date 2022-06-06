@@ -78,8 +78,8 @@ void Viewer::setSceneParams(SceneParams params)
 {
 	sceneParams = params;
 	prepareSceneBackground();
-	updSectionState();
 	update();
+	updSectionState();
 }
 
 void Viewer::fitSceneSlot()
@@ -121,7 +121,9 @@ void Viewer::prepareSectionPlane()
 void Viewer::updSectionState()
 {
 	if (auto tool = graphicsScene()->GetCuttingTool()) {
-		tool->SetEnable(m_sectionPlaneId, sceneParams.section);
-		this->update();
+		if (tool->IsEnabled(m_sectionPlaneId) != sceneParams.section) {
+			tool->SetEnable(m_sectionPlaneId, sceneParams.section);
+			this->update();
+		}
 	}
 }
