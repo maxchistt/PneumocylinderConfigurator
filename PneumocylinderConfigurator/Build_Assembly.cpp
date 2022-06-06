@@ -13,9 +13,9 @@ MbAssembly* ParametricModelCreator::CreatePneumocylinderAssembly(BuildParams par
 	double diamMain = params.diam;
 	const double diamMain_STD = 50;
 	//calculate offsets
-	//������� ������������ � ��������� ���������
+	//Разница стандартного и заданного диаметров
 	double diamMainOffset = diamMain - diamMain_STD;
-	//����������� ������������ � ��������� ���������
+	//Соотношение стандартного и заданного диаметров
 	double diamDifRatio = diamMain / diamMain_STD;
 
 	double radMainOffset = diamMainOffset / 2;
