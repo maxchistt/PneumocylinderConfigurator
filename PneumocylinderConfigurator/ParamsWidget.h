@@ -25,6 +25,9 @@ private:
 	void updateParams_scene();
 	void setupForm_scene();
 
+public slots:
+	void toggleViewSectionSlot();
+
 private slots:
 	void applyAndBuild();
 	void reset();

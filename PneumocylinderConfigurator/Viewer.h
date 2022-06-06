@@ -22,7 +22,6 @@ public:
 public slots:
 	void fitSceneSlot();
 	void nextOrientationSlot();
-	void toggleSectionSlot();
 
 private:
 	SectionPlaneId m_sectionPlaneId = 0;
@@ -31,4 +30,5 @@ private:
 	VSN::SceneSegment* rootSceneSegment = nullptr;
 	void prepareSceneBackground();
 	void prepareSectionPlane();
+	void updSectionState();
 };

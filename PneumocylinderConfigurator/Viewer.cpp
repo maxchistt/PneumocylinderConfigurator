@@ -78,6 +78,7 @@ void Viewer::setSceneParams(SceneParams params)
 {
 	sceneParams = params;
 	prepareSceneBackground();
+	updSectionState();
 	update();
 }
 
@@ -97,15 +98,6 @@ void Viewer::nextOrientationSlot()
 	this->fitSceneSlot();
 }
 
-void Viewer::toggleSectionSlot()
-{
-	if (auto tool = graphicsScene()->GetCuttingTool()) {
-		bool value = tool->IsEnabled(m_sectionPlaneId);
-		tool->SetEnable(m_sectionPlaneId, !value);
-		this->update();
-	}
-}
-
 void Viewer::prepareSceneBackground()
 {
 	this->graphicsView()->SetRenderMode(sceneParams.edges ? RenderMode::rm_ShadedWithEdges : RenderMode::rm_Shaded);
@@ -123,5 +115,13 @@ void Viewer::prepareSectionPlane()
 			MbCartPoint3D(0, 0, 0)
 		));
 		tool->SetEnable(m_sectionPlaneId, false);
+	}
+}
+
+void Viewer::updSectionState()
+{
+	if (auto tool = graphicsScene()->GetCuttingTool()) {
+		tool->SetEnable(m_sectionPlaneId, sceneParams.section);
+		this->update();
 	}
 }

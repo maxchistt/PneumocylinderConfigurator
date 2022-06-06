@@ -13,6 +13,8 @@ ParamsWidget::ParamsWidget(QWidget* parent)
 	ui.comboBox_lighttype->addItem("spot", QVariant(2));
 	ui.comboBox_colorScheme->addItem("White/Gray", QVariant(0));
 	ui.comboBox_colorScheme->addItem("Red/Blue", QVariant(1));
+	ui.comboBox_section->addItem("false", QVariant(0));
+	ui.comboBox_section->addItem("true", QVariant(1));
 
 	setupForm_model();
 	setupForm_scene();
@@ -28,13 +30,13 @@ ParamsWidget::~ParamsWidget()
 
 BuildMathModel::BuildParams ParamsWidget::getParams_model()
 {
-	updateParams_model();
+	//updateParams_model();
 	return modelParams;
 }
 
 SceneParams ParamsWidget::getParams_scene()
 {
-	updateParams_scene();
+	//updateParams_scene();
 	return sceneParams;
 }
 
@@ -59,6 +61,7 @@ void ParamsWidget::updateParams_scene()
 	sceneParams.doubleSided = ui.comboBox_doublesided->currentIndex();
 	sceneParams.edges = ui.comboBox_edges->currentIndex();
 	sceneParams.lightType = ui.comboBox_lighttype->currentIndex();
+	sceneParams.section = ui.comboBox_section->currentIndex();
 }
 
 void ParamsWidget::setupForm_scene()
@@ -66,6 +69,14 @@ void ParamsWidget::setupForm_scene()
 	ui.comboBox_doublesided->setCurrentIndex(sceneParams.doubleSided ? 1 : 0);
 	ui.comboBox_edges->setCurrentIndex(sceneParams.edges ? 1 : 0);
 	ui.comboBox_lighttype->setCurrentIndex(sceneParams.lightType);
+	ui.comboBox_section->setCurrentIndex(sceneParams.section ? 1 : 0);
+}
+
+void ParamsWidget::toggleViewSectionSlot()
+{
+	sceneParams.section = !sceneParams.section;
+	ui.comboBox_section->setCurrentIndex(sceneParams.section ? 1 : 0);
+	emit setupSceneSignal();
 }
 
 void ParamsWidget::applyAndBuild()
@@ -82,6 +93,6 @@ void ParamsWidget::reset()
 
 void ParamsWidget::sceneset()
 {
-	updateParams_model();
+	updateParams_scene();
 	emit setupSceneSignal();
 }
