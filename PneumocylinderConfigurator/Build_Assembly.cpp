@@ -9,53 +9,77 @@ MbAssembly* ParametricModelCreator::CreatePneumocylinderAssembly(BuildParams par
 	MbAssembly* pAsm = new MbAssembly();
 
 	double param_length = params.length;
-	double param_diam = params.diam;
 
-	double lendif = param_length - 132.95;
-	double raddif = param_diam / 2.0 - 10.0;
+	double diamMain = params.diam;
+	const double diamMain_STD = 50;
+	//calculate offsets
+	//пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+	double diamMainOffset = diamMain - diamMain_STD;
+	//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+	double diamDifRatio = diamMain / diamMain_STD;
+
+	double radMainOffset = diamMainOffset / 2;
+
+
+	//double diamShaft = diamMain - 30 * diamMainDifRatio;
+	//const double diamShaft_STD = 20;
+	//calculate offsets
+	//пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+	//double diamShaftOffset = diamShaft - diamShaft_STD;
+	//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+	//double diamShaftDifRatio = diamShaft / diamShaft_STD; // = diamDifRatio
+
+	//double radShaftOffset = diamShaftOffset / 2;
+	
+	// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+	double len_dif = param_length - 132.95;
 
 	//pAsm->AddItem(*pSolid);
 
-	// Переменные для параметризации вала 
+	// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ 
 	double start = 0;
 	double length = 0;
 	double radius = 0;
 
-	double DD = 23.6;
+	double DD = 23.6 + radMainOffset;//ClampingBar and bolts offset from 0 coord
 
-	//Shaft
-	CreateShaft(pAsm, start = 0, length = lendif + 66.8, radius = 10 + raddif);
-	CreateShaft(pAsm, start = lendif + 66.8, length = 9, radius = 9.4 + raddif);
-	CreateShaft(pAsm, start = lendif + 75.8, length = 3.5, radius = 6.9 + raddif);
-	CreateShaft(pAsm, start = lendif + 79.3, length = 28, radius = 8 + raddif);
-	// zero x , y , z 
-	CreateShaft(pAsm, start = 0, length = -5, radius = 9.2 + raddif);
-	CreateShaft(pAsm, start = -5, length = -17.5, radius = 7 + raddif);
-	CreateShaft(pAsm, start = -22.5, length = -3.2, radius = 6.15 + raddif);
-	CreateShaft(pAsm, start = -25.7, length = -16, radius = 7 + raddif);
-	//Shaft
+	//пїЅпїЅпїЅпїЅ
+	CreateShaft(pAsm,len_dif, diamDifRatio);
 
-	CreateBase(pAsm); // Зарубин
-	CreateShaftPivot(pAsm, lendif); // Васинкина
-	CreateMainBody(pAsm, lendif); // Балобанов
-	CreateSealHousing(pAsm); // Гарник
-	CreateBolt(pAsm, DD, DD); // Фукина
-	CreateBolt(pAsm, DD, -DD); // 
-	CreateBolt(pAsm, -DD, -DD); // 
-	CreateBolt(pAsm, -DD, DD); //
-	CreateBolt(pAsm, -DD, DD, lendif + 16.05, 1); // 
-	CreateBolt(pAsm, DD, DD, lendif + 16.05, 1); // 
-	CreateBolt(pAsm, DD, -DD, lendif + 16.05, 1); //
-	CreateBolt(pAsm, -DD, -DD, lendif + 16.05, 1); // 
-	CreateSocketHeadCollar(pAsm); // Приходько
-	CreateClampingBar(pAsm, DD, DD, lendif); // Приходько 
-	CreateClampingBar(pAsm, DD, -DD, lendif); // 
-	CreateClampingBar(pAsm, -DD, -DD, lendif); // 
-	CreateClampingBar(pAsm, -DD, DD, lendif); // 
-	CreateTopGuide(pAsm, lendif); // Фукина
-	CreateBrassCollar(pAsm); // Козырь
-	CreateORing(pAsm, -19); // 
-	CreateORing(pAsm, -8.5); // 
+
+	// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ
+	CreateShaftPivot(pAsm, len_dif, diamDifRatio); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+
+	// пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+	CreateBase(pAsm, diamDifRatio); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+	CreateTopGuide(pAsm, len_dif, diamDifRatio); // пїЅпїЅпїЅпїЅпїЅпїЅ
+
+	// пїЅпїЅпїЅпїЅпїЅпїЅ
+	if (create_frame) CreateMainBody(pAsm, len_dif, diamDifRatio); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+
+	// пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅ
+	CreateSealHousing(pAsm, diamDifRatio); // пїЅпїЅпїЅпїЅпїЅпїЅ
+	CreateORing(pAsm, -19, diamDifRatio); // 
+	CreateORing(pAsm, -8.5, diamDifRatio); // 
+
+	// пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
+	CreateSocketHeadCollar(pAsm, diamDifRatio); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+	CreateBrassCollar(pAsm, diamDifRatio); // пїЅпїЅпїЅпїЅпїЅпїЅ
+
+	// пїЅпїЅпїЅпїЅпїЅ
+	CreateClampingBar(pAsm, DD, DD, len_dif); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ 
+	CreateClampingBar(pAsm, DD, -DD, len_dif); // 
+	CreateClampingBar(pAsm, -DD, -DD, len_dif); // 
+	CreateClampingBar(pAsm, -DD, DD, len_dif); // 
+
+	CreateBolt(pAsm, DD, DD, -32.6); // пїЅпїЅпїЅпїЅпїЅпїЅ
+	CreateBolt(pAsm, DD, -DD, -32.6); //
+	CreateBolt(pAsm, -DD, -DD, -32.6); //
+	CreateBolt(pAsm, -DD, DD, -32.6); //
+	CreateBolt(pAsm, -DD, DD, len_dif + 16.05, 1); //
+	CreateBolt(pAsm, DD, DD, len_dif + 16.05, 1); //
+	CreateBolt(pAsm, DD, -DD, len_dif + 16.05, 1); //
+	CreateBolt(pAsm, -DD, -DD, len_dif + 16.05, 1); //
 
 	return pAsm;
 }

@@ -212,7 +212,7 @@ void ParametricModelCreator::CreateBolt(MbAssembly* pAsm, double X, double Y, do
 	if (res6 == rt_Success)
 		//pResult1->Rotate(axVert, M_PI / 2 );
 
-		pResult1->SetColor(ParametricModelCreator::colorScheme ? LIGHTGRAY : DARKGRAY);
+		pResult1->SetColor(LIGHTGRAY);
 	pAsm->AddItem(*pResult1);
 	//viewManager->AddObject(Style(1, LIGHTGRAY), pResult1);
 

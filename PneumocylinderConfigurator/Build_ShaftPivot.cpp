@@ -4,44 +4,50 @@ using namespace c3d;
 using namespace std;
 using namespace BuildMathModel;
 
-void CreateSketchShaftPivot(RPArray<MbContour>& _arrContours)
+void CreateSketchShaftPivot(RPArray<MbContour>& _arrContours, double ratio)
 {
-	SArray<MbCartPoint> arrPnts(8);
-	arrPnts.Add(MbCartPoint(12.5, 12.5));
-	arrPnts.Add(MbCartPoint(12.5, -12.5));
-	arrPnts.Add(MbCartPoint(-12.5, -12.5));
-	arrPnts.Add(MbCartPoint(-12.5, 12.5));
+	SArray<MbCartPoint> arrPnts(4);
+	arrPnts.Add(MbCartPoint(12.5 * ratio, 12.5 * ratio));
+	arrPnts.Add(MbCartPoint(12.5 * ratio, -12.5 * ratio));
+	arrPnts.Add(MbCartPoint(-12.5 * ratio, -12.5 * ratio));
+	arrPnts.Add(MbCartPoint(-12.5 * ratio, 12.5 * ratio));
 
 	// Построение единой ломаной внешнего контура по точкам
 	MbPolyline* pPolyline = new MbPolyline(arrPnts, true);
 	MbContour* pContourPolyline = nullptr;
 
 	// Задание скругления с использованием функции FilletPolyContour
-	::FilletPolyContour(pPolyline, 5, false, arrPnts[4], pContourPolyline);
+	::FilletPolyContour(pPolyline, 5 * ratio, false, arrPnts[0], pContourPolyline);
 
 	// Задание индексов точек, в которых будет задаваться скругление с учетом
 	// добавления новой точки при скруглении с использованием функции FilletTwoSegments
+
 	ptrdiff_t idxSideRight1 = 0;
 	ptrdiff_t idxSideRight2 = 2;
 	ptrdiff_t idxSideRight3 = 4;
 
 	// Добавление скруглений
-	pContourPolyline->FilletTwoSegments(idxSideRight1, 5);
-	pContourPolyline->FilletTwoSegments(idxSideRight2, 5);
-	pContourPolyline->FilletTwoSegments(idxSideRight3, 5);
+	// 
+	pContourPolyline->FilletTwoSegments(idxSideRight1, 5 * ratio);
+	pContourPolyline->FilletTwoSegments(idxSideRight2, 5 * ratio);
+	pContourPolyline->FilletTwoSegments(idxSideRight3, 5 * ratio);
 
 	_arrContours.push_back(pContourPolyline);
 	::DeleteItem(pPolyline);
 }
 
-void ParametricModelCreator::CreateShaftPivot(MbAssembly* pAsm, double position)
+void ParametricModelCreator::CreateShaftPivot(MbAssembly* pAsm, double position, double ratio)
 {
+	const double diamIn_STD = 8;
+	const double sizeOut_STD = 12.5;
+	double outRatio = ((sizeOut_STD - diamIn_STD) + (diamIn_STD * ratio)) / sizeOut_STD;
+
 	//Построение параллелепипеда    
 	MbPlacement3D pl;
 
 	// Создание образующей для тела выдавливания
 	RPArray<MbContour> arrContours;
-	CreateSketchShaftPivot(arrContours);
+	CreateSketchShaftPivot(arrContours, outRatio);
 
 	// Отображение образующей (в плоскости XY глобальной СК)
 	/*for (int i = 0; i<arrContours.size(); i++)
@@ -80,7 +86,7 @@ void ParametricModelCreator::CreateShaftPivot(MbAssembly* pAsm, double position)
 
 		params.type = BorerValues::bt_SimpleCylinder;
 
-		params.diameter = 13.835;
+		params.diameter = 16* ratio;
 
 		params.depth = 32;
 
@@ -95,15 +101,15 @@ void ParametricModelCreator::CreateShaftPivot(MbAssembly* pAsm, double position)
 	MbPlacement3D pl1;
 
 	SArray<MbCartPoint> arrPnts1(4);
-	arrPnts1.Add(MbCartPoint(-12.5, 14.5));
-	arrPnts1.Add(MbCartPoint(-12.5, 0));
-	arrPnts1.Add(MbCartPoint(12.5, 0));
-	arrPnts1.Add(MbCartPoint(12.5, 14.5));
+	arrPnts1.Add(MbCartPoint(-12.5 * outRatio, 14.5));
+	arrPnts1.Add(MbCartPoint(-12.5 * outRatio, 0));
+	arrPnts1.Add(MbCartPoint(12.5 * outRatio, 0));
+	arrPnts1.Add(MbCartPoint(12.5 * outRatio, 14.5));
 
 	MbPolyline* pPolyline1 = new MbPolyline(arrPnts1, false);
 
 	MbCartPoint arcCenter(0, 14.5);
-	const double RADIUS = 12.5;
+	const double RADIUS = 12.5 * outRatio;
 	MbArc* pArc = new MbArc(arcCenter, RADIUS, arrPnts1[3], arrPnts1[0], 1);
 	MbContour* pContour1 = new MbContour(*pPolyline1, true);
 	pContour1->AddSegment(pArc);
@@ -141,7 +147,7 @@ void ParametricModelCreator::CreateShaftPivot(MbAssembly* pAsm, double position)
 		BorerValues params1;
 		params1.type = BorerValues::bt_SimpleCylinder;
 
-		params1.diameter = 15;
+		params1.diameter = (int)(15*outRatio);//делаем для отверстия шаг 1
 
 		params1.depth = 10;
 
@@ -167,8 +173,8 @@ void ParametricModelCreator::CreateShaftPivot(MbAssembly* pAsm, double position)
 	//Указание значений параметров операции скругления ребер
 	SmoothValues paramss;
 	// Радиусы кривизны на двух скругляемых поверхностях
-	paramss.distance1 = 3;
-	paramss.distance2 = 3;
+	paramss.distance1 = 3 * outRatio;
+	paramss.distance2 = 3 * outRatio;
 	// Тип сопряжения – скругление по двум радиусам
 	paramss.form = st_Fillet;
 	// Форма профиля сопряжения - окружность
@@ -201,13 +207,16 @@ void ParametricModelCreator::CreateShaftPivot(MbAssembly* pAsm, double position)
 	MbResultType ress = ::FilletSolid(*pSolidd, cm_Copy, initCurves, initBounds,
 		paramss, filletNames, pResult);
 
+	/// //////////////////////////////////////////
+	//pResult = pSolidd;///////////////////////////////////////////////////////////////////////////////////////////////
+
 	MbAxis3D axVert(MbVector3D(1, 0, 0));
 	// 7) Отображение тела после скругления ребра
 	if (ress == rt_Success)
 		pResult->Rotate(axVert, M_PI / 2); // вращаем по оси
 	pResult->Move(MbVector3D(MbCartPoint3D(0, 0, 0), MbCartPoint3D(0, 0, position + 113.8)));
 
-	pResult->SetColor(ParametricModelCreator::colorScheme ? LIGHTGRAY : RGB(160,164,160));//GRAY
+	pResult->SetColor(ParametricModelCreator::colorScheme ? RGB(60, 64, 62) : RGB(160,164,160));//GRAY RGB(65,78,81) RGB(40, 45,46)
 	pAsm->AddItem(*pResult);
 	//viewManager->AddObject(Style(1, LIGHTGRAY), pResult);
 

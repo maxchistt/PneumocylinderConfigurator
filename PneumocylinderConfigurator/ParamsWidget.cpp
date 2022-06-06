@@ -1,5 +1,7 @@
 #include "ParamsWidget.h"
 
+const bool PARAMETRIZE_DIAM = true;
+
 ParamsWidget::ParamsWidget(QWidget* parent)
 	: QWidget(parent)
 {
@@ -11,14 +13,14 @@ ParamsWidget::ParamsWidget(QWidget* parent)
 	ui.comboBox_lighttype->addItem("point", QVariant(0));
 	ui.comboBox_lighttype->addItem("direction", QVariant(1));
 	ui.comboBox_lighttype->addItem("spot", QVariant(2));
-	ui.comboBox_colorScheme->addItem("White/Gray", QVariant(0));
-	ui.comboBox_colorScheme->addItem("Red/Blue", QVariant(1));
 	ui.comboBox_section->addItem("false", QVariant(0));
 	ui.comboBox_section->addItem("true", QVariant(1));
+	ui.comboBox_colorScheme->addItem("White", QVariant(0));
+	ui.comboBox_colorScheme->addItem("Red", QVariant(1));
 
 	setupForm_model();
 	setupForm_scene();
-	ui.doubleSpinBox_diam->setDisabled(true);// в связи с незавершенностью параметризации
+	ui.doubleSpinBox_diam->setDisabled(!PARAMETRIZE_DIAM);// пїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 	connect(ui.pushButton_build, &QPushButton::clicked, this, &ParamsWidget::applyAndBuild);
 	connect(ui.pushButton_reset, &QPushButton::clicked, this, &ParamsWidget::reset);
 	connect(ui.pushButton_sceneset, &QPushButton::clicked, this, &ParamsWidget::sceneset);
