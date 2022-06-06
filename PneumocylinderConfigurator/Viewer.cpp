@@ -36,6 +36,8 @@ NodeKeyVector Viewer::addMathGeoms(MbItem* item, VSN::SceneSegment* sceneSegment
 	}
 	else {
 		SceneSegment* segSinSurface = new SceneSegment(SceneGenerator::Instance()->CreateMathRep(item, CommandType::Synchronous), sceneSegment);
+		segSinSurface->SetObjectName(VSN::String(item->GetItemName()));
+		checkHideElement(segSinSurface);
 		keys.push_back(segSinSurface->GetUniqueKey());
 	}
 
@@ -64,7 +66,7 @@ NodeKeyVector Viewer::addMathGeoms(MbModel* model, VSN::SceneSegment* sceneSegme
 	NodeKeyVector subkeys = addMathGeoms(assemblyToView, sceneSegment);
 	keys.insert(keys.cend(), subkeys.cbegin(), subkeys.cend());
 #endif
-
+	updHideElements();
 	return keys;
 }
 
@@ -78,8 +80,9 @@ void Viewer::setSceneParams(SceneParams params)
 {
 	sceneParams = params;
 	prepareSceneBackground();
-	update();
+	updHideElements();
 	updSectionState();
+	this->update();
 }
 
 void Viewer::fitSceneSlot()
@@ -123,7 +126,31 @@ void Viewer::updSectionState()
 	if (auto tool = graphicsScene()->GetCuttingTool()) {
 		if (tool->IsEnabled(m_sectionPlaneId) != sceneParams.section) {
 			tool->SetEnable(m_sectionPlaneId, sceneParams.section);
-			this->update();
+			//this->update();
 		}
+	}
+}
+
+void Viewer::updHideElements()
+{
+	auto segments = this->sceneContent()->GetSegments();
+	for (auto seg : segments) {
+		checkHideElement(seg);
+	}
+}
+
+void Viewer::checkHideElement(VSN::SceneSegment* seg)
+{
+	auto sObjName = seg->GetObjectName();
+
+	if (sObjName == VSN::String(SimpleName(sceneParams.hideIndexes[0]))) {
+		std::set<Material*> set = seg->GetMaterials();
+		Q_ASSERT(set.size() == 1);
+		std::set<Material*>::iterator it = set.begin();
+		Q_ASSERT(it != set.end());
+		VSN::Material* m_pMaterial = *it;
+
+		double value = sceneParams.frameVisble ? 1.0 : 0.1;
+		m_pMaterial->SetOpacity(value);
 	}
 }

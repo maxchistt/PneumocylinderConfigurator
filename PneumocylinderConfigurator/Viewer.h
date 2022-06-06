@@ -31,4 +31,6 @@ private:
 	void prepareSceneBackground();
 	void prepareSectionPlane();
 	void updSectionState();
+	void updHideElements();
+	void checkHideElement(VSN::SceneSegment* seg);
 };

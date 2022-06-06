@@ -10,7 +10,6 @@ MbAssembly* ParametricModelCreator::CreatePneumocylinderAssembly(BuildParams par
 
 	double param_length = params.length;
 	double param_diam = params.diam;
-	bool create_frame = params.frame;
 
 	double lendif = param_length - 132.95;
 	double raddif = param_diam / 2.0 - 10.0;
@@ -38,7 +37,7 @@ MbAssembly* ParametricModelCreator::CreatePneumocylinderAssembly(BuildParams par
 
 	CreateBase(pAsm); // Зарубин
 	CreateShaftPivot(pAsm, lendif); // Васинкина
-	if (create_frame) CreateMainBody(pAsm, lendif); // Балобанов
+	CreateMainBody(pAsm, lendif); // Балобанов
 	CreateSealHousing(pAsm); // Гарник
 	CreateBolt(pAsm, DD, DD); // Фукина
 	CreateBolt(pAsm, DD, -DD); // 

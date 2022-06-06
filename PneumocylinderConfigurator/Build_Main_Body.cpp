@@ -222,7 +222,6 @@ void ParametricModelCreator::CreateMainBody(MbAssembly* pAsm, double length)
 	MbCartPoint p30(-27.855, -2.844);
 	MbCartPoint p31(-26.73, -13.864);
 
-
 	MbLineSegment* Seg27 = new MbLineSegment(p26, p27);
 	MbLineSegment* Seg28 = new MbLineSegment(p27, p28);
 	MbLineSegment* Seg29 = new MbLineSegment(p28, p29);
@@ -332,7 +331,8 @@ void ParametricModelCreator::CreateMainBody(MbAssembly* pAsm, double length)
 	MbResultType res10 = ::BooleanResult(*pSolid, cm_Copy, *pSolid5, cm_Copy, bo_Difference, flagsBool, operBoolNames, pSolid);
 
 	pSolid->Move(MbVector3D(MbCartPoint3D(0, 0, 0), MbCartPoint3D(0, 0, -31.5)));
-
 	pSolid->SetColor(ParametricModelCreator::colorScheme ? BLACK : RGB(10,20,20));
-	pAsm->AddItem(*pSolid);
+
+	auto addedItem = pAsm->AddItem(*pSolid);
+	addedItem->SetItemName(SimpleName(std::uint32_t("Pneumocylinder case")));
 }
