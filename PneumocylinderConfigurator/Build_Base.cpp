@@ -236,7 +236,8 @@ void ParametricModelCreator::CreateBase(MbAssembly* pAsm, double ratio = 1)
 	const double diamMain_STD = 50;
 	double diamMain = diamMain_STD * ratio;
 
-	const double diamIn_STD = 7 * 2;
+	const double shaftCollarRad_STD = 10;
+	const double diamIn_STD = shaftCollarRad_STD * 2;
 	double diamIn = diamIn_STD * ratio;
 
 	// Множитель для преобразования углов из градусной в радианную меру.

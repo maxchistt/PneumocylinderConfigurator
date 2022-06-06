@@ -184,7 +184,8 @@ void ParametricModelCreator::CreateTopGuide(MbAssembly* pAsm, double position, d
 	const double diamMain_STD = 50;
 	double diamMain = diamMain_STD * ratio;
 
-	const double diamIn_STD = 7 * 2;
+	const double shaftMainRad_STD = 10;
+	const double diamIn_STD = shaftMainRad_STD * 2;
 	double diamIn = diamIn_STD * ratio;
 
 	// Множитель для преобразования углов из градусной в радианную меру.
