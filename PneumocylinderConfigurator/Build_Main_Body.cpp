@@ -14,34 +14,34 @@ double calcCircle(double rad, double otherCord) {
 void baseSketch(RPArray<MbContour>* ptrContours, double diamIn = 50) {
 	//params std 
 	//—тандартный внутренний диаметр
-	const long double diamIn_STD = 50;
+	const double diamIn_STD = 50;
 	const double thickness = 3;
 	//calculate offsets
 	//–азница стандартного и заданного диаметров
-	long double diamOffset = diamIn - diamIn_STD;
+	double diamOffset = diamIn - diamIn_STD;
 	//—оотношение стандартного и заданного диаметров
-	long double diamDifRatio = diamIn / diamIn_STD;
+	double diamDifRatio = diamIn / diamIn_STD;
 
 	//params std 
 	//—тандартна€ ширина по X, между двум€ пр€мыми боковыми гран€ми
-	const long double widthX_STD = 64.5;
+	const double widthX_STD = 64.5;
 	//—тандартна€ ширина по X выреза в верхней и нижней гран€х
-	const long double widthXIn_STD = 40;
+	const double widthXIn_STD = 40;
 	//—тандартна€ высота по Y от верхней до нижней грани
-	const long double heightY_STD = 61;
+	const double heightY_STD = 61;
 
 	//calculate model dimensions 
 	//–ассчитанна€ ширина по X, между двум€ пр€мыми боковыми гран€ми
-	long double widthX = widthX_STD + diamOffset;
+	double widthX = widthX_STD + diamOffset;
 	//–ассчитанна€ ширина по X выреза в верхней и нижней гран€х
-	long double widthXIn = widthXIn_STD + ((diamOffset < 0) ? (diamOffset - (1.5 * thickness * (1 / diamDifRatio - 1))) : (diamOffset / (widthX_STD / widthXIn_STD)));
+	double widthXIn = widthXIn_STD + ((diamOffset < 0) ? (diamOffset - (1.5 * thickness * (1 / diamDifRatio - 1))) : (diamOffset / (widthX_STD / widthXIn_STD)));
 	//–ассчитанна€ высота по Y от верхней до нижней грани
-	long double heightY = heightY_STD + diamOffset;
+	double heightY = heightY_STD + diamOffset;
 
 	//—оотношени€ рассчитанных величин к стандартным
-	long double widthXDifRatio = widthX / widthX_STD;
-	long double widthXInDifRatio = widthXIn / widthXIn_STD;
-	long double heightYDifRatio = heightY / heightY_STD;
+	double widthXDifRatio = widthX / widthX_STD;
+	double widthXInDifRatio = widthXIn / widthXIn_STD;
+	double heightYDifRatio = heightY / heightY_STD;
 
 	// ѕараметры модели : diamIn=50, widthX=64.5, widthXIn=40, heightY=61
 
@@ -51,8 +51,8 @@ void baseSketch(RPArray<MbContour>* ptrContours, double diamIn = 50) {
 	//  оординаты собраны дл€ упрощени€ построени€ эскиза из четырех симметричных частей
 	// ¬ след строчке пример как считалс€ коэффициент
 	// 40(widthXIn) / 16.489(old val of x1 and p0.x) = 2.425(widthXIn ratio to x1)
-	long double x1 = widthXIn / 2.425, x2 = widthXIn / 2, x3 = widthX / 2;
-	long double y1 = heightY / 2.695, y2 = heightY / 2;
+	double x1 = widthXIn / 2.425, x2 = widthXIn / 2, x3 = widthX / 2;
+	double y1 = heightY / 2.695, y2 = heightY / 2;
 
 	MbCartPoint p0(x1/*16.489*/, y1/*22,63*/);
 	//showPoint(p0, BLACK);
