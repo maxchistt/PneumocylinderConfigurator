@@ -1,5 +1,7 @@
 #include "ParamsWidget.h"
 
+const bool PARAMETRIZE_DIAM = true;
+
 ParamsWidget::ParamsWidget(QWidget* parent)
 	: QWidget(parent)
 {
@@ -16,7 +18,7 @@ ParamsWidget::ParamsWidget(QWidget* parent)
 
 	setupForm_model();
 	setupForm_scene();
-	//ui.doubleSpinBox_diam->setDisabled(true);// в связи с незавершенностью параметризации
+	ui.doubleSpinBox_diam->setDisabled(!PARAMETRIZE_DIAM);// в связи с незавершенностью параметризации
 	connect(ui.pushButton_build, &QPushButton::clicked, this, &ParamsWidget::applyAndBuild);
 	connect(ui.pushButton_reset, &QPushButton::clicked, this, &ParamsWidget::reset);
 	connect(ui.pushButton_sceneset, &QPushButton::clicked, this, &ParamsWidget::sceneset);
