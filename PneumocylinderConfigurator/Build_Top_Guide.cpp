@@ -179,7 +179,13 @@ void CreateSketchTopGuide5(RPArray<MbContour>* ptrContours5, double SqureSize, d
 	//::DeleteItem(pContourPolyline);
 }
 
-void ParametricModelCreator::CreateTopGuide(MbAssembly* pAsm, double position, double ratio, double diamMain) {
+void ParametricModelCreator::CreateTopGuide(MbAssembly* pAsm, double position, double ratio) {
+
+	const double diamMain_STD = 50;
+	double diamMain = diamMain_STD * ratio;
+
+	const double diamIn_STD = 7 * 2;
+	double diamIn = diamIn_STD * ratio;
 
 	// Множитель для преобразования углов из градусной в радианную меру.
 	const double DEG_TO_RAD = M_PI / 180.0;

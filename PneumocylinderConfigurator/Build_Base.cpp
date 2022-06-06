@@ -231,8 +231,14 @@ void CreateSketch7(RPArray<MbContour>* ptrContours7, double SqureSize, double di
 }
 
 //Функции по созданию деталей ребят
-void ParametricModelCreator::CreateBase(MbAssembly* pAsm, double ratio = 1 , double diamMain = 50)
+void ParametricModelCreator::CreateBase(MbAssembly* pAsm, double ratio = 1)
 {
+	const double diamMain_STD = 50;
+	double diamMain = diamMain_STD * ratio;
+
+	const double diamIn_STD = 7 * 2;
+	double diamIn = diamIn_STD * ratio;
+
 	// Множитель для преобразования углов из градусной в радианную меру.
 	const double DEG_TO_RAD = M_PI / 180.0;
 	const double SqureSize = diamMain + 15.2;

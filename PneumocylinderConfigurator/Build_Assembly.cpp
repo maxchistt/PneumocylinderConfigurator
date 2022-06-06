@@ -51,8 +51,8 @@ MbAssembly* ParametricModelCreator::CreatePneumocylinderAssembly(BuildParams par
 	CreateShaftPivot(pAsm, len_dif, diamDifRatio); // Васинкина
 
 	// крышки пневмоцилиндра
-	CreateBase(pAsm, diamDifRatio, diamMain); // Зарубин
-	CreateTopGuide(pAsm, len_dif, diamDifRatio, diamMain); // Фукина
+	CreateBase(pAsm, diamDifRatio); // Зарубин
+	CreateTopGuide(pAsm, len_dif, diamDifRatio); // Фукина
 
 	// корпус
 	if (create_frame) CreateMainBody(pAsm, len_dif, diamDifRatio); // Балобанов
