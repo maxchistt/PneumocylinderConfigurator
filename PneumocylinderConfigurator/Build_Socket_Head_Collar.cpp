@@ -7,8 +7,7 @@ using namespace BuildMathModel;
 void CreateSketchEgor(RPArray<MbContour>& _arrContours, double ratio)
 {
 	// Создание массива точек квадрата, к которому в дальнейшем добавятся скругления.
-	// Размер массива - 8 точек для учета точек четырех сегментов скруглений.
-	SArray<MbCartPoint> arrPnts(16);
+	SArray<MbCartPoint> arrPnts(8);
 	arrPnts.Add(MbCartPoint(0, 0 ));
 	arrPnts.Add(MbCartPoint(0, 10 * ratio));
 	arrPnts.Add(MbCartPoint(27, 10 * ratio));
@@ -21,21 +20,9 @@ void CreateSketchEgor(RPArray<MbContour>& _arrContours, double ratio)
 	// Построение единой ломаной внешнего контура по точкам
 	MbPolyline* pPolyline = new MbPolyline(arrPnts, true);
 
-	MbContour* pContourPolyline = nullptr;
+	MbContour* pContourPolyline = new MbContour();
 
-	// Задание скругления с использованием функции FilletPolyContour
-	::FilletPolyContour(pPolyline, 0, false, arrPnts[4], pContourPolyline);
-
-	// Задание индексов точек, в которых будет задаваться скругление с учетом
-	// добавления новой точки при скруглении с использованием функции FilletTwoSegments
-	ptrdiff_t idxSideRight1 = 0;
-	ptrdiff_t idxSideRight2 = 2;
-	ptrdiff_t idxSideRight3 = 4;
-
-	// Добавление скруглений
-	pContourPolyline->FilletTwoSegments(idxSideRight1, 0);
-	pContourPolyline->FilletTwoSegments(idxSideRight2, 0);
-	pContourPolyline->FilletTwoSegments(idxSideRight3, 0);
+	pContourPolyline->AddSegment(pPolyline);
 
 	_arrContours.push_back(pContourPolyline);
 	::DeleteItem(pPolyline);
@@ -167,7 +154,7 @@ void ParametricModelCreator::CreateSocketHeadCollar(MbAssembly* pAsm, double rat
 	flagsBool.SetMergingEdges(true);
 
 	// Результирующее тело
-	MbSolid* pSolid2 = NULL;
+	MbSolid* pSolid2 = nullptr;
 	// Вызов булевой операции для выполнения объединения.
 	// Для выполнения вычитания надо вместо типа операции bo_Union указать
 	// значение bo_Difference, для пересечения - значение bo_Intersect.

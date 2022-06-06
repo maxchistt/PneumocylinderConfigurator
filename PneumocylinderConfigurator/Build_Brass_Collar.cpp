@@ -7,8 +7,7 @@ using namespace BuildMathModel;
 void CreateSketchCollar(RPArray<MbContour>& _arrContours,double ratio)
 {
 	// Создание массива точек квадрата, к которому в дальнейшем добавятся скругления.
-	// Размер массива - 8 точек для учета точек четырех сегментов скруглений.
-	SArray<MbCartPoint> arrPnts(20);
+	SArray<MbCartPoint> arrPnts(7);
 	arrPnts.Add(MbCartPoint(0, 10.05 * ratio));
 	arrPnts.Add(MbCartPoint(0, 11 * ratio));
 	arrPnts.Add(MbCartPoint(3, 12.25 * ratio));
@@ -19,21 +18,9 @@ void CreateSketchCollar(RPArray<MbContour>& _arrContours,double ratio)
 
 	// Построение единой ломаной внешнего контура по точкам
 	MbPolyline* pPolyline = new MbPolyline(arrPnts, true);
-	MbContour* pContourPolyline = nullptr;
+	MbContour* pContourPolyline = new MbContour();
 
-	// Задание скругления с использованием функции FilletPolyContour
-	::FilletPolyContour(pPolyline, 0, false, arrPnts[4], pContourPolyline);
-
-	// Задание индексов точек, в которых будет задаваться скругление с учетом
-	// добавления новой точки при скруглении с использованием функции FilletTwoSegments
-	ptrdiff_t idxSideRight1 = 0;
-	ptrdiff_t idxSideRight2 = 2;
-	ptrdiff_t idxSideRight3 = 4;
-
-	// Добавление скруглений
-	pContourPolyline->FilletTwoSegments(idxSideRight1, 0);
-	pContourPolyline->FilletTwoSegments(idxSideRight2, 0);
-	pContourPolyline->FilletTwoSegments(idxSideRight3, 0);
+	pContourPolyline->AddSegment(pPolyline);
 
 	_arrContours.push_back(pContourPolyline);
 

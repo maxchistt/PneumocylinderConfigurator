@@ -8,7 +8,7 @@ void CreateSketchTopGuide(RPArray<MbContour>& _arrContours)
 {
 	// Создание массива точек квадрата, к которому в дальнейшем добавятся скругления.
 	// Размер массива - 8 точек для учета точек четырех сегментов скруглений.
-	SArray<MbCartPoint> arrPnts(8);
+	SArray<MbCartPoint> arrPnts(4);
 	arrPnts.Add(MbCartPoint(0, 0));
 	arrPnts.Add(MbCartPoint(65.2, 0));
 	arrPnts.Add(MbCartPoint(65.2, 65.2));
@@ -17,7 +17,7 @@ void CreateSketchTopGuide(RPArray<MbContour>& _arrContours)
 	// Построение единой ломаной внешнего контура по точкам
 	MbPolyline* pPolyline = new MbPolyline(arrPnts, true);
 	MbContour* pContourPolyline = nullptr;
-	::FilletPolyContour(pPolyline, 6, false, arrPnts[4], pContourPolyline);
+	::FilletPolyContour(pPolyline, 6, false, arrPnts[0], pContourPolyline);
 
 
 	// Задание индексов точек, в которых будет задаваться скругление с учетом
@@ -41,7 +41,7 @@ void CreateSketchTopGuide2(RPArray<MbContour>& _arrContours2)
 	//SecondScetch
 	double SqureSize = 65.2;
 	double SquareCenter = 20;
-	SArray<MbCartPoint> arrPnts2(8);
+	SArray<MbCartPoint> arrPnts2(4);
 	arrPnts2.Add(MbCartPoint(SqureSize, SqureSize));
 	arrPnts2.Add(MbCartPoint(SqureSize - SquareCenter, SqureSize));
 	arrPnts2.Add(MbCartPoint(SqureSize - SquareCenter, SqureSize - SquareCenter));
@@ -55,21 +55,7 @@ void CreateSketchTopGuide2(RPArray<MbContour>& _arrContours2)
 	// Задание скругления с использованием функции FilletPolyContour
 	::FilletPolyContour(pPolyline2, 10.5, false, arrPnts2[2], pContourPolyline2);
 
-	ptrdiff_t idxSideRight1 = 0;
-	ptrdiff_t idxSideRight2 = 2;
-	ptrdiff_t idxSideRight3 = 4;
-
-	pContourPolyline2->FilletTwoSegments(idxSideRight1, 0);
-	pContourPolyline2->FilletTwoSegments(idxSideRight2, 0);
-	pContourPolyline2->FilletTwoSegments(idxSideRight3, 0);
 	//*/
-
-	///// ИСПРАВИТЬ
-	/*
-	MbContour* pContourPolyline2 = new MbContour();
-	pContourPolyline2->AddSegment(pPolyline2);
-	*/
-	///// 
 
 	_arrContours2.push_back(pContourPolyline2);
 	::DeleteItem(pPolyline2);
@@ -79,7 +65,7 @@ void CreateSketchTopGuide3(RPArray<MbContour>& _arrContours3)
 	//SecondScetch
 	double SqureSize = 65.2;
 	double Square = 15;
-	SArray<MbCartPoint> arrPnts(8);
+	SArray<MbCartPoint> arrPnts(4);
 	arrPnts.Add(MbCartPoint((SqureSize / 2) + Square / 2, -0));
 	arrPnts.Add(MbCartPoint((SqureSize / 2) + Square / 2, 12.65));
 	arrPnts.Add(MbCartPoint((SqureSize / 2) - Square / 2, 12.65));
@@ -88,7 +74,7 @@ void CreateSketchTopGuide3(RPArray<MbContour>& _arrContours3)
 	MbPolyline* pPolyline = new MbPolyline(arrPnts, true);
 	MbContour* pContourPolyline = nullptr;
 	// Задание скругления с использованием функции FilletPolyContour
-	::FilletPolyContour(pPolyline, 0, false, arrPnts[4], pContourPolyline);
+	::FilletPolyContour(pPolyline, 0, false, arrPnts[3], pContourPolyline);
 
 	ptrdiff_t idxSideRight1 = 0;
 	ptrdiff_t idxSideRight2 = 2;
@@ -106,7 +92,7 @@ void CreateSketchTopGuide4(RPArray<MbContour>& _arrContours4)
 	//SecondScetch
 	double SqureSize = 65.2;
 	double Square = 15;
-	SArray<MbCartPoint> arrPnts(8);
+	SArray<MbCartPoint> arrPnts(4);
 	arrPnts.Add(MbCartPoint(SqureSize, SqureSize / 2 - Square / 2));
 	arrPnts.Add(MbCartPoint(SqureSize, SqureSize / 2 + Square / 2));
 	arrPnts.Add(MbCartPoint(SqureSize - 12.65, SqureSize / 2 + Square / 2));
@@ -115,7 +101,7 @@ void CreateSketchTopGuide4(RPArray<MbContour>& _arrContours4)
 	MbPolyline* pPolyline = new MbPolyline(arrPnts, true);
 	MbContour* pContourPolyline = nullptr;
 	// Задание скругления с использованием функции FilletPolyContour
-	::FilletPolyContour(pPolyline, 3, false, arrPnts[4], pContourPolyline);
+	::FilletPolyContour(pPolyline, 3, false, arrPnts[3], pContourPolyline);
 
 	ptrdiff_t idxSideRight1 = 0;
 	ptrdiff_t idxSideRight2 = 2;

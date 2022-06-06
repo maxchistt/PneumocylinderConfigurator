@@ -8,7 +8,7 @@ void CreateSketchEgorClampingBar(RPArray<MbContour>& _arrContours, double length
 {
 	// Создание массива точек квадрата, к которому в дальнейшем добавятся скругления.
 	// Размер массива - 8 точек для учета точек четырех сегментов скруглений.
-	SArray<MbCartPoint> arrPnts(20);
+	SArray<MbCartPoint> arrPnts(10);
 	arrPnts.Add(MbCartPoint(0, 0));
 	arrPnts.Add(MbCartPoint(0, 3.5));
 	arrPnts.Add(MbCartPoint(0.5, 4));
@@ -22,21 +22,9 @@ void CreateSketchEgorClampingBar(RPArray<MbContour>& _arrContours, double length
 
 	// Построение единой ломаной внешнего контура по точкам
 	MbPolyline* pPolyline = new MbPolyline(arrPnts, true);
-	MbContour* pContourPolyline = nullptr;
+	MbContour* pContourPolyline = new MbContour();
 
-	// Задание скругления с использованием функции FilletPolyContour
-	::FilletPolyContour(pPolyline, 0, false, arrPnts[4], pContourPolyline);
-
-	// Задание индексов точек, в которых будет задаваться скругление с учетом
-	// добавления новой точки при скруглении с использованием функции FilletTwoSegments
-	ptrdiff_t idxSideRight1 = 0;
-	ptrdiff_t idxSideRight2 = 2;
-	ptrdiff_t idxSideRight3 = 4;
-
-	// Добавление скруглений
-	pContourPolyline->FilletTwoSegments(idxSideRight1, 0);
-	pContourPolyline->FilletTwoSegments(idxSideRight2, 0);
-	pContourPolyline->FilletTwoSegments(idxSideRight3, 0);
+	pContourPolyline->AddSegment(pPolyline);
 
 	_arrContours.push_back(pContourPolyline);
 	::DeleteItem(pPolyline);
