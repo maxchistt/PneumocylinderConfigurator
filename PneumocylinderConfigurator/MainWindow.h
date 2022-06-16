@@ -3,7 +3,7 @@
 #include <QtWidgets/QMainWindow>
 #include "ui_MainWindow.h"
 
-#include <model.h>
+#include <templ_sptr.h>
 
 #include <QMessageBox>
 
@@ -25,15 +25,16 @@ public:
 	~MainWindow();
 
 private:
-	FileController fileController;
-	MbModel* currentMathModel = nullptr;
 	Ui::MainWindowClass ui;
 	Viewer* viewer = Q_NULLPTR;
 	ParamsWidget* paramsWidget = Q_NULLPTR;
 
+	FileController fileController;
+	SPtr<MbItem> currentMathModel;
+
 	void drawMathModel(bool fit = true);
 
-	void setCurrentModel(MbModel* model);
+	void setCurrentModel(MbItem* model);
 	void unsetCurrentModel();
 
 private slots:

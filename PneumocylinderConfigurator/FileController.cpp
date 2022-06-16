@@ -27,9 +27,9 @@ c3d::path_string FileController::getFilePath(bool save)
 	return path;
 }
 
-void FileController::exportCurrentModel(c3d::path_string path, MbModel* ptrModel)
+void FileController::exportCurrentModel(c3d::path_string path, SPtr<MbItem> ptrModel)
 {
-	if (ptrModel) {
+	if (!ptrModel.is_null()) {
 		MbeConvResType exportRes = c3d::ExportIntoFile(*ptrModel, path);
 		if (exportRes != MbeConvResType::cnv_Success)
 			QMessageBox::information(parentWidget, u8"Предупреждение", u8"Ошибка экспорта");
@@ -39,31 +39,66 @@ void FileController::exportCurrentModel(c3d::path_string path, MbModel* ptrModel
 	}
 }
 
-MbModel* FileController::importCurrentModel(c3d::path_string path)
+SPtr<MbItem> FileController::importCurrentModel(c3d::path_string path)
 {
-	MbModel* importModel = new MbModel();
-	MbeConvResType importRes = c3d::ImportFromFile(*importModel, path);
+#if 0
+	// ImportFromFile работает некорректно с ItemSPtr
+	SPtr<MbItem> importModel;
+	MbeConvResType importRes = c3d::ImportFromFile(importModel, path);
 
 	if (importRes == MbeConvResType::cnv_Success) {
+		// Здесь, после успешного импорта, мы проверяем умный указатель importModel и обнаруживаем, что importModel.is_null() == true
+		if (importModel.is_null())QMessageBox::information(parentWidget, u8"Предупреждение", u8"importModel.is_null");
 		return importModel;
 	}
 	else {
 		QMessageBox::information(parentWidget, u8"Предупреждение", u8"Ошибка импорта");
-		delete importModel;
-		return nullptr;
+		importModel.reset();
+		return importModel;
 	}
+#else
+	// рабочий вариант с MbModel
+	SPtr<MbItem> importModel;
+	MbModel imMbModel;
+	MbeConvResType importRes = c3d::ImportFromFile(imMbModel, path);
+
+	if (importRes == MbeConvResType::cnv_Success) {
+		RPArray<MbItem> subitems;
+		SArray<MbMatrix3D> matrs;
+		imMbModel.GetItems(MbeSpaceType::st_Item, subitems, matrs);
+
+		if (subitems.Count() > 1) {
+			MbAssembly* assembly = new MbAssembly();
+			for (auto subitem : subitems) {
+				assembly->AddItem(*subitem);
+			}
+			importModel.assign(assembly);
+		}
+		else if (subitems.Count() > 0) {
+			importModel.assign(subitems[0]);
+		}
+
+		if (importModel.is_null())QMessageBox::information(parentWidget, u8"Предупреждение", u8"importModel.is_null");
+		return importModel;
+	}
+	else {
+		QMessageBox::information(parentWidget, u8"Предупреждение", u8"Ошибка импорта");
+		importModel.reset();
+		return importModel;
+	}
+#endif
 }
 
-void FileController::saveModel(MbModel* ptrModel)
+void FileController::saveModel(SPtr<MbItem> ptrModel)
 {
 	c3d::path_string path = getFilePath();
 	if (!path.empty()) exportCurrentModel(path, ptrModel);
 }
 
-MbModel* FileController::openModel()
+SPtr<MbItem> FileController::openModel()
 {
-	MbModel* ptrModel = nullptr;
+	SPtr<MbItem> ptrModel;
 	c3d::path_string path = getFilePath(false);
-	if (!path.empty()) ptrModel = importCurrentModel(path);
+	if (!path.empty()) ptrModel.assign(importCurrentModel(path));
 	return ptrModel;
 }

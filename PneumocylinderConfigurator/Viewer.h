@@ -15,7 +15,7 @@ public:
 	~Viewer();
 
 	NodeKeyVector addMathItemGeoms(MbItem* item, VSN::SceneSegment* sceneSegment = nullptr);
-	NodeKeyVector addMathModelGeoms(MbModel* model, VSN::SceneSegment* sceneSegment = nullptr);
+	//NodeKeyVector addMathModelGeoms(MbModel* model, VSN::SceneSegment* sceneSegment = nullptr);
 	void clearScene();
 	void setSceneParams(SceneParams params);
 

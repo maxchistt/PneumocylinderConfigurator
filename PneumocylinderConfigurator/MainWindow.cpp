@@ -33,20 +33,19 @@ MainWindow::MainWindow(QWidget* parent)
 
 MainWindow::~MainWindow()
 {
-	::DeleteMatItem(currentMathModel);
 }
 
 void MainWindow::drawMathModel(bool fit)
 {
 	viewer->clearScene();
-	if (currentMathModel) viewer->addMathModelGeoms(currentMathModel);
+	if (!currentMathModel.is_null()) viewer->addMathItemGeoms(currentMathModel.get());
 	if (fit)viewer->fitSceneSlot();
 }
 
 void MainWindow::makeCylinderMathModelSlot()
 {
 	BuildMathModel::BuildParams modelParams = paramsWidget->getParams_model();
-	MbModel* cylModel = BuildMathModel::ParametricModelCreator::CreatePneymocylinderModel(modelParams);
+	MbItem* cylModel = BuildMathModel::ParametricModelCreator::CreatePneymocylinderModel(modelParams);
 	setCurrentModel(cylModel);
 }
 
@@ -62,16 +61,16 @@ void MainWindow::clearModelSlot()
 	unsetCurrentModel();
 }
 
-void MainWindow::setCurrentModel(MbModel* model)
+void MainWindow::setCurrentModel(MbItem* model)
 {
 	unsetCurrentModel();
-	if (model) currentMathModel = model;
+	if (model) currentMathModel.assign(model);
 	drawMathModel();
 }
 
 void MainWindow::unsetCurrentModel()
 {
-	::DeleteMatItem(currentMathModel);
+	currentMathModel.reset();
 }
 
 void MainWindow::aboutSlot()
@@ -106,6 +105,6 @@ void MainWindow::saveFileSlot()
 
 void MainWindow::openFileSlot()
 {
-	MbModel* openedModel = fileController.openModel();
-	if (openedModel) setCurrentModel(openedModel);
+	SPtr<MbItem> openedModel = fileController.openModel();
+	if (!openedModel.is_null()) setCurrentModel(openedModel.get());
 }

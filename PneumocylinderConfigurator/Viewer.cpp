@@ -44,6 +44,7 @@ NodeKeyVector Viewer::addMathItemGeoms(MbItem* item, VSN::SceneSegment* sceneSeg
 	return keys;
 }
 
+/*
 NodeKeyVector Viewer::addMathModelGeoms(MbModel* model, VSN::SceneSegment* sceneSegment)
 {
 	if (!sceneSegment) sceneSegment = rootSceneSegment;
@@ -61,6 +62,7 @@ NodeKeyVector Viewer::addMathModelGeoms(MbModel* model, VSN::SceneSegment* scene
 	updHideElements();
 	return keys;
 }
+*/
 
 void Viewer::clearScene()
 {
