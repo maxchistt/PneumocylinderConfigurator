@@ -39,7 +39,7 @@ MainWindow::~MainWindow()
 void MainWindow::drawMathModel(bool fit)
 {
 	viewer->clearScene();
-	if (currentMathModel) viewer->addMathGeoms(currentMathModel);
+	if (currentMathModel) viewer->addMathModelGeoms(currentMathModel);
 	if (fit)viewer->fitSceneSlot();
 }
 

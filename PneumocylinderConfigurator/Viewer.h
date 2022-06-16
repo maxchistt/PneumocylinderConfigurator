@@ -14,8 +14,8 @@ public:
 	Viewer(QWidget* parent = Q_NULLPTR);
 	~Viewer();
 
-	NodeKeyVector addMathGeoms(MbItem* item, VSN::SceneSegment* sceneSegment = nullptr);
-	NodeKeyVector addMathGeoms(MbModel* model, VSN::SceneSegment* sceneSegment = nullptr);
+	NodeKeyVector addMathItemGeoms(MbItem* item, VSN::SceneSegment* sceneSegment = nullptr);
+	NodeKeyVector addMathModelGeoms(MbModel* model, VSN::SceneSegment* sceneSegment = nullptr);
 	void clearScene();
 	void setSceneParams(SceneParams params);
 

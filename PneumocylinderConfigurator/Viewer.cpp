@@ -15,7 +15,7 @@ Viewer::~Viewer()
 {
 }
 
-NodeKeyVector Viewer::addMathGeoms(MbItem* item, VSN::SceneSegment* sceneSegment)
+NodeKeyVector Viewer::addMathItemGeoms(MbItem* item, VSN::SceneSegment* sceneSegment)
 {
 	if (!sceneSegment) sceneSegment = rootSceneSegment;
 
@@ -30,7 +30,7 @@ NodeKeyVector Viewer::addMathGeoms(MbItem* item, VSN::SceneSegment* sceneSegment
 		item->GetItems(MbeSpaceType::st_Item, matrFrom, subitems, matrs);
 
 		for (auto subitem : subitems) {
-			NodeKeyVector subkeys = addMathGeoms(subitem, sceneSegment);
+			NodeKeyVector subkeys = addMathItemGeoms(subitem, sceneSegment);
 			keys.insert(keys.cend(), subkeys.cbegin(), subkeys.cend());
 		}
 	}
@@ -44,7 +44,7 @@ NodeKeyVector Viewer::addMathGeoms(MbItem* item, VSN::SceneSegment* sceneSegment
 	return keys;
 }
 
-NodeKeyVector Viewer::addMathGeoms(MbModel* model, VSN::SceneSegment* sceneSegment)
+NodeKeyVector Viewer::addMathModelGeoms(MbModel* model, VSN::SceneSegment* sceneSegment)
 {
 	if (!sceneSegment) sceneSegment = rootSceneSegment;
 
@@ -53,19 +53,11 @@ NodeKeyVector Viewer::addMathGeoms(MbModel* model, VSN::SceneSegment* sceneSegme
 	SArray<MbMatrix3D> matrs;
 	model->GetItems(MbeSpaceType::st_SpaceItem, subitems, matrs);
 
-#if 1 //two ways to add model to view
 	for (auto subitem : subitems) {
-		NodeKeyVector subkeys = addMathGeoms(subitem, sceneSegment);
+		NodeKeyVector subkeys = addMathItemGeoms(subitem, sceneSegment);
 		keys.insert(keys.cend(), subkeys.cbegin(), subkeys.cend());
 	}
-#else
-	MbAssembly* assemblyToView = new MbAssembly;
-	for (auto subitem : subitems) {
-		assemblyToView->AddItem(*subitem);
-	}
-	NodeKeyVector subkeys = addMathGeoms(assemblyToView, sceneSegment);
-	keys.insert(keys.cend(), subkeys.cbegin(), subkeys.cend());
-#endif
+
 	updHideElements();
 	return keys;
 }
