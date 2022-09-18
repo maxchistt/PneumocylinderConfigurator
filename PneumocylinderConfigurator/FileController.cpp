@@ -14,12 +14,14 @@ void FileController::setParentWidget(QWidget* parent)
 	parentWidget = parent;
 }
 
-c3d::path_string FileController::getFilePath(bool save)
+c3d::path_string FileController::getFilePath(bool save, QString modelname)
 {
-	const QString defaultPath = "D:/C3D_files/MyModel.c3d";
+	const QString defaultPath = "D:/C3D_files/";
 	const QString fileFilter = "Geometric models (*.c3d *.stp *.step *.STEP *.IGES *.SAT *.X_T *.X_B *.STL *.VRML *.JT)";
+	const QString savePath = defaultPath + modelname + ".c3d";
+
 	QString fileName = save
-		? QFileDialog::getSaveFileName(parentWidget, u8"Сохранить в файл", defaultPath, fileFilter)
+		? QFileDialog::getSaveFileName(parentWidget, u8"Сохранить в файл", savePath, fileFilter)
 		: QFileDialog::getOpenFileName(parentWidget, u8"Открыть из файла", defaultPath, fileFilter);
 	fileName.replace("/", "\\");
 	fileName.replace(":", ":\\");
@@ -54,9 +56,18 @@ MbModel* FileController::importCurrentModel(c3d::path_string path)
 	}
 }
 
-void FileController::saveModel(MbModel* ptrModel)
+QString FileController::getNameFromParams(BuildMathModel::BuildParams params)
 {
-	c3d::path_string path = getFilePath();
+	QString name = "Pneumocylinder";
+	name += " L" + QString::number(params.length);
+	name += " D" + QString::number(params.diam);
+	name += " " + (QString)(params.colorScheme ? "Red" : "White");
+	return name;
+}
+
+void FileController::saveModel(MbModel* ptrModel, BuildMathModel::BuildParams params)
+{
+	c3d::path_string path = getFilePath(true, getNameFromParams(params));
 	if (!path.empty()) exportCurrentModel(path, ptrModel);
 }
 

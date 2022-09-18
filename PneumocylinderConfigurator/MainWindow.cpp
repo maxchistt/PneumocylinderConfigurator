@@ -100,7 +100,7 @@ void MainWindow::showParamsSlot()
 
 void MainWindow::saveFileSlot()
 {
-	fileController.saveModel(currentMathModel);
+	fileController.saveModel(currentMathModel, paramsWidget->getParams_model());
 	drawMathModel();
 }
 

@@ -5,6 +5,7 @@
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QWidget>
+#include "BuildParams.h"
 
 class FileController
 {
@@ -13,10 +14,11 @@ public:
 	FileController(QWidget* parent = Q_NULLPTR);
 	~FileController();
 	void setParentWidget(QWidget* parent);
-	void saveModel(MbModel* ptrModel);
+	void saveModel(MbModel* ptrModel, BuildMathModel::BuildParams params);
 	MbModel* openModel();
 private:
-	c3d::path_string getFilePath(bool save = true);
+	c3d::path_string getFilePath(bool save = true, QString modelname = "MyModel");
 	void exportCurrentModel(c3d::path_string path, MbModel* ptrModel);
 	MbModel* importCurrentModel(c3d::path_string path);
+	QString getNameFromParams(BuildMathModel::BuildParams params);
 };
